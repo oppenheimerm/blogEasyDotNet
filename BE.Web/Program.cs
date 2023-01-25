@@ -1,7 +1,14 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages().
+    AddRazorPagesOptions(options => {
+        /* Friendly Routes - browse blog/some-slug-here */
+        options.Conventions.AddPageRoute("/blog/slug", "blog/{slug}");
+
+    });
+
+//  Must go before  services.AddMvc() or services.AddControllersWithViews()!!
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 var app = builder.Build();
 

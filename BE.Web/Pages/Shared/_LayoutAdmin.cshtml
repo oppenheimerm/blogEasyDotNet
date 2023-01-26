@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BlogEasy.Net - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <link rel="stylesheet" href="~/css/admin-styles.css" asp-append-version="true" />
+</head>
+<body>
+    <div id="app">
+
+        <header id="header" class="flex position_fixed">
+            <div class="header__logo-wrap flex">
+                <div class="logo">
+                    <h2>BlogEasy.Net Admin</h2>
+                </div>
+                <span id="menu-icon" class="material-symbols-outlined menu__icon">
+                    menu
+                </span>
+            </div>
+        </header>
+
+        <div class="main__container flex">
+            <div class="nav__container">
+                <nav class="nav flex">
+                    <div class="navbar__option-wrap flex">
+                        <div id="dashboard" class="navbar__option">
+                            <a asp-page="/Admin/Index" class="navbar__option-item-wrap flex">
+                                <span class="material-symbols-outlined">
+                                    dashboard
+                                </span>
+                                <h4> Dashboard</h4>
+                            </a>
+                        </div>
+
+                        <div id="posts" class="navbar__option">
+                            <a asp-page="/Admin/ViewPosts" class="navbar__option-item-wrap flex">
+                                <span class="material-symbols-outlined">
+                                    article
+                                </span>
+                                <h4> Posts</h4>
+                            </a>
+                        </div>
+
+                        <div id="edit__new" class="navbar__option">
+                            <a asp-page="/Admin/Editpost" class="navbar__option-item-wrap flex">
+                                <span class="material-symbols-outlined">
+                                    edit
+                                </span>
+                                <h4> New</h4>
+                            </a>
+                        </div>
+
+                        <div id="settings" class="navbar__option">
+                            <a asp-page="/Admin/Settings" class="navbar__option-item-wrap flex">
+                                <span class="material-symbols-outlined">
+                                    person
+                                </span>
+                                <h4> Settings</h4>
+                            </a>
+                        </div>
+
+                        <div id="logout" class="navbar__option">
+                            <div class="navbar__option-item-wrap flex">
+                                <span class="material-symbols-outlined">
+                                    logout
+                                </span>
+                                <h4> Logout</h4>
+                            </div>
+                        </div>
+
+                    </div>
+                </nav>
+            </div>
+            <div id="mainContent" class="main">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script type="text/javascript">
+
+        let menuicn = document.querySelector("#menu-icon");
+        let nav = document.querySelector(".nav__container");
+        let mainContent = document.querySelector("#mainContent");
+
+        menuicn.addEventListener("click", () => {
+            nav.classList.toggle("navclose");
+            mainContent.classList.toggle("go__narrow")
+        })
+
+
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

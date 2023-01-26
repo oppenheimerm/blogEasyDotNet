@@ -1,0 +1,17 @@
+﻿@page
+@model BE.Web.Pages.Admin.ViewPostsModel
+@{
+	Layout = "_LayoutAdmin";
+}
+
+<div style="height:500px;width:100%;border:1px solid green;">
+	<h1>View All Posts</h1>
+</div>
+
+@section Scripts{
+	<script type="text/javascript">
+		/* set active page */
+		let activepage = document.querySelector("#posts");
+		activepage.classList.add("active");
+	</script>
+}

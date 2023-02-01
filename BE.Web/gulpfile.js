@@ -1,39 +1,4 @@
-# BlogeEasey.Net 
-
-Simple blog built with C# / Asp.Net
-
-## Features
-
-## Getting Started
-To build the `css` and `javascript` file *gulp* is used (Developer *PowerShell* window):
-`gulp`, this ouptputs the minified version of the .css and .js files.  To 
-
-## Dependencies
-
-For bundling and minification you will need to install the following `npm` packages:
-
-```sh
-npm install --global gulp-cli
-```
-```sh
-npm install --save-dev gulp-clean
-```
-```sh
-npm install gulp-clean-css --save-dev
-
-For `gulp-imagemin` user version: `7.0.0`
-```
-```sh
-npm install --save-dev gulp-imagemin
-```
-```sh
-npm install --save-dev gulp-minify
-```
-
-You can find the above files are used in the `gulpfile.js`:
-
-```js
-var gulp = require('gulp');
+﻿var gulp = require('gulp');
 var concat = require('gulp-concat');
 var minify = require('gulp-minify');
 var cleanCss = require('gulp-clean-css');
@@ -68,4 +33,3 @@ gulp.task('image-min', async function () {
 });
 
 gulp.task('default', gulp.series('pack-js', 'pack-css'));
-```

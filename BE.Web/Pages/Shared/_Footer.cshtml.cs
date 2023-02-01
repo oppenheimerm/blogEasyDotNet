@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BE.Web.Pages.Shared
 {
-    public class _LayoutAdminModel : PageModel
+    public class _FooterModel : PageModel
     {
         public void OnGet()
         {

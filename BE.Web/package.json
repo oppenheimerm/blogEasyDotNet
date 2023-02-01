@@ -1,0 +1,20 @@
+{
+  "devDependencies": {
+    "gulp": "4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-imagemin": "7.0.0",
+    "gulp-minify": "3.1.0"
+  },
+  "name": "BlogEasy.Net Core",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Michiel Oppenheimer",
+  "license": "ISC",
+  "description": "Asp.net Core blogging platform"
+}

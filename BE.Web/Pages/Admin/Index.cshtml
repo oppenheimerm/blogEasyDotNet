@@ -1,18 +1,15 @@
 ﻿@page
 @model BE.Web.Pages.Admin.IndexModel
 @{
-	Layout = "_LayoutAdmin";
+	ViewData["Title"] = "Dashboard";
 }
 
 
-<div style="height:500px;width:100%;border:1px solid green;">
-	<h1>Dashboard</h1>
-</div>
+<section id="dashboard" class="section">
+	<div class="dashboard__wrap container flex">
+		<h1>Dashboard</h1>
+	</div>
+</section>
 
 @section Scripts{
-	<script type="text/javascript">
-		/* set active page */
-		let activepage = document.querySelector("#dashboard");
-		activepage.classList.add("active");
-	</script>
 }

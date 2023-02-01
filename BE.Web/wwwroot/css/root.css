@@ -1,0 +1,176 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@100;200;300;400;500;600;700;800&display=swap');
+
+
+/*=============== VARIABLES CSS ===============*/
+:root {
+    --header-height: 3.5rem; /* 56px */
+    /*========== 
+        Colors 
+    ==========*/
+    --body-color: hsl(240, 3%, 13%); /* #1f1f21 */
+    --body-color-highlight: hsl(210, 4%, 10%); /* #18191a */
+    --text-color: hsl(240, 0%, 92%); /* #ebebeb */
+    --accent-color: hsl(175, 55%, 43%); /* #32aba2 */
+    --accent-color-disabled: hsla(175, 55%, 43%, .5);
+    --accent-color-active: hsl(176, 88%, 30%); /* #098f85 */
+    --text-danger: #f0506e;
+    --text-danger-border: #f0506e;
+    /*========== 
+        Font and typography 
+     ==========*/
+    --body-font: 'JetBrains Mono', monospace;
+    --normal-font-size: 1rem; /* 16 px */
+    --biggest-font-size: 4rem; /* 64 px */
+    --h1-font-size: 2.25rem; /* 36 px */
+    --h2-font-size: 1.5rem; /* 24 px */
+    --h3-font-size: 1.25rem; /* 20 px */
+    --h4-font-size: 1rem; /* 16 px */
+    --normal-font-size: 1rem; /* 16 px */
+    --small-font-size: .875rem; /* 14 px */
+    --smaller-font-size: .775rem; /* 12.4 px */
+    --letter-spacing-wide: 0.125rem; /* 2px */
+    --letter-spacing-narrow: -0.25rem; /* -4px */
+    /*========== 
+        Font weight 
+    ==========*/
+    --font-extra-light: 100;
+    --font-light: 300;
+    --font-medium: 500;
+    --font-bold: 600;
+    --font-bold-heavy: 700;
+    /*========== 
+        Margins Bottom 
+    ==========*/
+    --mb-0-5: .5rem; /* 8px */
+    --mb-0-75: .75rem; /* 12px */
+    --mb-1: 1rem; /* 16px */
+    --mb-1-5: 1.5rem; /* 24px */
+    --mb-2: 2rem; /* 32px */
+    --mb-2-5: 2.5rem; /* 40px */
+    --mb-3: 3rem; /* 48px */
+    /*========== z index ==========*/
+    --z-tooltip: 10;
+    --z-fixed: 100;
+    /*========== 
+        Animation
+    ==========*/
+    --ease-in-out-2-sec: .2s ease-in-out;
+    --ease-in-out-3-sec: .3s ease-in-out;
+    /*========== 
+        Others
+    ==========*/
+    --border-radius: .5rem;
+    --box-shadow: 0px 3px 8px -4px rgb(0 0 0 / 80%);
+    /*========== 
+        Breakpoints 
+    ==========*/
+    --breakpoint-s: 640px;
+    --breakpoint-m: 960px;
+    --breakpoint-l: 1200px;
+    --breakpoint-xl: 1600px;
+}
+
+/*=============== BASE ===============*/
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    height: 100vh;
+}
+
+body,
+button,
+input {
+    font-family: var(--body-font);
+    font-size: var(--normal-font-size);
+}
+
+body {
+    background-color: var(--body-color);
+    color: var(--text-color);
+    line-height: 1.5;
+    height: 100vh;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.main__content {
+    flex: 1 0 auto;
+}
+
+h1, h2, h3, h4 {
+    color: var(--title-color);
+    font-weight: var(--font-medium);
+}
+
+.center__text {
+    text-align: center;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+button {
+    cursor: pointer;
+}
+
+button,
+input {
+    border: none;
+    outline: none;
+}
+
+::selection {
+    color: #fff;
+    background-color: var(--body-color);
+}
+
+/*=============== Reuseable css classes ===============*/
+.section {
+    padding: 7rem 0 2rem; /* 112px, 32px*/
+}
+
+
+.auto__marginLR {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.content__padding {
+    padding: 0 1rem;
+    width: 100%;
+}
+
+.display_none {
+    display: none !important;
+}
+
+.accent__background {
+    background-color: var(--accent-color);
+}
+
+.text__black {
+    color: var(--body-color);
+}
+
+.text__white {
+    color: #fff;
+}

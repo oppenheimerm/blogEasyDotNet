@@ -1,0 +1,159 @@
+﻿/*=============== BUTTONS / FORMS ===============*/
+
+/*=============== 
+    BUTTONS
+ ===============*/
+
+.btn {
+    margin: 0;
+    display: inline-block;
+    padding: 0 28px;
+    vertical-align: middle;
+    font-size: var(--normal-font-size);
+    line-height: 32px;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: .1s ease-in-out;
+    transition-property: color,background-color,border-color;
+}
+
+    .btn:hover {
+        background-color: transparent;
+        color: var(--accent-color);
+        border-color: var(--accent-color);
+    }
+
+/* exclude disabled button from this style */
+.btn__default {
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    border-radius: 16px;
+}
+
+.btn:not(disabled) {
+    cursor: pointer;
+}
+
+.btn__default:disabled {
+    background-color: transparent;
+    color: #7f8c8d;
+    border-color: rgba(239, 239, 240);
+}
+
+.btn:disabled,
+button:disabled,
+button[disabled] {
+    background-color: var(--accent-color-disabled);
+    border: 1px solid var(--accent-color);
+    cursor: not-allowed;
+}
+
+/*=============== 
+    CHECKBOX
+ ===============*/
+.chk__bx {
+    display: inline-block;
+    height: 1rem; /* 16px */
+    overflow: hidden;
+    margin-top: -4px;
+    vertical-align: middle;
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    border: 1px solid green;
+    transition: var(--ease-in-out-3-sec);
+    transition-property: background-color,border;
+}
+
+.chk__box:not(:disabled) {
+    cursor: pointer;
+}
+
+
+.chk__box:checked {
+    background-color: var(--accent-color);
+    border-color: transparent;
+}
+
+/*=============== 
+    FORMS
+ ===============*/
+
+.field__set {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.form__legend {
+    width: 100%;
+    color: inherit;
+    padding: 0;
+    font-size: var(--font-medium);
+    line-height: 1.4;
+}
+
+.form__margin {
+    margin: 20px auto;
+    width: 100%;
+}
+
+.form__input {
+    height: 40px;
+    vertical-align: middle;
+    display: inline-block;
+    width: 100%;
+    border-radius: 8px;
+    padding: 8px;
+}
+
+.form__textarea {
+    max-width: 100%;
+    width: 100%;
+    border: 0 none;
+    padding: 0 10px;
+    background: #fff;
+    color: #1f1f21;
+    border: 1px solid #fff;
+}
+
+.form__textarea {
+    padding-top: 8px;
+    padding-bottom: 8px;
+    vertical-align: top;
+}
+
+
+.validation-summary-errors {
+    padding: var(--mb-1);
+    border: 1px solid var(--text-danger-border);
+    border-radius: 8px;
+    margin-bottom: var(--mb-2);
+}
+
+    .validation-summary-errors ul li:before {
+        content: " * ";
+    }
+
+    .validation-summary-errors ul li,
+    .text-danger.field-validation-error {
+        margin: var(--mb-0-5);
+        color: var(--text-danger);
+        font-size: var(--normal-font-size);
+    }
+
+.text-danger.field-validation-error {
+    display: inline-block;
+}
+
+/*=============== 
+    Admin / Login
+===============*/
+
+.login__form {
+    flex-direction: column;
+    align-content: center;
+    width: 80%;
+}

@@ -6,7 +6,14 @@
     <title>BlogEasy.Net - @ViewData["Title"] </title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
-    <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true" />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>   
+   
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
+    </environment>
+    <environment include="Staging,Production">
+        <link href="~/css/dist/main.css" rel="stylesheet" asp-append-version="true" />
+    </environment>
 </head>
 <body>
     <div id="app">
@@ -16,40 +23,50 @@
         <div class="main__content">
             @RenderBody()
         </div>
-
-        <footer class="border-top footer text-muted">
-            <section id="footer" class="section">
-                <div class="footer__wrap container flex">
-                    <div class="footer__col-left">
-                        <a class="footer__logo-link" href="#">
-                            <img asp-append-version="true" src="~/img/assets/logo-white-navbar.png" width="48" height="48" alt="BlogEasy.Net" />
-                        </a>
-                        <div class="footer__small-print ">
-                            &copy; @System.DateTime.Now.Year - BlogEasy.Net <br />
-                            All rights reserved.
-                        </div>
-                    </div>
-                    <div class="footer__col-right">
-                        <ul class="footer__links flex">
-
-                            <li class="footer_link-item"><a asp-page="/index">Home</a></li>
-                            <li class="footer_link-item"><a asp-page="/blog/index">Blog</a></li>
-                            <li class="footer_link-item"><a href="#">Projects</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-        </footer>
+        <partial name="_Footer" />
     </div>
 
 
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+
     <script src="~/js/main.js" asp-append-version="true" type="module"></script>
+    <environment include="Development">
+        <script src="~/js/main.js" asp-append-version="true" type="module"></script>
+    </environment>
+    <environment include="Staging,Production">
+        <script src="~/js/dist/bundle.js asp-append-version="true" type="module"></script>
+    </environment>
 
     @await RenderSectionAsync("Scripts", required: false)
+    <script type="text/javascript">
+        const dropdownBtn = document.getElementById("admin__btn-action");
+        const dropdownMenu = document.getElementById("admin__dropdown");
+        const toggleArrow = document.getElementById("arrow");
+
+        // Toggle dropdown function
+        const toggleDropdown = function () {
+            dropdownMenu.classList.toggle("show");
+            toggleArrow.classList.toggle("arrow");
+        };
+
+        // Toggle dropdown open/close when dropdown button is clicked
+        dropdownBtn.addEventListener("click", function (e) {
+            e.stopPropagation();
+            toggleDropdown();
+        });
+
+        // Close dropdown when dom element is clicked
+        document.documentElement.addEventListener("click", function () {
+            if (dropdownMenu.classList.contains("show")) {
+                toggleDropdown();
+            }
+        });
+
+    </script>
 </body>
 </html>

@@ -1,0 +1,23 @@
+﻿<footer class="border-top footer text-muted">
+    <section id="footer" class="section">
+        <div class="footer__wrap container flex">
+            <div class="footer__col-left">
+                <a class="footer__logo-link" href="#">
+                    <img asp-append-version="true" src="~/img/dist/assets/logo-white-navbar.png" width="48" height="48" alt="BlogEasy.Net" />
+                </a>
+                <div class="footer__small-print ">
+                    &copy; @System.DateTime.Now.Year - BlogEasy.Net <br />
+                    All rights reserved.
+                </div>
+            </div>
+            <div class="footer__col-right">
+                <ul class="footer__links flex">
+
+                    <li class="footer_link-item"><a asp-page="/index">Home</a></li>
+                    <li class="footer_link-item"><a asp-page="/blog/index">Blog</a></li>
+                    <li class="footer_link-item"><a href="#">Projects</a></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</footer>

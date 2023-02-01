@@ -1,17 +1,133 @@
 ﻿@page
 @model BE.Web.Pages.Admin.EditPostModel
 @{
-	Layout = "_LayoutAdmin";
 }
 
-<div style="height:500px;width:100%;border:1px solid green;">
-	<h1>Edit / Create post</h1>
-</div>
+<section class="section">
+	<div class="container">
+
+		<div class="editor__actions flex">
+			<button id="hide__btn-details" class="admin__btn" onclick="toggeleDetailsSectionUp('toggle_details');" type="button">
+				Hide Details
+			</button>
+			<button id="show__btn-details" class="admin__btn" onclick="toggeleDetailsSectionDown('toggle_details');" type="button">
+				Show Details
+			</button>
+		</div>
+
+
+
+		<form id="form_edit-create method="post">
+			<div asp-validation-summary="All" class="text-danger"></div>
+			<fieldset class="field__set">
+
+				<div id="toggle_details" class="form__hideable-section">
+					<legend class="form__legend">Edit / Create Post</legend>
+					<div class="form__margin">
+						<input asp-for="Post.Title" class="form__input" placeholder="Post title" aria-label="Post title" />
+						<span asp-validation-for="Post.Title" class="text-danger"></span>
+					</div>
+					<div class="form__margin">
+						<textarea asp-for="Post.Excerpt" id="PostExcerpt" class="form__textarea" placeholder="Excerpt here" aria-label="Post excerpt"></textarea>
+						<span asp-validation-for="Post.Excerpt" class="text-danger"></span>
+					</div>
+					<div class="form__margin">
+						<input asp-for="Post.Tags" class="form__input" placeholder="Coma delimited tag" aria-label="Post tags" />
+						<span asp-validation-for="Post.Tags" class="text-danger"></span>
+					</div>
+				</div>
+
+				<div class="outer__content-wrap flex">
+					<div class="content__wrap flex">
+						<div class="form__margin eat__space">
+							<textarea asp-for="Post.Content" id="PostContent" class="form__textarea" placeholder="Post content" aria-label="Post content"></textarea>
+							<span asp-validation-for="Post.Content" class="text-danger"></span>
+						</div>
+					</div>
+					<div class="preview__wrap">
+					</div>
+				</div>
+
+			</fieldset>
+
+		</form>
+	</div>
+</section>
+
+
+
 
 @section Scripts{
 	<script type="text/javascript">
-		/* set active page */
-		let activepage = document.querySelector("#edit__new");
-		activepage.classList.add("active");
+
+		let hide_btn_details = document.getElementById("hide__btn-details");
+		let show_btn_details = document.getElementById("show__btn-details");
+
+		function toggeleDetailsSectionUp(element) {
+			var element = document.getElementById(element);
+			element.style.transition = "all 2s ease-in-out";
+			element.style.display = "none";
+			element.style.height = "0";
+			// disable this button
+			/*hide_btn_details.disabled = true;
+			show_btn_details.Disabled = false;*/
+		}
+		function toggeleDetailsSectionDown(element) {
+			var element = document.getElementById(element);
+			element.style.transition = "all 2s ease-in-out";
+			element.style.height = "auto";
+			element.style.display = "inline-flex";
+			element.classList.add("form__hideable-section");
+			// disable buttons
+			/*hide_btn_details.disabled = false;
+			show_btn_details.disabled = true;*/
+		}
+
 	</script>
+
+	<script src="https://unpkg.com/marked@4.2.12"></script>
+
+	<script>hljs.highlightAll();</script>
+
+
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+	<script type="text/javascript">
+		var text = document.querySelector("#PostContent");
+		var compiled = document.querySelector(".preview__wrap");
+		var debounce;
+
+		MathJax = {
+			tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+		};
+
+
+		document.onreadystatechange = function (event) {
+
+			if (document.readyState === "complete") {
+
+				var render = function () {
+					compiled.innerHTML = marked.parse(text.value/* deprecated, {sanitize: true} */);
+					hljs.highlightAll();
+					MathJax.typeset();
+				};
+
+				/* On change event, process text into markdown and render */
+				var changeHandler = function () {
+					clearTimeout(debounce);
+					debounce = setTimeout(render, 300);
+				};
+
+				/* Listen for changes to textarea */
+				render();
+				text.addEventListener('input', changeHandler);
+
+			}
+		};
+
+
+
+
+
+	</script>
+
 }

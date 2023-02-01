@@ -1,0 +1,224 @@
+
+/*=============== Layout ===============*/
+
+.container {
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem; /* 16px */
+    padding-right: 1rem; /* 16px */
+}
+
+.grid {
+    display: grid;
+}
+
+.flex {
+    display: flex;
+}
+
+/*========== 
+        Desktop / Mobile header
+==========*/
+
+.header__desktop,
+.header__desktop {
+    display: none;
+}
+
+.header__mobile,
+.header__desktop {
+    width: 100%;
+    background: transparent;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: var(--z-fixed);
+}
+
+/* Change background header */
+.scroll-header {
+    background-color: var(--body-color);
+    box-shadow: 0 1px 4px var(--shadow);
+    opacity: 0.98;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.02);
+}
+
+.nav__mobile-wrap,
+.nav__desktop-wrap {
+    position: relative;
+    width: 100%;
+    align-items: center;
+}
+
+.nav__mobile-logo,
+.nav__desktop-logo {
+    font-size: 2rem; /* 32 px*/
+    font-weight: var(--font-bold-heavy);
+    text-transform: none;
+    display: flex;
+    justify-content: center;
+    min-height: 68px;
+    align-items: center;
+}
+
+.nav__mobile-right,
+nav__desktop-right {
+    margin-left: auto;
+}
+
+.desktop__right-wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+
+/* mobile icon */
+.mobile-menu {
+    color: var(--text-color);
+    font-size: 28px;
+}
+
+
+/*========== ADMIN MENU ==========*/
+
+.admin__actions-wrap {
+    width: auto;
+}
+
+.admin__btn {
+    background-color: var(--accent-color);
+    color: var(--body-color);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    column-gap: 0.5rem; /* 8px */
+    padding: 0.5rem; /* 8px */
+    cursor: pointer;
+    border-radius: 8px;
+    border: none;
+    box-shadow: var(--box-shadow);
+    position: relative;
+}
+
+.dropdown {
+    position: absolute;
+    width: 250px;
+    box-shadow: var(--box-shadow);
+    border-radius: 8px;
+    margin-top: 0.3rem;
+    background: white;
+    visibility: hidden;
+    opacity: 0;
+    transform: translateY(0.5rem);
+    transition: all 0.1s cubic-bezier(0.16, 1, 0.5, 1);
+}
+
+.dropdown a {
+display: flex;
+align-items: center;
+column-gap: var(--gap);
+padding: 0.8rem 1rem;
+text-decoration: none;
+color: black;
+}
+
+.dropdown a span {
+    margin-right: 8px;
+    text-decoration: none;
+}
+
+.dropdown a:hover {
+    color: var(--accent-color);
+    font-weight: var(--font-bold);
+}
+
+.show {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0rem);
+    right: 0;
+    top: 80px; /* clear navbar */
+}
+
+.arrow {
+    transform: rotate(180deg);
+    transition: 0.2s ease;
+}
+
+/*========== Footer ==========*/
+footer {
+    color: #fff;
+    background-color: var(--body-color-highlight);
+    border-top: 2px solid rgba(255, 255, 255, 0.02);
+}
+
+.footer__wrap {
+    flex-wrap: wrap; /* wrap the items once they hit the edge of the container*/
+    flex-direction: column;
+}
+
+.footer__col-left,
+.footer__col-right {
+    flex: 1 1 auto; /* grow, shrink, basis(size if flex wasn't involved )*/
+    width: 100%;
+    margin-bottom: var(--mb-0-5);
+}
+
+.footer__logo-link {
+    text-align: center;
+    margin: auto;
+    display: block;
+    margin-bottom: var(--mb-1-5);
+}
+
+.footer__small-print {
+    font-size: var(--small-font-size);
+    text-align: center;
+}
+
+.footer__links {
+    justify-content: center;
+    flex-wrap: wrap; /* wrap the items once they hit the edge of the container*/
+    align-items: center;
+    padding: 0;
+    list-style: none;
+}
+
+.footer_link-item {
+    display: flex;
+    align-items: center;
+    padding-left: 1rem; /* 14px*/
+}
+
+.footer_link-item::before {
+content: "";
+height: 1px;
+margin-left: 0;
+margin-right: 14px;
+border-left: 20px solid rgba(255, 255, 255, 0.20);
+}
+
+.footer_link-item:first-of-type:before {
+border-left: none;
+margin-right: inherit;
+}
+
+.footer_link-item a {
+text-decoration: none;
+font-size: var(--normal-font-size);
+color: #fff;
+transition: .1s ease-in-out;
+}
+
+.footer_link-item a:hover {
+    color: var(--accent-color);
+    font-weight: var(--font-bold);
+}
+
+.footer_link-item a.active {
+    color: var(--accent-color);
+}

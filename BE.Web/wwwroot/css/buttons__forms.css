@@ -7,22 +7,31 @@
 .btn {
     margin: 0;
     display: inline-block;
-    padding: 0 28px;
+    padding: 0 1.75rem; /* 0 28px */
     vertical-align: middle;
     font-size: var(--normal-font-size);
-    line-height: 32px;
+    line-height: 2rem /* 32px */;
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
-    transition: .1s ease-in-out;
-    transition-property: color,background-color,border-color;
+    transition: .3s ease-in-out;
+    transition-property: background-color;
+    border-radius: 8px;
+    background: transparent;
+    color: #fff;
+    border: 1px solid;
 }
 
-    .btn:hover {
-        background-color: transparent;
-        color: var(--accent-color);
-        border-color: var(--accent-color);
-    }
+.btn.btn__small{
+    padding: 0 0.875rem; /* 0 14px */
+}
+
+.btn:hover,
+.btn.btn__small:hover{
+    background-color: #fff;
+    color: var(--body-color);
+    border-color: var(--body-color);
+}
 
 /* exclude disabled button from this style */
 .btn__default {
@@ -31,6 +40,7 @@
     border: 1px solid #fff;
     border-radius: 16px;
 }
+
 
 .btn:not(disabled) {
     cursor: pointer;
@@ -44,10 +54,35 @@
 
 .btn:disabled,
 button:disabled,
-button[disabled] {
+button[disabled]{
     background-color: var(--accent-color-disabled);
     border: 1px solid var(--accent-color);
-    cursor: not-allowed;
+    cursor:not-allowed;
+}
+
+.btn.primary {
+    background-color: var(--accent-color);
+    color: #fff;
+    border: 1px solid transparent;
+    transition: .3s ease-in-out;
+    transition-property: background-color;
+}
+
+.btn.primary:hover {
+    background-color: var(--accent-color-disabled);
+    border: 1px solid transparent;
+}
+
+.btn.danger {
+    background-color: var(--text-danger);
+    color: #fff;
+    border: 1px solid transparent;
+    transition: .3s ease-in-out;
+    transition-property: background-color;
+}
+
+.btn.danger:hover {
+    background-color: hsla(349,84%, 64%, .6); /* --text-danger: #f0506e; */
 }
 
 /*=============== 
@@ -65,6 +100,7 @@ button[disabled] {
     border: 1px solid green;
     transition: var(--ease-in-out-3-sec);
     transition-property: background-color,border;
+    margin-right: 0.5rem;
 }
 
 .chk__box:not(:disabled) {
@@ -76,7 +112,7 @@ button[disabled] {
     background-color: var(--accent-color);
     border-color: transparent;
 }
-
+    
 /*=============== 
     FORMS
  ===============*/
@@ -134,16 +170,16 @@ button[disabled] {
     margin-top: var(--mb-2);
 }
 
-    .validation-summary-errors ul li:before {
-        content: " * ";
-    }
+.validation-summary-errors ul li:before {
+    content: " * ";
+}
 
-    .validation-summary-errors ul li,
-    .text-danger.field-validation-error {
-        margin: var(--mb-0-5);
-        color: var(--text-danger);
-        font-size: var(--normal-font-size);
-    }
+.validation-summary-errors ul li,
+.text-danger.field-validation-error {
+    margin: var(--mb-0-5);
+    color: var(--text-danger);
+    font-size: var(--normal-font-size);
+}
 
 .text-danger.field-validation-error {
     display: inline-block;

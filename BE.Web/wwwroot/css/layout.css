@@ -85,7 +85,7 @@ nav__desktop-right {
 
 /*========== ADMIN MENU ==========*/
 
-.admin__actions-wrap {
+.admin__actions-wrap{
     width: auto;
 }
 
@@ -118,15 +118,15 @@ nav__desktop-right {
 }
 
 .dropdown a {
-display: flex;
-align-items: center;
-column-gap: var(--gap);
-padding: 0.8rem 1rem;
-text-decoration: none;
-color: black;
+  display: flex;
+  align-items: center;
+  column-gap: var(--gap);
+  padding: 0.8rem 1rem;
+  text-decoration: none;
+  color: black;
 }
 
-.dropdown a span {
+.dropdown a span{
     margin-right: 8px;
     text-decoration: none;
 }
@@ -195,23 +195,23 @@ footer {
 }
 
 .footer_link-item::before {
-content: "";
-height: 1px;
-margin-left: 0;
-margin-right: 14px;
-border-left: 20px solid rgba(255, 255, 255, 0.20);
+    content: "";
+    height: 1px;
+    margin-left: 0;
+    margin-right: 14px;
+    border-left: 20px solid rgba(255, 255, 255, 0.20);
 }
 
 .footer_link-item:first-of-type:before {
-border-left: none;
-margin-right: inherit;
+    border-left: none;
+    margin-right: inherit;
 }
 
 .footer_link-item a {
-text-decoration: none;
-font-size: var(--normal-font-size);
-color: #fff;
-transition: .1s ease-in-out;
+    text-decoration: none;
+    font-size: var(--normal-font-size);
+    color: #fff;
+    transition: .1s ease-in-out;
 }
 
 .footer_link-item a:hover {
@@ -221,4 +221,88 @@ transition: .1s ease-in-out;
 
 .footer_link-item a.active {
     color: var(--accent-color);
+}
+
+/*========== Pagination ==========*/
+
+.pagination {
+    justify-content: center;
+    padding: 0;
+    list-style: none;
+}
+
+.pagination li.page-item,
+.pagination a.page-item {
+    padding: 0.75rem;
+    color: var(--accent-color);
+    font-size: var(--font-medium);
+    transition: color .1s ease-in-out;
+}
+
+
+.pagination li.page-item:hover,
+.pagination a.page-item:hover,
+.pagination li.page-item.active,
+.pagination a.page-item.active {
+    color: var(--accent-color-active);
+    transition: color .1s ease-in-out;
+    color: #fff;
+    font-weight: var(--font-bold);
+}
+
+.pagination li.page-item.disabled,
+.pagination li.page-item.disabled:hover {
+    padding: 0.75rem;
+    color: var(--accent-color);
+    font-size: var(--font-medium);
+}
+
+
+
+
+/*========== Tables ==========*/
+.table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    margin-bottom: var(--mb-1-5);
+}
+
+.table th{
+    padding: 1rem .75rem; /*16px 12px */
+    text-align: left;
+    vertical-align: bottom;
+    font-size: var(--normal-font-size); /*12px;*/
+    font-weight: var(--font-bold);
+    color: #ffffff;
+    text-transform: uppercase;
+}
+
+.table tbody tr:nth-of-type(odd), .table > tr:nth-of-type(odd) {
+background: #2d2d2e;
+    border-top: 1px solid #19191a;
+    border-bottom: 1px solid #19191a;
+}
+
+.table td {
+    padding: 1rem .75rem; /*16px 12px */
+    vertical-align: top;
+    font-size: var(--small-font-size);
+}
+
+.table__photo-wrap{
+    margin: 0;
+    width: 100px;
+    overflow:hidden;
+}
+
+.table__photo-wrap img{
+    width: 86%;
+    margin:0;
+    padding: 4px;
+    border-radius: 8px;
+}
+
+.table__middle td {
+    vertical-align: middle !important;
 }

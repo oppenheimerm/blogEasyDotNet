@@ -31,6 +31,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 //  Repositories
 builder.Services.AddScoped<IPostsRepository, PostsRepository>();
+builder.Services.AddScoped<IPhotoRepository, PhotoRepository>();
 
 //  Usercases
 builder.Services.AddTransient<IViewBlogEntiresByFilterUseCase, ViewBlogEntiresByFilterUseCase>();

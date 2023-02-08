@@ -9,6 +9,10 @@
 		<div class="content__padding">
 			<h2 class="blog__headline">What I'm Reading, <br /> Learning,<br /> Coding, <br />and Exploring.</h2>
 
+			@await Component.InvokeAsync("BlogGrid", new {
+			pageIndex = Model.PageIndex,
+			posts = Model.Posts
+			})
 		</div>
 	</div>
 </section>

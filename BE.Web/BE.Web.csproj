@@ -10,6 +10,7 @@
   <ItemGroup>
     <Folder Include="wwwroot\css\dist\" />
     <Folder Include="wwwroot\img\assets\" />
+    <Folder Include="wwwroot\img\posts\cover\" />
   </ItemGroup>
 
   <ItemGroup>

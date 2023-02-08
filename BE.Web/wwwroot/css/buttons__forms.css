@@ -131,6 +131,7 @@ button[disabled] {
     border: 1px solid var(--text-danger-border);
     border-radius: 8px;
     margin-bottom: var(--mb-2);
+    margin-top: var(--mb-2);
 }
 
     .validation-summary-errors ul li:before {

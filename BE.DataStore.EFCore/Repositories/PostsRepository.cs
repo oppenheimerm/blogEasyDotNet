@@ -1,12 +1,13 @@
 ﻿
 
+using BE.UseCases.DataStoreInterfaces;
 using BE.UseCases.Response.PostResponse;
 using Microsoft.EntityFrameworkCore;
 
 namespace BE.DataStore.EFCore.Repositories
 {
-    public class PostsRepository
-    {
+    public class PostsRepository : IPostsRepository
+	{
         private readonly BEDbContext context;
 
         public PostsRepository(BEDbContext context)
@@ -20,8 +21,8 @@ namespace BE.DataStore.EFCore.Repositories
 
             try
             {
-                postQueryResponse.PostsEntries = context.Posts.OrderBy(x => x.PubDate).AsQueryable();
-                postQueryResponse.Success = true;
+				postQueryResponse.PostsEntries = context.Posts.OrderByDescending(x => x.PubDate).AsQueryable();
+				postQueryResponse.Success = true;
                 return postQueryResponse;
             }
             catch (Exception ex)

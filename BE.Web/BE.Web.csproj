@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -8,20 +8,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="package.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="wwwroot\css\dist\" />
     <Folder Include="wwwroot\img\assets\" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="package.json" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BE.Core\BE.Core.csproj" />
+    <ProjectReference Include="..\BE.DataStore.EFCore\BE.DataStore.EFCore.csproj" />
+    <ProjectReference Include="..\BE.UseCases\BE.UseCases.csproj" />
   </ItemGroup>
 
 </Project>

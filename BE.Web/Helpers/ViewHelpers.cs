@@ -1,27 +1,94 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BE.Core;
+using Microsoft.AspNetCore.Mvc;
+using System.Globalization;
 
 namespace BE.Web.Helpers
 {
 	public static class ViewHelpers
 	{
-		public static string GetPostBackgroundImage(string? imageSrc)
-		{
-			return $"/img/posts/{imageSrc}";
-		}
+        public static string GetPostCoverImage(string img)
+        {
+            return $"/img/posts/cover/{img}";
+        }
 
-		public static string GetPostLink(string? postSlug) => $"/blog/{postSlug}/";
-	}
+        public static string GetPostLink(string? postSlug) => $"/blog/{postSlug}/";
 
-	public static class UrlHelperExtensions
-	{
-		public static string GetLocalUrl(this IUrlHelper urlHelper, string localUrl)
-		{
-			if (!urlHelper.IsLocalUrl(localUrl))
-			{
-				return urlHelper!.Page("/Index");
-			}
 
-			return localUrl;
-		}
-	}
+        /// <summary>
+        /// Truncate a string to a set size.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="maxLength"></param>
+        /// <returns></returns>
+        /// public static string Truncate(this string value, int maxLength)
+        public static string Truncate(string value, int maxLength)
+        {
+            if (string.IsNullOrEmpty(value)) return value;
+            return value.Length <= maxLength ? value : value.Substring(0, maxLength);
+        }
+
+        /// <summary>
+        /// Returns an instance of a string in Title case format (en-GB)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string ToTitleCase(string input)
+        {
+            var textInfo = new CultureInfo("en-GB", false).TextInfo;
+            return textInfo.ToTitleCase(input);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="val"></param>
+        /// <param name="maxlen"></param>
+        /// <returns></returns>
+        /// public static string ShortenAndFormatText(this string val, int maxlen)
+        public static string ShortenAndFormatText(string val, int maxlen)
+        {
+            const string postFix = "...";
+
+            if (string.IsNullOrEmpty(val)) return val;
+
+            if (val.Length > maxlen)
+            {
+                var truncateFirst = Truncate(val, (maxlen - postFix.Length));
+                var truncateLast = truncateFirst + postFix;
+                return truncateLast;
+            }
+            else
+            {
+                return val;
+            }
+        }
+
+        public static string PostTagsToString(PostTag[] tags)
+        {
+            var _tagsAsString = string.Empty;
+
+            foreach (var tag in tags)
+            {
+                if (!string.IsNullOrEmpty(tag.TagName))
+                {
+                    _tagsAsString += ToTitleCase(tag.TagName) + ", ";
+                }
+            }
+
+            return _tagsAsString;
+        }
+    }
+
+    public static class UrlHelperExtensions
+    {
+        public static string GetLocalUrl(this IUrlHelper urlHelper, string localUrl)
+        {
+            if (!urlHelper.IsLocalUrl(localUrl))
+            {
+                return urlHelper!.Page("/Index");
+            }
+
+            return localUrl;
+        }
+    }
 }

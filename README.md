@@ -1,14 +1,22 @@
-# BlogeEasey.Net 
+# BlogeEasey.Net Core
 
-Simple blog built with C# / Asp.Net
+Blog engine build on [Asp.Net Core, Razor Pages](https://learn.microsoft.com/en-us/aspnet/core/?WT.mc_id=dotnet-35129-website&view=aspnetcore-7.0)
 
 ## Features
+* Render LaTeX mathematical expressions using [Math](https://www.mathjax.org/).
+* Code Highlighting via [highlight.js](https://highlightjs.org/), using the the GitHub theme.
+* Add cover photo.
 
 ## Getting Started
+
+
+### Backend
 To build the `css` and `javascript` file *gulp* is used (Developer *PowerShell* window):
 `gulp`, this ouptputs the minified version of the .css and .js files.  To 
 
-## Dependencies
+### FrontEnd
+
+#### Dependencies
 
 For bundling and minification you will need to install the following `npm` packages:
 
@@ -69,3 +77,5 @@ gulp.task('image-min', async function () {
 
 gulp.task('default', gulp.series('pack-js', 'pack-css'));
 ```
+
+## TODO Features

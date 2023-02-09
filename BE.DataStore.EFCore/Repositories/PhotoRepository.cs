@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using BE.UseCases.DataStoreInterfaces;
 using BE.UseCases.Response.PhotoResponse;
+using BE.UseCases.Interfaces.DataStore;
 
 namespace BE.DataStore.EFCore.Repositories
 {
-	public class PhotoRepository : IPhotoRepository
+    public class PhotoRepository : IPhotoRepository
 	{
 		public IWebHostEnvironment HostEnvironment { get; set; }
 		public PhotoRepository(IWebHostEnvironment hostEnvironment)

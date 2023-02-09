@@ -3,8 +3,8 @@ using BE.UseCases.Response.PostResponse;
 
 namespace BE.UseCases.Interfaces
 {
-	public interface IViewBlogEntiresByFilterUseCase
+	public interface IViewBlogEntryById
 	{
-		PostQueryResponse Execute();
+		Task<PostEntryResponse> ExecuteAsync(int? id);
 	}
 }

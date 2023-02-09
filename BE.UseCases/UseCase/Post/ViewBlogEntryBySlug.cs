@@ -1,9 +1,8 @@
-﻿
-using BE.UseCases.DataStoreInterfaces;
-using BE.UseCases.Interfaces;
+﻿using BE.UseCases.Interfaces;
+using BE.UseCases.Interfaces.DataStore;
 using BE.UseCases.Response.PostResponse;
 
-namespace BE.UseCases.PostUseCase
+namespace BE.UseCases.UseCase.Post
 {
     public class ViewBlogEntryBySlug : IViewBlogEntryBySlug
     {

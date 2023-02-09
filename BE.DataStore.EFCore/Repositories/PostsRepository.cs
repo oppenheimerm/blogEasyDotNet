@@ -1,6 +1,5 @@
-﻿
-
-using BE.UseCases.DataStoreInterfaces;
+﻿using BE.Core;
+using BE.UseCases.Interfaces.DataStore;
 using BE.UseCases.Response.PostResponse;
 using Microsoft.EntityFrameworkCore;
 
@@ -77,5 +76,68 @@ namespace BE.DataStore.EFCore.Repositories
                 return postEntryResponse;
             }
         }
-    }
+
+		public async Task<PostAddResponse> PostAdd(Post post)
+		{
+			PostAddResponse postAdd = new();
+
+			try
+			{
+				context.Posts.Add(post);
+				await context.SaveChangesAsync();
+				postAdd.PostEntry = post;
+				postAdd.Success = true;
+				return postAdd;
+
+			}
+			catch (Exception ex)
+			{
+				postAdd.Success = false;
+				postAdd.ErrorMessage = ex.Message;
+				return postAdd;
+			}
+		}
+
+		public async Task<PostEditResponse> PostEdit(Post post)
+		{
+			PostEditResponse postEdit = new();
+
+			try
+			{
+				context.Update(post);
+				await context.SaveChangesAsync();
+				postEdit.PostEntry = post;
+				postEdit.Success = true;
+				return postEdit;
+			}
+			catch (Exception ex)
+			{
+				postEdit.Success = false;
+				postEdit.ErrorMessage = ex.Message;
+				return postEdit;
+			}
+		}
+
+		public async Task<PostEntryResponse> GetPostById(int id)
+		{
+			PostEntryResponse postEntryResponse = new();
+
+			try
+			{
+				postEntryResponse.PostEntry = await context.Posts
+					.Include(t => t.Tags)
+					.AsNoTracking()
+					.FirstOrDefaultAsync(p => p.Id == id);
+				postEntryResponse.Success = true;
+
+				return postEntryResponse;
+			}
+			catch (Exception ex)
+			{
+				postEntryResponse.Success = false;
+				postEntryResponse.ErrorMessage = ex.Message;
+				return postEntryResponse;
+			}
+		}
+	}
 }

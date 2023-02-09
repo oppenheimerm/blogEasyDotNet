@@ -1,100 +1,138 @@
-﻿@model BE.DataStore.EFCore.Utilities.PaginatedList<Post>
+﻿@page "{pageIndex:int?}"
+@model BE.Web.Pages.Admin.AllPostsModel
 @{
-    if (Model != null)
-    {
-        <div class="grid__wrapper flex">
-            @foreach (var item in Model)
-            {
-                <a asp-page="/blog/slug" asp-route-slug="@item.Slug" class="grid__item-wrap">
-                    <div class="grid__item-top">
-                        @if (item.PostHasCoverPhoto() == true)
+    ViewData["Title"] = "All Posts";
+}
+
+<section id="all__posts" class="section">
+    <div class="allposts__wrap container flex">
+        <table class="table table__middle">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Title</th>
+                    <th>Pub Date</th>
+                    <th>Published</th>
+                    <th>Modified</th>
+                    <th>Cover Photo</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Posts)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @ViewHelpers.Truncate(item.Title, 30)
+                            <span data-text="@item.Title" class="tooltip">  ...</span>
+                        </td>
+                        <td>
+                            @item.PubDate.ToShortDateString()
+                        </td>
+                        <td>
+                            @item.IsPublished
+                        </td>
+                        <td>
+                            @item.LastModified.ToShortDateString()
+                        </td>
+                        <td>
+                            @{
+                                if (!string.IsNullOrEmpty(item.PostCoverPhoto))
+                                {
+                                    <div class="table__photo-wrap">
+                                        <img src="@ViewHelpers.GetPostCoverImage(@item.PostCoverPhoto)" height="192" />
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="table__photo-wrap">
+                                        <img src="~/img/assets/logo.png" width="100%" class="blog__no-cover">
+                                    </div>
+                                }
+                            }
+                        </td>
+                        <td>
+                            <div class="table__actions-wrap">
+                                <a class="btn btn__small" asp-page="/admin/postdetails" asp-route-id="@item.Id">Details</a>
+                                <a class="btn btn__small" asp-page="/admin/editpost" asp-route-id="@item.Id">
+                                    Edit
+                                </a>
+                                <button class="btn danger btn__small">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+        <div class="allposts__pagination-wrap">
+            <ul class="pagination flex">
+                @{
+                    // Current page should never go below 1
+                    if (Model.Posts.CurrentPage > 1)
+                    {
+                        var currentPage = (Model.Posts.CurrentPage);
+                        <li class="page-item">
+                            <a class="page-item active" asp-page="/admin/allposts" asp-route-pageIndex="@currentPage--">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="page-item  disabled">
+                            <span aria-hidden="true">&laquo;</span>
+                        </li>
+                    }
+                }
+
+                @for (int i = Model.Posts.CurrentPage - 3; i < Model.Posts.CurrentPage + 3; i++)
+                {
+                    if (i > 0 && i <= Model.Posts.TotalPages)
+                    {
+                        //  set active page
+                        if (i == Model.Posts.CurrentPage)
                         {
-                            <img src="~/img/posts/@item.PostCoverPhoto" height="192" />
+                            <a class="page-item active" asp-page="/admin/allposts" asp-route-pageIndex="@i">@i</a>
                         }
                         else
                         {
-                            <div class="no__photo-entry">
-                                <img src="~/img/assets/logo.png" width="40" height="20" class="blog__no-cover">
-                            </div>
+                            <a class="page-item" asp-page="/admin/allposts" asp-route-pageIndex="@i">@i</a>
                         }
-                    </div>
-                    <div class="grid__item-body">
-                        <p class="grid__item-meta-date">
-                            @item.PubDate.ToLongDateString()
-                        </p>
-                        <!-- max 36 characters to prevent overflow -->
-                        <h3 class="grid_item-meta-title">@StringHelper.ShortenAndFormatText(@item.Title, 36)</h3>
-                        <div class="grid__item-lnk-more-wrap">
-                            <div class="grid__item-lnk-more-lnk grid">
-                                Read more
-                                <span class="material-symbols-outlined">
-                                    arrow_forward
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            }
-        </div>
-
-        <ul class="blog__pagination flex">
-            @{
-                // Current page should never go below 1
-                if (Model.CurrentPage > 1)
+                    }
+                }
+                @if (Model.Posts.CurrentPage < Model.Posts.TotalPages)
                 {
-                    var currentPage = (Model.CurrentPage);
+                    // so long as current page <= total pages
+                    var nextage = Model.Posts.CurrentPage;
+                    nextage++;
                     <li class="page-item">
-                        <a class="page-item active" asp-page="/blog/index" asp-route-pageIndex="@currentPage--">
-                            <span aria-hidden="true">&laquo;</span>
+                        <a class="page-item" asp-page="/admin/allposts" asp-route-pageIndex="@nextage">
+                            <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
                 }
                 else
                 {
-                    <li class="page-item  disabled">
-                        <span aria-hidden="true">&laquo;</span>
+                    <li class="page-item disabled">
+                        <div class="page-link" href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </div>
                     </li>
                 }
-            }
+            </ul>
+        </div>
 
-            @for (int i = Model.CurrentPage - 3; i < Model.CurrentPage + 3; i++)
-            {
-                if (i > 0 && i <= Model.TotalPages)
-                {
-                    //  set active page
-                    if (i == Model.CurrentPage)
-                    {
-                        <a class="page-item active" asp-page="/blog/index" asp-route-pageIndex="@i">@i</a>
-                    }
-                    else
-                    {
-                        <a class="page-item" asp-page="/blog/index" asp-route-pageIndex="@i">@i</a>
-                    }
-                }
-            }
-            @if (Model.CurrentPage < Model.TotalPages)
-            {
-                // so long as current page <= total pages
-                var nextage = Model.CurrentPage;
-                nextage++;
-                <li class="page-item">
-                    <a class="page-item" asp-page="/blog/index" asp-route-pageIndex="@nextage">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            }
-            else
-            {
-                <li class="page-item disabled">
-                    <div class="page-link" href="#" aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </div>
-                </li>
-            }
-        </ul>
-    }
-    else
-    {
-        <h1>Loading</h1>
-    }
+
+
+    </div>
+</section>
+
+@section Scripts{
+    <script type="text/javascript">
+    </script>
 }

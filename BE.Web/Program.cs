@@ -1,8 +1,10 @@
 using BE.DataStore.EFCore;
 using BE.DataStore.EFCore.Repositories;
-using BE.UseCases.DataStoreInterfaces;
 using BE.UseCases.Interfaces;
-using BE.UseCases.PostUseCase;
+using BE.UseCases.Interfaces.DataStore;
+using BE.UseCases.UseCase.Image;
+using BE.UseCases.UseCase.Post;
+using BE.UseCases.UseCase.PostTag;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -32,10 +34,21 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 //  Repositories
 builder.Services.AddScoped<IPostsRepository, PostsRepository>();
 builder.Services.AddScoped<IPhotoRepository, PhotoRepository>();
+builder.Services.AddScoped<IPostTagRepository, PostTagRepository>();
+
 
 //  Usercases
-builder.Services.AddTransient<IViewBlogEntiresByFilterUseCase, ViewBlogEntiresByFilterUseCase>();
+builder.Services.AddTransient<IAddCoverPhotoUseCase, AddCoverPhotoUseCase>();
 builder.Services.AddTransient<IViewBlogEntryBySlug, ViewBlogEntryBySlug>();
+builder.Services.AddTransient<IViewBlogEntiresByFilterUseCase, ViewBlogEntiresByFilterUseCase>();
+builder.Services.AddTransient<ICreatePostUseCase, CreatePostUseCase>();
+builder.Services.AddTransient<IEditPostUseCase, EditPostUseCase>();
+builder.Services.AddTransient<IViewBlogEntriesByTag, ViewBlogEntriesByTag>();
+builder.Services.AddTransient<IViewBlogEntryById, ViewBlogEntryById>();
+builder.Services.AddTransient<IUpdatePostTagsUseCase, UpdatePostTagsUseCase>();
+builder.Services.AddTransient<IDeletePostTagsUseCase, DeletePostTagsUseCase>();
+builder.Services.AddTransient<IAddPostTagsUseCase, AddPostTagsUseCase>();
+
 
 var app = builder.Build();
 
@@ -61,7 +74,6 @@ using (var scope = app.Services.CreateScope())
 	//   takes no action if a database for the context exists. If no
 	//   database exists, it creates the database and schema. 
 	context.Database.EnsureCreated();
-	DbInitializer.Initialize(context);
 }
 
 app.UseHttpsRedirection();

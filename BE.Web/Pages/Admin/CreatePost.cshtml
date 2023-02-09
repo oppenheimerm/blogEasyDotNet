@@ -1,72 +1,57 @@
-﻿@page "{id}"
-@model BE.Web.Pages.Admin.EditPostModel
+﻿@page
+@model BE.Web.Pages.Admin.CreatePostModel
+
 @{
-	ViewData["Title"] = $"Edit Post: {Model.Post.Title}";
+	ViewData["Title"] = "Create Post";
 }
 
 <section class="section">
 	<div class="container">
 
 		<div class="editor__actions flex">
-			<button id="hide__btn-details" class="admin__btn" onclick="toggeleDetailsSectionUp('toggle_details');" type="button">
+			<button id="hide__btn-details" class="btn" onclick="toggeleDetailsSectionUp('toggle_details');" type="button">
 				Hide Details
 			</button>
-			<button id="show__btn-details" class="admin__btn" onclick="toggeleDetailsSectionDown('toggle_details');" type="button">
+			<button id="show__btn-details" class="btn" onclick="toggeleDetailsSectionDown('toggle_details');" type="button">
 				Show Details
 			</button>
 		</div>
 
 
 
-		<form id="form_edit-create" method="post" action="">
+		<form id="form_edit-create" method="post" enctype="multipart/form-data">
 			<div asp-validation-summary="All" class="text-danger"></div>
-			<textarea asp-for="Post.PostContentParsed" hidden="hidden"></textarea>
-			<input type="hidden" asp-for="Post.Id" />
+			<textarea asp-for="PostVM.PostContentParsed" hidden="hidden"></textarea>
 			<fieldset class="field__set">
 
 				<div id="toggle_details" class="form__hideable-section">
-					<legend class="form__legend">Edit / Create Post</legend>
+					<legend class="form__legend">Create Post</legend>
 					<div class="form__margin">
-						<input asp-for="Post.Title" class="form__input" placeholder="Post title" aria-label="Post title" />
-						<span asp-validation-for="Post.Title" class="text-danger"></span>
+						<input asp-for="PostVM.Title" class="form__input" placeholder="Post title" aria-label="Post title" />
+						<span asp-validation-for="PostVM.Title" class="text-danger"></span>
 					</div>
 					<div class="form__margin">
-						<textarea asp-for="Post.PostExcerpt" id="PostExcerpt" class="form__textarea" placeholder="Excerpt here" aria-label="Post excerpt"></textarea>
-						<span asp-validation-for="Post.PostExcerpt" class="text-danger"></span>
+						<textarea asp-for="PostVM.PostExcerpt" class="form__textarea" placeholder="Excerpt here" aria-label="Post excerpt"></textarea>
+						<span asp-validation-for="PostVM.PostExcerpt" class="text-danger"></span>
 					</div>
 					<div class="form__margin">
-						<input asp-for="Post.Tags" class="form__input" placeholder="Coma delimited tag" aria-label="Post tags" />
-						<span asp-validation-for="Post.Tags" class="text-danger"></span>
+						<input id="PostCover" name="PostCover" class="form__input" type="file" aria-label="file upload" />
+						<span asp-validation-for="PostVM.PostCover" class="text-danger"></span>
 					</div>
-					@if (!string.IsNullOrEmpty(Model.Post.PostCover))
-					{
-						<div class="form__margin">
-							<div style="width:112px;height:112px;padding:4px">
-								<img src="@ViewHelpers.GetPostCoverImage(Model.Post.PostCover)" style="width:100%;border-radius:8px" />
-							</div>
-
-						</div>
-					}
-					else
-					{
-						<div class="form__margin">
-							<div style="width:112px;height:112px;padding:4px">
-								<img src="~/img/assets/logo.png" width="100%" class="blog__no-cover">
-							</div>
-
-						</div>
-					}
-
 					<div class="form__margin">
-						<input asp-for="Post.IsPublished" class="chk__bx" type="checkbox" />Is Published?
+						<input asp-for="PostVM.Tags" class="form__input" placeholder="Coma delimited tag" aria-label="Post tags" />
+						<span asp-validation-for="PostVM.Tags" class="text-danger"></span>
+					</div>
+					<div class="form__margin">
+						<input asp-for="PostVM.IsPublished" class="chk__bx" type="checkbox" />Is Published?
 					</div>
 				</div>
 
 				<div class="outer__content-wrap flex">
 					<div class="content__wrap flex">
 						<div class="form__margin eat__space">
-							<textarea asp-for="Post.PostContent" id="PostContent" class="form__textarea" placeholder="Post content" aria-label="Post content"></textarea>
-							<span asp-validation-for="Post.PostContent" class="text-danger"></span>
+							<textarea asp-for="PostVM.PostContent" class="form__textarea" placeholder="Post content" aria-label="Post content"></textarea>
+							<span id="PostContent" class="text-danger"></span>
 						</div>
 					</div>
 					<div class="preview__wrap">
@@ -85,8 +70,10 @@
 
 
 
-
 @section Scripts{
+
+	<partial name="_ValidationScriptsPartial" />
+
 	<script type="text/javascript">
 
 		let hide_btn_details = document.getElementById("hide__btn-details");
@@ -121,9 +108,9 @@
 
 	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 	<script type="text/javascript">
-		var text = document.querySelector("#PostContent");
+		var text = document.querySelector("#PostVM_PostContent");
 		var compiled = document.querySelector(".preview__wrap");
-		var postContentParsed = document.querySelector("#Post_PostContentParsed");
+		var postContentParsed = document.querySelector("#PostVM_PostContentParsed");
 		var debounce;
 
 		MathJax = {
@@ -136,7 +123,7 @@
 			if (document.readyState === "complete") {
 
 				var render = function () {
-					compiled.innerHTML = marked.parse(text.value/* deprecated, {sanitize: true} */);
+					compiled.innerHTML = marked.parse(text.value);
 					postContentParsed.innerHTML = marked.parse(text.value);
 					hljs.highlightAll();
 					MathJax.typeset();
@@ -162,4 +149,3 @@
 	</script>
 
 }
-

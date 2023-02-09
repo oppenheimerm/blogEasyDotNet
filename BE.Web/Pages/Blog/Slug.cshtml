@@ -6,53 +6,38 @@
 
 <section class="section">
 	<div class="post__entry container flex">
-		@{
-			<article itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
-				<div id="blog__meta-block" class="display_none">
-					<p itemprop="name headline"><a href="@Helpers.ViewHelpers.GetPostLink(Model.Post.Slug)" rel="canonical" itemprop="url">@Model.Post.Title</a></p>
-					<time datetime="@Model.Post.PubDate.ToString("s")" itemprop="datePublished">Published @Model.Post.PubDate.ToString("MMM d, yyyy")</time>
-				</div>
-
-				@if (Model.Post.PostHasCoverPhoto())
-				{
-					<div class="post__header-photo" style="background-image: url(@ViewHelpers.GetPostBackgroundImage(Model.Post.PostCoverPhoto));">
-					</div>
-				}
-				else
-				{
-					<div class="post__header-nophoto" style="background-image: url(/img/assets/logo.png);">
-					</div>
-				}
-				<div class="post__content-wrapper">
-					<div itemprop="articleBody mainEntityOfPage">
-						<h1>@Model.Post.Title</h1>
-						<p class="post__content-meta-data">
-							@Model.Post.PubDate.ToLongDateString()
-						</p>
-						<div class="post_content-content">
-							@Html.Raw(@Model.Post.Content)
-						</div>
-					</div>
-				</div>
-
-				<div class="post__tags-wrapper">
-					<h1>Tags</h1>
-					@if (Model.Post.Tags.Any())
-					{
-						@foreach (var tag in Model.Post.Tags)
-						{
-							<a asp-page="/tag/index" asp-route-tag="@tag.TagNameEncoded">@tag.TagName</a>
-						}
-					}
-
-				</div>
-
-			</article>
-
-		}
-
+		@await Component.InvokeAsync("PostViewer", new { Post = Model.Post  })
 	</div>
 </section>
 
+@section Scripts{
+	<script src="https://unpkg.com/marked@4.2.12"></script>
+
+	<script>hljs.highlightAll();</script>
 
 
+	<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+	<script type="text/javascript">
+		var input = document.getElementById("content__unparsed");
+		var output = document.getElementById("parsed__target")
+
+		MathJax = {
+			tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+		};
+
+
+		document.onreadystatechange = function (event) {
+
+			if (document.readyState === "complete") {
+
+				console.log(input.value);
+				output.innerHTML = marked.parse(input.innerHTML);
+				hljs.highlightAll();
+				MathJax.typeset();
+
+				console.log("I WAS CALLED!");
+
+			}
+		};
+	</script>
+}

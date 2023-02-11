@@ -66,7 +66,7 @@ namespace BE.Web.Pages.Admin
 					var postStatus = await CreatePostUseCase.ExecuteAsync(post);
 					if (postStatus.Success)
 					{
-						return RedirectToPage("./PostPreview");
+						return RedirectToPage("/Admin/PostPreview", new { id = postStatus.PostEntry.Id });
 					}
 					else
 					{
@@ -84,7 +84,7 @@ namespace BE.Web.Pages.Admin
 				var postStatus = await CreatePostUseCase.ExecuteAsync(post);
 				if (postStatus.Success)
 				{
-					return RedirectToPage("./PostPreview");
+					return RedirectToPage("/Admin/PostPreview", new { id = postStatus.PostEntry.Id });
 				}
 				else
 				{

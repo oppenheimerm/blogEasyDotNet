@@ -1,0 +1,48 @@
+﻿@page "{id}"
+@model BE.Web.Pages.Admin.PostPreviewModel
+@{
+	ViewData["Title"] = $"Preview: {Model.Post.Title}";
+}
+
+<section class="section">
+	<div class="post__entry container flex">
+		@await Component.InvokeAsync("PostViewer", new { Post = Model.Post  })
+	</div>
+</section>
+
+@section Scripts{
+		<script src="https://unpkg.com/marked@4.2.12"></script>
+
+		<script>hljs.highlightAll();</script>
+
+
+		<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+		<script type="text/javascript">
+			var input = document.getElementById("content__unparsed");
+			var output = document.getElementById("parsed__target")
+
+			MathJax = {
+				tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
+			};
+
+
+			document.onreadystatechange = function (event) {
+
+				if (document.readyState === "complete") {
+
+					console.log(input.value);
+						output.innerHTML = marked.parse(input.innerHTML );
+						hljs.highlightAll();
+						MathJax.typeset();
+
+						console.log("I WAS CALLED!");
+
+				}
+			};
+
+
+
+
+
+		</script>
+}

@@ -8,20 +8,27 @@ namespace BE.Web.Pages.Blog
 {
     public class IndexModel : PageModel
     {
+		private readonly ILogger<IndexModel> Logger;
+
+		public IndexModel(
+			IViewBlogEntiresByFilterUseCase viewBlogEntriesByFilterUseCase,
+			IConfiguration configuration,
+			ILogger<IndexModel> logger
+		)
+		{
+			ViewBlogEntriesByFilterUseCase = viewBlogEntriesByFilterUseCase;
+			Configuration = configuration;
+			Logger = logger;
+		}
+
 		public int? PageIndex { get; set; }
 		public PaginatedList<Post>? Posts { get; set; }
 		private IViewBlogEntiresByFilterUseCase? ViewBlogEntriesByFilterUseCase { get; }
 
 		private IConfiguration Configuration { get; }
 
-		public IndexModel(IViewBlogEntiresByFilterUseCase viewBlogEntriesByFilterUseCase,
-			IConfiguration configuration)
-        {
-			ViewBlogEntriesByFilterUseCase = viewBlogEntriesByFilterUseCase;
-			Configuration = configuration;
-		}
-        public async Task OnGetAsync(int? pageIndex)
-        {
+		public async Task OnGet(int? pageIndex)
+		{
 			PageIndex = pageIndex;
 			await GetDataAsync();
 		}
@@ -36,7 +43,9 @@ namespace BE.Web.Pages.Blog
 			{
 				var pageSize = Configuration.GetValue("pageSize", 12);
 				Posts = await PaginatedList<Post>.CreateAsync(
-					ViewBlogEntriesByFilterUseCase.Execute().PostsEntries.AsNoTracking(),
+					ViewBlogEntriesByFilterUseCase.Execute().PostsEntries
+					.Where(p => p.IsPublished == true)
+					.AsNoTracking(),
 					PageIndex ?? 1, pageSize
 					);
 			}

@@ -1,20 +1,24 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-<head>
+<<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BlogEasy.Net - @ViewData["Title"] </title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github-dark-dimmed.min.css" 
+        integrity="sha512-zcatBMvxa7rT7dDklfjauWsfiSFParF+hRfCdf4Zr40/MmA1gkFcBRbop0zMpvYF3FmznYFgcL8wlcuO/GwHoA==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>   
-   
+    <link rel="stylesheet" href="~/bw.web.styles.css" asp-append-version="true" />
+
     <environment include="Development">
         <link rel="stylesheet" href="~/css/main.css" asp-append-version="true" />
     </environment>
     <environment include="Staging,Production">
-        <link href="~/css/dist/main.css" rel="stylesheet" asp-append-version="true" />
+        <link href="build/css/stylesheet.css" rel="stylesheet" asp-append-version="true" />
     </environment>
-</head>
+
+ </head>
 <body>
     <div id="app">
         <partial name="_Mobile__header" />
@@ -27,19 +31,22 @@
     </div>
 
 
-
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
     <script>hljs.highlightAll();</script>
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+            integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+            integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+            crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
     <script src="~/js/main.js" asp-append-version="true" type="module"></script>
     <environment include="Development">
         <script src="~/js/main.js" asp-append-version="true" type="module"></script>
     </environment>
     <environment include="Staging,Production">
-        <script src="~/js/dist/bundle.js asp-append-version="true" type="module"></script>
+        <script src="~/js/dist/main.js" asp-append-version="true" type="module"></script>
     </environment>
 
     @await RenderSectionAsync("Scripts", required: false)

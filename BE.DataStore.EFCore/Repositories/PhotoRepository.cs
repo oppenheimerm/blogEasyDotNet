@@ -8,6 +8,7 @@ namespace BE.DataStore.EFCore.Repositories
     public class PhotoRepository : IPhotoRepository
 	{
 		public IWebHostEnvironment HostEnvironment { get; set; }
+
 		public PhotoRepository(IWebHostEnvironment hostEnvironment)
 		{
 			HostEnvironment = hostEnvironment;

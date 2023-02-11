@@ -7,6 +7,11 @@
     margin-right: auto;
     padding-left: 1rem; /* 16px */
     padding-right: 1rem; /* 16px */
+    max-width: 1200px;
+}
+
+.container__wide {
+    max-width: none;
 }
 
 .grid {
@@ -15,6 +20,12 @@
 
 .flex {
     display: flex;
+}
+
+/* MathJax prevent overflow */
+mjx-container {
+    overflow-x: auto;
+    padding: 40px 0;
 }
 
 /*========== 

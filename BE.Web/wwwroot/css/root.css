@@ -144,6 +144,17 @@ input {
     background-color: var(--body-color);
 }
 
+a {
+    font-size: var(--font-bold);
+    color: var(--accent-color);
+    transition: color var(--ease-in-out-3-sec);
+}
+
+a:hover{
+    color: var(--accent-color-active);
+    text-decoration: underline;
+}
+
 /*=============== Reuseable css classes ===============*/
 .section {
     padding: 7rem 0 2rem; /* 112px, 32px*/

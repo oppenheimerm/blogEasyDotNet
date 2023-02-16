@@ -30,13 +30,9 @@
 
 			if (document.readyState === "complete") {
 
-				console.log(input.value);
 				output.innerHTML = marked.parse(input.innerHTML);
 				hljs.highlightAll();
 				MathJax.typeset();
-
-				console.log("I WAS CALLED!");
-
 			}
 		};
 	</script>

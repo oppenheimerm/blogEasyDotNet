@@ -2,45 +2,54 @@
 
 @{
 	<article itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
-			<div id="blog__meta-block" class="display_none">
-				<p itemprop="name headline"><a href="@Helpers.ViewHelpers.GetPostLink( Model.Slug)" rel="canonical" itemprop="url">@Model.Title</a></p>
-				<time datetime="@Model.PubDate.ToString("s")" itemprop="datePublished">Published @Model.PubDate.ToString("MMM d, yyyy")</time>
+		<div id="blog__meta-block" class="display_none">
+			<p itemprop="name headline"><a href="@Helpers.ViewHelpers.GetPostLink( Model.Slug)" rel="canonical" itemprop="url">@Model.Title</a></p>
+			<time datetime="@Model.PubDate.ToString("s")" itemprop="datePublished">Published @Model.PubDate.ToString("MMM d, yyyy")</time>
+		</div>
+
+		<div class="post__content-wrapper">
+
+			<p class="post__content-meta-date">
+				@Model.PubDate.ToLongDateString()
+			</p>
+
+			<h1>@Model.Title</h1>
+
+			<div class="post__excerpt">
+				@Model.Excerpt
 			</div>
 
-		@if (Model.PostHasCoverPhoto())
-		{
-					<div class="post__header-photo" style="background-image: url(@ViewHelpers.GetPostCoverImage(Model.PostCoverPhoto));">
-					</div>
-		}
+			@if (Model.PostHasCoverPhoto())
+			{
+				<div class="content__shadow-bottom">
+					<img src="@ViewHelpers.GetPostCoverImage(Model.PostCoverPhoto)" class="post__header-cover" />
+				</div>
 
-			<div class="post__content-wrapper">
-				<div itemprop="articleBody mainEntityOfPage">
-					<h1>@Model.Title</h1>
-					<p class="post__content-meta-data">
-					@Model.PubDate.ToLongDateString()
-					</p>
-					<div class="post_content-content">
-						<div id="content__unparsed" style="display:none!important;">
+			}
+
+			<div itemprop="articleBody mainEntityOfPage">
+
+				<div class="post_content-content">
+					<div id="content__unparsed" style="display:none!important;">
 						@Html.Raw(@Model.Content)
-						</div>
-						<div id="parsed__target"></div>
-
 					</div>
+					<div id="parsed__target"></div>
+
 				</div>
 			</div>
+		</div>
 
-			<div class="post__tags-wrapper">
-				<h1>Tags</h1>
+		<div class="post__tags-wrapper">
+			<h1>Tags</h1>
 			@if (Model.Tags.Any())
 			{
 				@foreach (var tag in Model.Tags)
 				{
-								<a asp-page="/tag/index" asp-route-tag="@tag.TagNameEncoded">@tag.TagName</a>
+					<a asp-page="/tag/index" asp-route-tag="@tag.TagNameEncoded">@tag.TagName</a>
 				}
 			}
 
-			</div>
+		</div>
 
 	</article>
-
 }

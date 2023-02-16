@@ -48,6 +48,7 @@ builder.Services.AddTransient<IViewBlogEntryById, ViewBlogEntryById>();
 builder.Services.AddTransient<IUpdatePostTagsUseCase, UpdatePostTagsUseCase>();
 builder.Services.AddTransient<IDeletePostTagsUseCase, DeletePostTagsUseCase>();
 builder.Services.AddTransient<IAddPostTagsUseCase, AddPostTagsUseCase>();
+builder.Services.AddTransient<IDeleteCoverPhotoUseCase, DeleteCoverPhotoUseCase>();
 
 
 var app = builder.Build();

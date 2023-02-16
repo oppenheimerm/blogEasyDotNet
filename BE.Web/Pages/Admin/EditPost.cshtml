@@ -41,19 +41,23 @@
 					@if (!string.IsNullOrEmpty(Model.Post.PostCover))
 					{
 						<div class="form__margin">
-							<div style="width:112px;height:112px;padding:4px">
-								<img src="@ViewHelpers.GetPostCoverImage(Model.Post.PostCover)" style="width:100%;border-radius:8px" />
+							<div class="flex frm__current-photo-wrap">
+								<img src="@ViewHelpers.GetPostCoverImage(Model.Post.PostCover)" class="frm__photo-preview" />
+								<div class="photo__preview-actions">
+									<a asp-page="/admin/EditCoverPhoto" asp-route-id="@Model.Post.Id" class="btn btn__default form__button">Edit Photo</a>
+								</div>
 							</div>
-
 						</div>
 					}
 					else
 					{
 						<div class="form__margin">
-							<div style="width:112px;height:112px;padding:4px">
-								<img src="~/img/assets/logo.png" width="100%" class="blog__no-cover">
+							<div class="flex frm__current-photo-wrap">
+								<img src="~/img/assets/photo-icon-white.png" class="frm__photo-preview" />
+								<div class="photo__preview-actions">
+									<a href="#" class="btn btn__default form__button">Add Photo</a>
+								</div>
 							</div>
-
 						</div>
 					}
 

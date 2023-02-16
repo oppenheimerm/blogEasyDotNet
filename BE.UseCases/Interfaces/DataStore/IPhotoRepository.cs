@@ -6,5 +6,7 @@ namespace BE.UseCases.Interfaces.DataStore
     public interface IPhotoRepository
     {
         Task<AddPhotoResponse> UploadCoverPhotoAsync(IFormFile cover);
-    }
+        Task<DeletePhotoResponse> DeleteCoverPostAsync(string fileNmae);
+
+	}
 }

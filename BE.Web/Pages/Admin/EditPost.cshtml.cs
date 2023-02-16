@@ -110,7 +110,7 @@ namespace BE.Web.Pages.Admin
 				}
 
 
-				return RedirectToPage("./PostPreview");
+				return RedirectToPage("/Admin/PostPreview");
 			}
 			else
 			{

@@ -46,5 +46,37 @@ namespace BE.DataStore.EFCore.Repositories
 			}
 
 		}
+
+		public async Task<DeletePhotoResponse> DeleteCoverPostAsync(string fileNmae)
+		{
+			DeletePhotoResponse deletePhotoResponse = new();
+
+			try
+			{
+				var hostPath = HostEnvironment.WebRootPath.ToString();
+				var coverPhotosFolder = Path.Combine(HostEnvironment.WebRootPath, "img\\posts\\cover");
+				string filePath = Path.Combine(coverPhotosFolder, fileNmae);
+				var exist = System.IO.File.Exists(filePath);
+				if (exist)
+				{
+					//System.IO.File.Delete(filePath);
+					await Task.Run(() =>
+					{
+						System.IO.File.Delete(filePath);
+					});
+					deletePhotoResponse.Success = true;
+					return deletePhotoResponse;
+				}
+				deletePhotoResponse.Success = false;
+				deletePhotoResponse.ErrorMessage = $"File: {fileNmae} not found";
+				return deletePhotoResponse;
+			}
+			catch (Exception Ex)
+			{
+				deletePhotoResponse.Success = false;
+				deletePhotoResponse.ErrorMessage = Ex.Message;
+				return deletePhotoResponse;
+			}
+		}
 	}
 }

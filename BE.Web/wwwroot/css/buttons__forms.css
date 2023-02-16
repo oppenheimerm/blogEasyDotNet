@@ -22,16 +22,16 @@
     border: 1px solid;
 }
 
-.btn.btn__small{
-    padding: 0 0.875rem; /* 0 14px */
-}
+    .btn.btn__small {
+        padding: 0 0.875rem; /* 0 14px */
+    }
 
-.btn:hover,
-.btn.btn__small:hover{
-    background-color: #fff;
-    color: var(--body-color);
-    border-color: var(--body-color);
-}
+        .btn:hover,
+        .btn.btn__small:hover {
+            background-color: #fff;
+            color: var(--body-color);
+            border-color: var(--body-color);
+        }
 
 /* exclude disabled button from this style */
 .btn__default {
@@ -54,10 +54,10 @@
 
 .btn:disabled,
 button:disabled,
-button[disabled]{
+button[disabled] {
     background-color: var(--accent-color-disabled);
     border: 1px solid var(--accent-color);
-    cursor:not-allowed;
+    cursor: not-allowed;
 }
 
 .btn.primary {
@@ -68,10 +68,10 @@ button[disabled]{
     transition-property: background-color;
 }
 
-.btn.primary:hover {
-    background-color: var(--accent-color-disabled);
-    border: 1px solid transparent;
-}
+    .btn.primary:hover {
+        background-color: var(--accent-color-disabled);
+        border: 1px solid transparent;
+    }
 
 .btn.danger {
     background-color: var(--text-danger);
@@ -81,9 +81,9 @@ button[disabled]{
     transition-property: background-color;
 }
 
-.btn.danger:hover {
-    background-color: hsla(349,84%, 64%, .6); /* --text-danger: #f0506e; */
-}
+    .btn.danger:hover {
+        background-color: hsla(349,84%, 64%, .6); /* --text-danger: #f0506e; */
+    }
 
 /*=============== 
     CHECKBOX
@@ -112,7 +112,7 @@ button[disabled]{
     background-color: var(--accent-color);
     border-color: transparent;
 }
-    
+
 /*=============== 
     FORMS
  ===============*/
@@ -170,25 +170,40 @@ button[disabled]{
     margin-top: var(--mb-2);
 }
 
-.validation-summary-errors ul li:before {
-    content: " * ";
-}
+    .validation-summary-errors ul li:before {
+        content: " * ";
+    }
 
-.validation-summary-errors ul li,
-.text-danger.field-validation-error {
-    margin: var(--mb-0-5);
-    color: var(--text-danger);
-    font-size: var(--normal-font-size);
-}
+    .validation-summary-errors ul li,
+    .text-danger.field-validation-error {
+        margin: var(--mb-0-5);
+        color: var(--text-danger);
+        font-size: var(--normal-font-size);
+    }
 
 .text-danger.field-validation-error {
     display: inline-block;
 }
 
+.form__info {
+    display: inline-block;
+    padding: 8px;
+    border-radius: 0.5rem; /* 8px; */
+    margin-bottom: 0.5rem;
+    background-color: #27AE60;
+    color: var(--body-color);
+}
+
+.form___actionbuttons-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem auto; /* 16px auto */
+}
+
 /*=============== 
     Admin / Login
 ===============*/
-
 .login__form {
     flex-direction: column;
     align-content: center;

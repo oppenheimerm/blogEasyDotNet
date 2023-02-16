@@ -8,8 +8,8 @@ namespace BE.Web.Helpers
 	{
         public static string GetPostCoverImage(string img)
         {
-            return $"/img/posts/cover/{img}";
-        }
+			return $"/img/posts/cover/{img}";
+		}
 
         public static string GetPostLink(string? postSlug) => $"/blog/{postSlug}/";
 

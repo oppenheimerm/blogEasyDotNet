@@ -36,6 +36,7 @@ builder.Services.AddScoped<IPostsRepository, PostsRepository>();
 builder.Services.AddScoped<IPhotoRepository, PhotoRepository>();
 builder.Services.AddScoped<IPostTagRepository, PostTagRepository>();
 builder.Services.AddScoped<IFolderEntityRepository, FolderEntityRepository>();
+builder.Services.AddScoped<IPostImageRepository, PostImageRepository>();
 
 
 //  Usercases
@@ -52,6 +53,7 @@ builder.Services.AddTransient<IAddPostTagsUseCase, AddPostTagsUseCase>();
 builder.Services.AddTransient<IDeleteCoverPhotoUseCase, DeleteCoverPhotoUseCase>();
 builder.Services.AddTransient<IAddFolderEntityUseCase, AddFolderEntityUseCase>();
 builder.Services.AddTransient<IAddFolderUseCase, AddFolderUseCase>();
+builder.Services.AddTransient<IAddPostImageEntityUseCase, AddPostImageEntityUseCase>();
 
 
 var app = builder.Build();

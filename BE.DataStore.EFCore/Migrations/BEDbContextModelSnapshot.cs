@@ -148,13 +148,13 @@ namespace BE.DataStore.EFCore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("ImageFolderId")
+                    b.Property<int>("ImageFolderId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsCoverPhoto")
                         .HasColumnType("bit");
 
-                    b.Property<int>("PostId")
+                    b.Property<int?>("PostId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("TimeStamp")
@@ -166,7 +166,7 @@ namespace BE.DataStore.EFCore.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("PostImage");
+                    b.ToTable("PostImage", (string)null);
                 });
 
             modelBuilder.Entity("BE.Core.PostTag", b =>
@@ -217,17 +217,17 @@ namespace BE.DataStore.EFCore.Migrations
 
             modelBuilder.Entity("BE.Core.PostImage", b =>
                 {
-                    b.HasOne("BE.Core.ImageFolder", null)
+                    b.HasOne("BE.Core.ImageFolder", "ImageFolder")
                         .WithMany("Images")
-                        .HasForeignKey("ImageFolderId");
-
-                    b.HasOne("BE.Core.Post", "Post")
-                        .WithMany("Images")
-                        .HasForeignKey("PostId")
+                        .HasForeignKey("ImageFolderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Post");
+                    b.HasOne("BE.Core.Post", null)
+                        .WithMany("Images")
+                        .HasForeignKey("PostId");
+
+                    b.Navigation("ImageFolder");
                 });
 
             modelBuilder.Entity("BE.Core.PostTag", b =>

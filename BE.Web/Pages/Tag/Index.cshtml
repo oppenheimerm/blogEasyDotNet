@@ -1,0 +1,17 @@
+﻿@page "{tag}/{pageIndex:int?}"
+@model BE.Web.Pages.Tag.IndexModel
+@{
+	ViewData["Title"] = $"Post by tag: {Model.Tag}";
+}
+<section id="blog-section" class="section">
+	<div class="blog__index container flex">
+		<div class="content__padding">
+			<h2 class="blog__headline">@Model.Tag</h2>
+
+			@await Component.InvokeAsync("BlogGrid", new {
+			pageIndex = Model.PageIndex,
+			posts = Model.Posts
+			})
+		</div>
+	</div>
+</section>

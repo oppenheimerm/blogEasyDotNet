@@ -5,6 +5,11 @@ namespace BE.UseCases.Interfaces
 {
 	public interface IDeleteCoverPhotoUseCase
 	{
-		Task<DeletePhotoResponse> ExecuteAsync(string filename);
+		/// <summary>
+		/// Delete cover photo.  Requires full path
+		/// </summary>
+		/// <param name="imagePath"></param>
+		/// <returns></returns>
+		Task<DeleteCoverPhotoResponse> ExecuteAsync(string imagePath);
 	}
 }

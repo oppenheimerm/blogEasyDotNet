@@ -22,5 +22,6 @@ namespace BE.Web.Models.VM
 		/// </summary>
 		public string? Tags { get; set; } = string.Empty;
 		public string PostCover { get; set; } = string.Empty;
+		public string PostFolderName { get; set; } = string.Empty;
 	}
 }

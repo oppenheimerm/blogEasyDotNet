@@ -1,6 +1,6 @@
 ﻿@model BE.DataStore.EFCore.Utilities.PaginatedList<Post>
 @{
-    if (Model != null)
+if (Model != null)
     {
         <div class="grid__wrapper flex">
             @foreach (var item in Model)
@@ -9,13 +9,13 @@
                     <div class="grid__item-top">
                         @if (item.PostHasCoverPhoto() == true)
                         {
-                            <img src="@ViewHelpers.GetPostCoverImage(@item.PostCoverPhoto)" height="192" />
-
+                            <img src="@ViewHelpers.GetPostCoverImage(item.ImageFolder.Name,  @item.PostCoverPhoto)" height="192" />
+                            
                         }
                         else
                         {
                             <div class="no__photo-entry">
-                                <img src="~/img/dist/assets/logo-white-navbar.png" width="40" height="20" class="blog__no-cover">
+                                <img src="~/img/assets/logo.png" width="40" height="20" class="blog__no-cover">
                             </div>
                         }
                     </div>

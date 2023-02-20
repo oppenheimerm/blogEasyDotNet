@@ -13,9 +13,9 @@ namespace BE.UseCases.UseCase.Image
 			PhotoRepository = photoRepository;
 		}
 
-		public async Task<DeletePhotoResponse> ExecuteAsync(string filename)
+		public async Task<DeleteCoverPhotoResponse> ExecuteAsync(string imagePath)
 		{
-			var fileName = await PhotoRepository.DeleteCoverPostAsync(filename);
+			var fileName = await PhotoRepository.DeleteCoverPostAsync(imagePath);
 			return fileName;
 		}
 	}

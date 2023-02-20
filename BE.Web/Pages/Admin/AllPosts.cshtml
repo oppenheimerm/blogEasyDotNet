@@ -43,13 +43,13 @@
                                 if (!string.IsNullOrEmpty(item.PostCoverPhoto))
                                 {
                                     <div class="table__photo-wrap">
-                                        <img src="@ViewHelpers.GetPostCoverImage(@item.PostCoverPhoto)" height="192" />
+                                        <img src="@ViewHelpers.GetPostCoverImage(@item.ImageFolder.Name, item.PostCoverPhoto)" height="192" />
                                     </div>
                                 }
                                 else
                                 {
                                     <div class="table__photo-wrap">
-                                        <img src="~/img/assets/logo.png" width="100%" class="blog__no-cover">
+                                        <img src="~/img/assets/photo-icon-white.png" width="100%" class="blog__no-cover">
                                     </div>
                                 }
                             }

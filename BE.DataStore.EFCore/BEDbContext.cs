@@ -14,6 +14,7 @@ namespace BE.DataStore.EFCore
         public DbSet<Comment> Comments { get; set; }
         public DbSet<PostTag> PostTags { get; set; }
 		public DbSet<ImageFolder> ImageFolders { get; set; }
+        public DbSet<PostImage> PostImages { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,6 +27,7 @@ namespace BE.DataStore.EFCore
             modelBuilder.Entity<Comment>().ToTable("Comments");
             modelBuilder.Entity<PostTag>().ToTable("PostTag");
 			modelBuilder.Entity<ImageFolder>().ToTable("ImageFolder");
+            modelBuilder.Entity<PostImage>().ToTable("PostImage");
 		}
     }
 }

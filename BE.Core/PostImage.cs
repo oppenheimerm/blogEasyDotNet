@@ -1,5 +1,4 @@
 ﻿
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
 namespace BE.Core
@@ -16,8 +15,7 @@ namespace BE.Core
 		public bool IsCoverPhoto { get; set; } = false;
 		public DateTime TimeStamp { get; set; } = DateTime.Now;
 		[Required]
-		[ForeignKey("Post")]
-		public int PostId { get; set; }
-		public Post? Post { get; set; }
+		public int ImageFolderId { get; set; }
+		public ImageFolder? ImageFolder { get; set; }
 	}
 }

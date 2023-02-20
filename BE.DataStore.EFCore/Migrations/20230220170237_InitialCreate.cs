@@ -108,8 +108,8 @@ namespace BE.DataStore.EFCore.Migrations
                     FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsCoverPhoto = table.Column<bool>(type: "bit", nullable: false),
                     TimeStamp = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PostId = table.Column<int>(type: "int", nullable: false),
-                    ImageFolderId = table.Column<int>(type: "int", nullable: true)
+                    ImageFolderId = table.Column<int>(type: "int", nullable: false),
+                    PostId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -118,13 +118,13 @@ namespace BE.DataStore.EFCore.Migrations
                         name: "FK_PostImage_ImageFolder_ImageFolderId",
                         column: x => x.ImageFolderId,
                         principalTable: "ImageFolder",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PostImage_Post_PostId",
                         column: x => x.PostId,
                         principalTable: "Post",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(

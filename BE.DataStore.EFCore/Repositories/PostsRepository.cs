@@ -20,8 +20,9 @@ namespace BE.DataStore.EFCore.Repositories
 
             try
             {
-				postQueryResponse.PostsEntries = context.Posts.OrderByDescending(x => x.PubDate).AsQueryable();
-				postQueryResponse.Success = true;
+                postQueryResponse.PostsEntries = context.Posts.Include(f => f.ImageFolder)
+                    .OrderByDescending(x => x.PubDate).AsNoTracking().AsQueryable();
+                postQueryResponse.Success = true;
                 return postQueryResponse;
             }
             catch (Exception ex)
@@ -40,7 +41,9 @@ namespace BE.DataStore.EFCore.Repositories
             {
 #pragma warning disable CS8619 // Nullability of reference types in value doesn't match target type.
                 postQueryResponse.PostsEntries = context.PostTags.Include(x => x.Post)
+                    .Include(f => f.Post.ImageFolder)
                     .Where(t => t.TagNameEncoded == tagNameEncoded)
+                    .AsNoTracking()
                     .OrderBy(d => d.Post.PubDate)
                     .Select(y => y.Post)
                     .AsQueryable();
@@ -64,6 +67,7 @@ namespace BE.DataStore.EFCore.Repositories
             {
                 postEntryResponse.PostEntry = await context.Posts
                     .Include(t => t.Tags)
+                    .Include(t => t.ImageFolder)
                     .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.Slug == slug);
                 postEntryResponse.Success = true;
@@ -77,67 +81,68 @@ namespace BE.DataStore.EFCore.Repositories
             }
         }
 
-		public async Task<PostAddResponse> PostAdd(Post post)
-		{
-			PostAddResponse postAdd = new();
+        public async Task<PostEntryResponse> GetPostById(int id)
+        {
+            PostEntryResponse postEntryResponse = new();
 
-			try
-			{
-				context.Posts.Add(post);
-				await context.SaveChangesAsync();
-				postAdd.PostEntry = post;
-				postAdd.Success = true;
-				return postAdd;
+            try
+            {
+                postEntryResponse.PostEntry = await context.Posts
+                    .Include(t => t.Tags)
+                    .Include(t => t.ImageFolder)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(p => p.Id == id);
+                postEntryResponse.Success = true;
 
-			}
-			catch (Exception ex)
-			{
-				postAdd.Success = false;
-				postAdd.ErrorMessage = ex.Message;
-				return postAdd;
-			}
-		}
+                return postEntryResponse;
+            }
+            catch (Exception ex)
+            {
+                postEntryResponse.Success = false;
+                postEntryResponse.ErrorMessage = ex.Message;
+                return postEntryResponse;
+            }
+        }
 
-		public async Task<PostEditResponse> PostEdit(Post post)
-		{
-			PostEditResponse postEdit = new();
+        public async Task<PostAddResponse> PostAdd(Post post)
+        {
+            PostAddResponse postAdd = new();
 
-			try
-			{
-				context.Update(post);
-				await context.SaveChangesAsync();
-				postEdit.PostEntry = post;
-				postEdit.Success = true;
-				return postEdit;
-			}
-			catch (Exception ex)
-			{
-				postEdit.Success = false;
-				postEdit.ErrorMessage = ex.Message;
-				return postEdit;
-			}
-		}
+            try
+            {
+                context.Posts.Add(post);
+                await context.SaveChangesAsync();
+                postAdd.PostEntry = post;
+                postAdd.Success = true;
+                return postAdd;
 
-		public async Task<PostEntryResponse> GetPostById(int id)
-		{
-			PostEntryResponse postEntryResponse = new();
+            }
+            catch (Exception ex)
+            {
+                postAdd.Success = false;
+                postAdd.ErrorMessage = ex.Message;
+                return postAdd;
+            }
+        }
 
-			try
-			{
-				postEntryResponse.PostEntry = await context.Posts
-					.Include(t => t.Tags)
-					.AsNoTracking()
-					.FirstOrDefaultAsync(p => p.Id == id);
-				postEntryResponse.Success = true;
+        public async Task<PostEditResponse> PostEdit(Post post)
+        {
+            PostEditResponse postEdit = new();
 
-				return postEntryResponse;
-			}
-			catch (Exception ex)
-			{
-				postEntryResponse.Success = false;
-				postEntryResponse.ErrorMessage = ex.Message;
-				return postEntryResponse;
-			}
-		}
-	}
+            try
+            {
+                context.Update(post);
+                await context.SaveChangesAsync();
+                postEdit.PostEntry = post;
+                postEdit.Success = true;
+                return postEdit;
+            }
+            catch (Exception ex)
+            {
+                postEdit.Success = false;
+                postEdit.ErrorMessage = ex.Message;
+                return postEdit;
+            }
+        }
+    }
 }

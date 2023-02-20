@@ -7,21 +7,21 @@
 <section class="section">
 	<div class="container">
 		<h3>Current Image</h3>
-		<img src="@ViewHelpers.GetPostCoverImage(Model.EditCoverPhotoVM.CoverPhoto)" class="" />
-		<form id="form_edit_cover" method="post"  enctype="multipart/form-data">
+		<img src="@ViewHelpers.GetPostCoverImage(Model.EditCoverPhotoVM.PostFolderName, Model.EditCoverPhotoVM.CoverPhoto)" class="" />
+		<form id="form_edit_cover" method="post" enctype="multipart/form-data">
 			<input type="hidden" asp-for="@Model.EditCoverPhotoVM.PostId" />
-				<fieldset class="field__set">
-					<div class="form__margin">
-						<input id="EditCoverPhotoVM_PostCover" value="Change Cover Photo" name="PostCover" class="form__input" type="file" aria-label="file upload" />
-						<span class="form__info">1280px / 800px recommended</span>						
-					</div>
-				</fieldset>
+			<fieldset class="field__set">
 				<div class="form__margin">
-					<div class="form___actionbuttons-row flex">
-						<input type="submit" valuse="SUBMIT" class="btn btn__default form__button" />
-						<a href="#" class="btn danger btn__default form__button" >DELETE</a>
-					</div>					
+					<input id="EditCoverPhotoVM_PostCover" value="Change Cover Photo" name="PostCover" class="form__input" type="file" aria-label="file upload" />
+					<span class="form__info">1280px / 800px recommended</span>
 				</div>
+			</fieldset>
+			<div class="form__margin">
+				<div class="form___actionbuttons-row flex">
+					<input type="submit" valuse="SUBMIT" class="btn btn__default form__button" />
+					<a href="#" class="btn danger btn__default form__button">DELETE</a>
+				</div>
+			</div>
 		</form>
 	</div>
 </section>

@@ -42,7 +42,7 @@
 					{
 						<div class="form__margin">
 							<div class="flex frm__current-photo-wrap">
-								<img src="@ViewHelpers.GetPostCoverImage(Model.Post.PostCover)" class="frm__photo-preview" />
+								<img src="@ViewHelpers.GetPostCoverImage(Model.Post.PostFolderName, Model.Post.PostCover)" class="frm__photo-preview" />
 								<div class="photo__preview-actions">
 									<a asp-page="/admin/EditCoverPhoto" asp-route-id="@Model.Post.Id" class="btn btn__default form__button">Edit Photo</a>
 								</div>

@@ -6,12 +6,32 @@ namespace BE.Web.Helpers
 {
 	public static class ViewHelpers
 	{
-        public static string GetPostCoverImage(string img)
-        {
-			return $"/img/posts/cover/{img}";
+		public static string GetPostCoverImage(string folderName, string coverPhoto)
+		{
+            if(!string.IsNullOrEmpty(folderName) && !string.IsNullOrEmpty(coverPhoto))
+            {
+                return Helpers.Blog.ViewPostImageBaseDirectory + "/" + folderName + "/" + coverPhoto;
+            }
+            else
+                return string.Empty;
+			
 		}
 
-        public static string GetPostLink(string? postSlug) => $"/blog/{postSlug}/";
+		/// <summary>
+		/// Get full path for Post cover photo
+		/// </summary>
+		/// <param name="foldername"></param>
+		/// <param name="coverPhoto"></param>
+		/// <returns></returns>
+		public static string GetCoverPhotoPath(string foldername, string coverPhoto)
+		{
+            if (!string.IsNullOrEmpty(foldername) && !string.IsNullOrEmpty(coverPhoto)){
+                return Helpers.Blog.PostsImageBaseDirectory + "\\" + foldername + "\\" + coverPhoto;
+            } else
+                return string.Empty;
+		}
+
+		public static string GetPostLink(string? postSlug) => $"/blog/{postSlug}/";
 
 
         /// <summary>

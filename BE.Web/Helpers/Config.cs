@@ -3,7 +3,18 @@
     public static class Blog
     {
         public static readonly string? Name = "blog:name";
-    }
+		/// <summary>
+		/// Get base directory for blog image persistence to drive. 
+		/// need to be in the '\\' format i.e: img\\post\\...
+		/// using the '\\' syntax.
+		/// </summary>
+		public static readonly string PostsImageBaseDirectory = "img\\posts";
+		/// <summary>
+		/// Get base directory  for blog post to show in view pages.
+		/// returns: /img/post/
+		/// </summary>
+		public static readonly string ViewPostImageBaseDirectory = "/img/posts";
+	}
 
     public static class User
     {

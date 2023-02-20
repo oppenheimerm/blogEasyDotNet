@@ -22,7 +22,7 @@
 			@if (Model.PostHasCoverPhoto())
 			{
 				<div class="content__shadow-bottom">
-					<img src="@ViewHelpers.GetPostCoverImage(Model.PostCoverPhoto)" class="post__header-cover" />
+					<img src="@ViewHelpers.GetPostCoverImage(Model.ImageFolder.Name, Model.PostCoverPhoto)" class="post__header-cover" />
 				</div>
 
 			}
@@ -52,4 +52,5 @@
 		</div>
 
 	</article>
+
 }

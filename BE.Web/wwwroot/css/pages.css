@@ -247,10 +247,9 @@ p.post__content-meta-date {
 
 .post__header-cover {
     border-radius: 16px;
-    max-width: 100%;
-    height: auto;
-    box-sizing: border-box;
-    vertical-align: middle;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
 }
 
 

@@ -10,5 +10,6 @@ namespace BE.Web.Models.VM
 		public IFormFile? PostCover { get; set; }
 		public string? CoverPhoto { get; set; }
 		public string? PostTitle { get; internal set; }
+		public string? PostFolderName { get; set; }
 	}
 }

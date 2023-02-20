@@ -110,8 +110,8 @@ namespace BE.Web.Pages.Admin
 				}
 
 
-				return RedirectToPage("/Admin/PostPreview");
-			}
+				return RedirectToPage("/Admin/PostPreview", new { id = postStatus.PostEntry.Id });
+            }
 			else
 			{
 				return Page();

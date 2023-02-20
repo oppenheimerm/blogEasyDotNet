@@ -43,9 +43,12 @@ namespace BE.Web.Helpers
 				Id = post.Id,
 				PostContentParsed = post.Content,
 				Tags = ViewHelpers.PostTagsToString(post.Tags.ToArray()),
-				PostCover = post.PostCoverPhoto
+				PostCover = post.PostCoverPhoto,
+				// null check necessary, not all post have image folder!
+				PostFolderName = (post.ImageFolder != null) ? post.ImageFolder.Name : string.Empty
 			};
 		}
+
 
 		/// <summary>
 		/// Return and updated <see cref="Post"/> from a <see cref="EditPostVM"/>

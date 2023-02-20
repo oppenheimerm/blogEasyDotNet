@@ -35,6 +35,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddScoped<IPostsRepository, PostsRepository>();
 builder.Services.AddScoped<IPhotoRepository, PhotoRepository>();
 builder.Services.AddScoped<IPostTagRepository, PostTagRepository>();
+builder.Services.AddScoped<IFolderEntityRepository, FolderEntityRepository>();
 
 
 //  Usercases
@@ -49,6 +50,8 @@ builder.Services.AddTransient<IUpdatePostTagsUseCase, UpdatePostTagsUseCase>();
 builder.Services.AddTransient<IDeletePostTagsUseCase, DeletePostTagsUseCase>();
 builder.Services.AddTransient<IAddPostTagsUseCase, AddPostTagsUseCase>();
 builder.Services.AddTransient<IDeleteCoverPhotoUseCase, DeleteCoverPhotoUseCase>();
+builder.Services.AddTransient<IAddFolderEntityUseCase, AddFolderEntityUseCase>();
+builder.Services.AddTransient<IAddFolderUseCase, AddFolderUseCase>();
 
 
 var app = builder.Build();
@@ -74,7 +77,9 @@ using (var scope = app.Services.CreateScope())
 	var context = services.GetRequiredService<BE.DataStore.EFCore.BEDbContext>();
 	//   takes no action if a database for the context exists. If no
 	//   database exists, it creates the database and schema. 
-	context.Database.EnsureCreated();
+
+	//	A database that is created by EnsureCreated can't be updated by using migrations.
+	//	context.Database.EnsureCreated();
 }
 
 app.UseHttpsRedirection();

@@ -13,9 +13,16 @@ namespace BE.UseCases.UseCase.Image
             PhotoRepository = photoRepository;
         }
 
-        public async Task<AddPhotoResponse> ExecuteAsync(IFormFile CoverImage)
+        /// <summary>
+        /// Saves an instance of <see cref="IFormFile"/> (imgage) to image folder
+        /// for <see cref="Post"/>
+        /// </summary>
+        /// <param name="CoverImage"></param>
+        /// <param name="basePath"></param>
+        /// <returns></returns>
+        public async Task<AddPhotoResponse> ExecuteAsync(IFormFile CoverImage, string basePath)
         {
-            var fileName = await PhotoRepository.UploadCoverPhotoAsync(CoverImage);
+            var fileName = await PhotoRepository.UploadCoverPhotoAsync(CoverImage, basePath);
             return fileName;
         }
     }

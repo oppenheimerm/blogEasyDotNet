@@ -7,9 +7,9 @@ namespace BE.UseCases.UseCase.Image
 {
     public class AddFolderUseCase : IAddFolderUseCase
     {
-        private readonly IPhotoRepository PhotoRepository;
+        private readonly IPhotoFileRepository PhotoRepository;
 
-        public AddFolderUseCase(IPhotoRepository photoRepository)
+        public AddFolderUseCase(IPhotoFileRepository photoRepository)
         {
             PhotoRepository = photoRepository;
         }

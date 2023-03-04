@@ -1,5 +1,4 @@
 ﻿using BE.Core;
-using BE.Web.Models;
 using BE.Web.Models.VM;
 
 namespace BE.Web.Helpers
@@ -10,6 +9,7 @@ namespace BE.Web.Helpers
 	/// </summary>
 	public static class ModelExtensions
 	{
+
 		/// <summary>
 		/// From <see cref="CreatePostVM"/> to <see cref="Post"/>
 		/// </summary>
@@ -25,6 +25,22 @@ namespace BE.Web.Helpers
 				IsPublished = vm.IsPublished
 				//Id - null until saved
 			};
+		}
+
+		/// <summary>
+		/// Return and updated <see cref="Post"/> from a <see cref="EditPostVM"/>
+		/// </summary>
+		/// <param name="vm"></param>
+		/// <param name="post"></param>
+		/// <returns></returns>
+		public static Post ToPost(this EditPostVM vm, Post post)
+		{
+			post.Title = vm.Title;
+			post.Excerpt = vm.PostExcerpt;
+			post.Content = vm.PostContent;
+			post.IsPublished = vm.IsPublished;
+			post.LastModified = DateTime.Now.ToUniversalTime();
+			return post;
 		}
 
 		/// <summary>
@@ -49,21 +65,16 @@ namespace BE.Web.Helpers
 			};
 		}
 
-
 		/// <summary>
-		/// Return and updated <see cref="Post"/> from a <see cref="EditPostVM"/>
+		/// Returns a lightweight DTO PhotoEnity <see cref="PostImage"/>
 		/// </summary>
-		/// <param name="vm"></param>
 		/// <param name="post"></param>
 		/// <returns></returns>
-		public static Post ToPost(this EditPostVM vm, Post post)
+		public static AddPhotoVM ToAddPhotoVM(this Post post) => new AddPhotoVM
 		{
-			post.Title = vm.Title;
-			post.Excerpt = vm.PostExcerpt;
-			post.Content = vm.PostContentParsed;
-			post.IsPublished = vm.IsPublished;
-			post.LastModified = DateTime.Now.ToUniversalTime();
-			return post;
-		}
+			PostId = post.Id,
+			PostTitle = post.Title,
+		};
+
 	}
 }

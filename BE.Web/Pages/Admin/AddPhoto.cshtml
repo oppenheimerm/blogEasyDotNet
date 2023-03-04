@@ -1,0 +1,41 @@
+﻿@page "{id}"
+@model BE.Web.Pages.Admin.AddPhotoModel
+@{
+	ViewData["Title"] = "Add Photo to gallery";
+}
+
+<section class="section">
+	<div class="container">
+		@if (Model.HasImages)
+		{
+			<div class="post__gallery-wrapper flex">
+				<div class="post__gallery">
+
+					@foreach (var item in Model.PostImages)
+					{
+						var imageUrl = Model.FolderBasePath + item.FileName;
+						<figure class="post__gallery-item">
+							<img class="post__gallery-image" src="@imageUrl" onclick="getImageMarkdownText(this);" id="@item.FileName" data-image-name="@item.FileName" />
+						</figure>
+					}
+				</div>
+			</div>
+		}
+		<p class="section__label">Upload photo for: @Model.AddPhotoVM.PostTitle</p>
+		<form id="form_edit-create" method="post" enctype="multipart/form-data">
+			<div asp-validation-summary="All" class="text-danger"></div>
+			<input type="hidden" asp-for="@Model.AddPhotoVM.PostId" value="@Model.AddPhotoVM.PostId" />
+			<fieldset class="field__set">
+				<div class="form__margin">
+					<input asp-for="@Model.AddPhotoVM.NewPhoto" class="form__input" type="file" aria-label="file upload" />
+					<span class="form__info">Cover photo: 1280px / 800px recommended</span>
+					<span asp-validation-for="@Model.AddPhotoVM.NewPhoto" class="text-danger"></span>
+				</div>
+				<div class="form__margin">
+					<input type="submit" valuse="SUBMIT" class="btn btn__default form__button" />
+				</div>
+			</fieldset>
+
+		</form>
+	</div>
+</section>

@@ -33,10 +33,11 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 //  Repositories
 builder.Services.AddScoped<IPostsRepository, PostsRepository>();
-builder.Services.AddScoped<IPhotoRepository, PhotoRepository>();
+builder.Services.AddScoped<IPhotoFileRepository, PhotoFileRepository>();
 builder.Services.AddScoped<IPostTagRepository, PostTagRepository>();
 builder.Services.AddScoped<IFolderEntityRepository, FolderEntityRepository>();
-builder.Services.AddScoped<IPostImageRepository, PostImageRepository>();
+builder.Services.AddScoped<IPostImageEntityRepository, PostImageEntityRepository>();
+
 
 
 //  Usercases
@@ -47,13 +48,16 @@ builder.Services.AddTransient<ICreatePostUseCase, CreatePostUseCase>();
 builder.Services.AddTransient<IEditPostUseCase, EditPostUseCase>();
 builder.Services.AddTransient<IViewBlogEntriesByTag, ViewBlogEntriesByTag>();
 builder.Services.AddTransient<IViewBlogEntryById, ViewBlogEntryById>();
-builder.Services.AddTransient<IUpdatePostTagsUseCase, UpdatePostTagsUseCase>();
 builder.Services.AddTransient<IDeletePostTagsUseCase, DeletePostTagsUseCase>();
-builder.Services.AddTransient<IAddPostTagsUseCase, AddPostTagsUseCase>();
 builder.Services.AddTransient<IDeleteCoverPhotoUseCase, DeleteCoverPhotoUseCase>();
 builder.Services.AddTransient<IAddFolderEntityUseCase, AddFolderEntityUseCase>();
 builder.Services.AddTransient<IAddFolderUseCase, AddFolderUseCase>();
 builder.Services.AddTransient<IAddPostImageEntityUseCase, AddPostImageEntityUseCase>();
+builder.Services.AddTransient<IDeleteCoverPhotoDbEntityUseCase, DeleteCoverPhotoDbEntityUseCase>();
+builder.Services.AddTransient<IAddPhotoUseCase, AddPhotoUseCase>();
+builder.Services.AddTransient<IGetFolderEntityUseCase, GetFolderEntityUseCase>();
+builder.Services.AddTransient<IDeleteCoverPhotoFileUseCase, DeleteCoverPhotoFileUseCase>();
+builder.Services.AddTransient<IAddCoverPhotoUseCase, AddCoverPhotoUseCase>();
 
 
 var app = builder.Build();

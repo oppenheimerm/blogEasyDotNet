@@ -13,6 +13,7 @@
     --accent-color: hsl(175, 55%, 43%); /* #32aba2 */
     --accent-color-disabled: hsla(175, 55%, 43%, .5);
     --accent-color-active: hsl(176, 88%, 30%); /* #098f85 */
+    --info-bkgrd-green: hsl(145, 63%, 42%); /* #27AE60 */
 
     --text-danger: #f0506e;
     --text-danger-border: #f0506e;
@@ -30,7 +31,7 @@
     --small-font-size: .875rem; /* 14 px */
     --smaller-font-size: .775rem; /* 12.4 px */
     --letter-spacing-wide: 0.125rem; /* 2px */
-    --letter-spacing-narrow: -0.25rem; /* -4px */
+    --letter-spacing-narrow: -0.15rem; /* -2.4px */
     /*========== 
         Font weight 
     ==========*/
@@ -61,7 +62,7 @@
         Others
     ==========*/
     --border-radius: .5rem;
-    --box-shadow: 0px 3px 8px -4px rgb(0 0 0 / 80%);
+    --box-shadow: --box-shadow: -5px -5px 15px rgb(255 255 255 / 3%), 5px 5px 15px rgb(0 0 0 / 35%);
     /*========== 
         Breakpoints 
     ==========*/
@@ -69,7 +70,6 @@
     --breakpoint-m: 960px;
     --breakpoint-l: 1200px;
     --breakpoint-xl: 1600px;
-    
     --max-width: 1200px;
 }
 
@@ -112,6 +112,11 @@ body {
 h1, h2, h3, h4 {
     color: var(--title-color);
     font-weight: var(--font-medium);
+}
+
+strong {
+    font-weight: var(--font-bold-heavy);
+    letter-spacing: var(--letter-spacing-wide);
 }
 
 .center__text {
@@ -157,9 +162,55 @@ a:hover{
     text-decoration: none;
 }
 
+article .post_content-content ul{
+    padding: 0;
+    list-style: none;
+}
+
+article .post_content-content ul li{
+    padding-left: 1.75rem; /* 28px */
+    break-inside: avoid-column;
+}
+
+article .post_content-content ul li::before {
+    list-style-type: disc;
+    color: var(--accent-color) !important;
+    content: "";
+    position: relative;
+    left: -28px;
+    width: 28px;
+    height: 1.5em;
+    margin-bottom: -1.5em;
+    display: list-item;
+    list-style-position: inside;
+    text-align: right;
+}
+
+
+.add-box-shadow {
+    box-shadow: var(--box-shadow);
+    margin: var(--mb-0-5);
+}
+
+.add-rounded-corners {
+    border-radius: 8px;
+}
+
 /*=============== Reuseable css classes ===============*/
+.hidden {
+    display: none;
+}
+
 .section {
     padding: 7rem 0 2rem; /* 112px, 32px*/
+}
+
+.section__label {
+    font-size: var(--h3-font-size);
+    margin-bottom: var(--mb-1);
+    font-weight: var(--font-bold);
+    letter-spacing: var(--letter-spacing-narrow);
+    text-transform: uppercase;
 }
 
 
@@ -195,6 +246,20 @@ a:hover{
     z-index: 0;
     max-width: 100%;
     vertical-align: middle;
+}
+
+/* see .btn.danger buttons__forms */
+.warning-text {
+    background-color: var(--text-danger);
+    border: 1px solid transparent;
+    width: auto;
+    font-size: var(--h3-font-size);
+    text-align: center;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 16px auto;
+    font-weight: var(--font-bold-heavy);
+    text-transform: uppercase;
 }
 
 .content__shadow-bottom::after{

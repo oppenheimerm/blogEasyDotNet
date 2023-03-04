@@ -7,8 +7,8 @@ namespace BE.UseCases.UseCase.Image
 {
     public class AddCoverPhotoUseCase : IAddCoverPhotoUseCase
     {
-        private readonly IPhotoRepository PhotoRepository;
-        public AddCoverPhotoUseCase(IPhotoRepository photoRepository)
+		private readonly IPhotoFileRepository PhotoRepository;
+		public AddCoverPhotoUseCase(IPhotoFileRepository photoRepository)
         {
             PhotoRepository = photoRepository;
         }

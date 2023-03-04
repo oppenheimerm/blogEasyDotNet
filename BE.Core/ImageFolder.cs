@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BE.Core
 {
@@ -13,6 +14,7 @@ namespace BE.Core
 		[Required]
 		public string Name { get; set; } = string.Empty;
 		[Required]
+		[ForeignKey("Post")]
 		public int PostId { get; set; }
 		public Post? PostPost { get; set; }
 		public DateTime TimeStamp { get; set; }

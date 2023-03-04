@@ -8,25 +8,22 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace BE.Web.Pages.Admin
 {
-    public class EditPostModel : PageModel
-    {
+	public class EditPostModel : PageModel
+	{
 		[BindProperty]
 		public EditPostVM? Post { get; set; }
 		private IEditPostUseCase EditPostUseCase { get; }
 		private IViewBlogEntryById ViewBlogEntryById { get; }
-		private IUpdatePostTagsUseCase UpdatePostTagsUse { get; }
 		private IDeletePostTagsUseCase DeletePostTagsUseCase { get; }
-		private IAddPostTagsUseCase AddPostTagsUseCase { get; }
-
+		public bool HasImages { get; set; } = false;
+		public List<PostImage>? PostImages { get; set; }
+		public string? FolderBasePath { get; set; }
 		public EditPostModel(IEditPostUseCase editPostUseCase, IViewBlogEntryById viewBlogEntryById,
-			IUpdatePostTagsUseCase updatePostTagsUseCase, IDeletePostTagsUseCase deletePostTagsUseCase,
-			IAddPostTagsUseCase addPostTagsUseCase)
+			IDeletePostTagsUseCase deletePostTagsUseCase)
 		{
 			this.EditPostUseCase = editPostUseCase;
 			ViewBlogEntryById = viewBlogEntryById;
-			UpdatePostTagsUse = updatePostTagsUseCase;
 			DeletePostTagsUseCase = deletePostTagsUseCase;
-			AddPostTagsUseCase = addPostTagsUseCase;
 		}
 
 		public async Task<IActionResult> OnGetAsync(int? id)
@@ -39,6 +36,13 @@ namespace BE.Web.Pages.Admin
 			//  When you don't have to include related data, FindAsync is more efficient.
 			var response = await ViewBlogEntryById.ExecuteAsync(id);
 			Post = response.PostEntry.ToPostVM();
+			if (response.Success == true && response.PostEntry.ImageFolder != null)
+			{
+				HasImages = true;
+				PostImages = response.PostEntry.ImageFolder.Images.ToList();
+				FolderBasePath = ViewHelpers.GetPostImageBaseUrl(response.PostEntry.ImageFolder.Name);
+			}
+
 
 			if (response.Success)
 			{
@@ -70,9 +74,9 @@ namespace BE.Web.Pages.Admin
 				return NotFound();
 			}
 
-			var oldPostTags = _postToEdit.PostEntry.Tags;
+			//var oldPostTags = _postToEdit.PostEntry.Tags;
 			//  As this point new tags is an unparsed string
-			var ediptPostHasTags = (string.IsNullOrEmpty(Post.Tags)) ? false : true;
+			//var ediptPostHasTags = (string.IsNullOrEmpty(Post.Tags)) ? false : true;
 
 
 			// Update only the alloed properties on the Post entity
@@ -84,34 +88,37 @@ namespace BE.Web.Pages.Admin
 			var postStatus = await EditPostUseCase.ExecuteAsync(_postToEdit.PostEntry);
 			if (postStatus.Success)
 			{
-				// if editPostHasTag == true, we need to update
-				if (ediptPostHasTags)
+				ICollection<PostTag>? tagsToDelete = _postToEdit.PostEntry.Tags;
+				List<PostTag>? tagsToAdd = new List<PostTag>();
+
+				// New tags if any
+				if (!string.IsNullOrEmpty(Post.Tags) && postStatus.PostEntry != null)
 				{
-					// Got old tags?
-					if (oldPostTags != null && oldPostTags.Count > 0)
+					tagsToAdd = await EntityHelpers.GetPostTagsAsync(Post.Tags, id.Value);
+					postStatus.PostEntry.Tags = tagsToAdd;
+
+					var addNewTagsStatus = await EditPostUseCase.ExecuteAsync(postStatus.PostEntry);
+					if (addNewTagsStatus.Success)
 					{
-						// update the post tags
-						var postTagsToEdit = await EntityHelpers.GetPostTagsAsync(Post.Tags, id.Value);
-						await UpdatePostTagsUse.ExecuteAsync(postTagsToEdit, oldPostTags.ToList());
+						// delete old tags and return post preview
+						//var deleteOldTagsStatus = await DeletePostTagsUseCase.ExecuteAsync(tagsToDelete.ToList());
+						return RedirectToPage("/Admin/PostPreview", new { id = postStatus.PostEntry.Id });
 					}
 					else
 					{
-						// just add these new ones
-						var _newTags = await EntityHelpers.GetPostTagsAsync(Post.Tags, id.Value);
-						await AddPostTagsUseCase.ExecuteAsync(_newTags);
-
+						// could not add new tags, log it, return page
+						return Page();
 					}
-
 				}
 				else
 				{
-					// We need to delete the old tags
-					await DeletePostTagsUseCase.ExecuteAsync(oldPostTags.ToList());
+					//  no tags associated with this post, so delete old ones
+					// delete old tags and return post preview
+					await DeletePostTagsUseCase.ExecuteAsync(tagsToDelete.ToList());
+					return RedirectToPage("/Admin/PostPreview", new { id = postStatus.PostEntry.Id });
 				}
 
-
-				return RedirectToPage("/Admin/PostPreview", new { id = postStatus.PostEntry.Id });
-            }
+			}
 			else
 			{
 				return Page();

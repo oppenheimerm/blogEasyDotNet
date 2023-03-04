@@ -10,6 +10,7 @@
 	</div>
 </section>
 
+
 @section Scripts{
 	<script src="https://unpkg.com/marked@4.2.12"></script>
 
@@ -36,4 +37,49 @@
 			}
 		};
 	</script>
+}
+
+@section OpenGrah{
+
+	
+	<meta property="og:site_name" content="BlogEast.Net">
+	<meta property="og:type" content="article">
+	<meta property="og:title" content="@Model.Post.Title">
+	<meta property="og:description" content="@Model.Post.Excerpt">
+	<meta property="og:url" content="@Model.Host">
+	@{
+		if(!string.IsNullOrEmpty(Model.Post.PostCoverPhoto)){			
+			var hasCoverUrl = ViewHelpers.GetPostCoverImage(Model.Post.ImageFolder.Name, Model.Post.PostCoverPhoto);
+			<meta property="og:image" content="@hasCoverUrl">
+		}else{
+			var noCoverUrl = Model.OGLogo +  "/img/assets/logo-white-svg.svg";
+			<meta property="og:image" content="@noCoverUrl">
+		}
+		if(Model.Post.Tags.Any()){
+			foreach (var tag in Model.Post.Tags)
+			{
+				<meta property="article:tag" content="@tag.TagName">
+								}
+		}
+	}
+	<meta property="article:published_time" content="@Model.Post.PubDate.ToString("s")">
+	<meta property="article:modified_time" content="@Model.Post.LastModified.ToString("s")">
+	<meta name="twitter:url" content="@Model.Host">
+	@{
+		if (!string.IsNullOrEmpty(Model.Post.PostCoverPhoto))
+		{
+			var hasCoverUrl = ViewHelpers.GetPostCoverImage(Model.Post.ImageFolder.Name, Model.Post.PostCoverPhoto);
+			<meta name="twitter:image" content="@hasCoverUrl">
+		}
+		else
+		{
+			var noCoverUrl = Model.OGLogo + "/img/assets/logo-white-svg.svg";
+			<meta name="twitter:image" content="@noCoverUrl">
+		}
+	}
+	<meta name="twitter:image" content="">
+	<meta name="twitter:label1" content="Written by">
+	<meta name="twitter:data1" content="BlogEasy.Net">
+	<meta name="twitter:site" content="_INSER_TWITTER_HANDEL">
+	<meta name="twitter:creator" content="_INSER_TWITTER_HANDEL">
 }

@@ -1,14 +1,14 @@
 ﻿
-using BE.UseCases.Interfaces;
 using BE.UseCases.Interfaces.DataStore;
+using BE.UseCases.Interfaces;
 using BE.UseCases.Response.PhotoResponse;
 
 namespace BE.UseCases.UseCase.Image
 {
-	public class DeleteCoverPhotoUseCase : IDeleteCoverPhotoUseCase
+	public class DeleteCoverPhotoFileUseCase : IDeleteCoverPhotoFileUseCase
 	{
 		private readonly IPhotoFileRepository PhotoRepository;
-		public DeleteCoverPhotoUseCase(IPhotoFileRepository photoRepository)
+		public DeleteCoverPhotoFileUseCase(IPhotoFileRepository photoRepository)
 		{
 			PhotoRepository = photoRepository;
 		}

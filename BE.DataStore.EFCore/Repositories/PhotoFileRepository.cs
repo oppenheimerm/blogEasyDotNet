@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using BE.UseCases.Response.PhotoResponse;
-using BE.UseCases.Interfaces.DataStore;
+using BE.DataStore.EFCore.Utilities;
 
-namespace BE.DataStore.EFCore.Repositories
+namespace BE.UseCases.Interfaces.DataStore
 {
-    public class PhotoRepository : IPhotoRepository
+	public class PhotoFileRepository : IPhotoFileRepository
 	{
-		public IWebHostEnvironment HostEnvironment { get; set; }
+        public IWebHostEnvironment HostEnvironment { get; set; }
+        public PhotoFileRepository(IWebHostEnvironment hostEnvironment)
+        {
+            HostEnvironment = hostEnvironment;
+        }
 
-		public PhotoRepository(IWebHostEnvironment hostEnvironment)
-		{
-			HostEnvironment = hostEnvironment;
-		}
 
         /// <summary>
         /// Upload a cover photo for an instance of <see cref="Post"/>.  Must specify full path.
@@ -29,12 +29,42 @@ namespace BE.DataStore.EFCore.Repositories
 
                 //var hostPath = HostEnvironment.WebRootPath.ToString();
                 var uploadsFolder = Path.Combine(HostEnvironment.WebRootPath, path);
-                addPhotoResponse.CoverPhotoFileName = "cover_photo_" + Guid.NewGuid().ToString() + Path.GetExtension(cover.FileName);
-                string filePath = Path.Combine(uploadsFolder, addPhotoResponse.CoverPhotoFileName);
+                addPhotoResponse.PhotoFileName = "cover_photo_" + Guid.NewGuid().ToString() + Path.GetExtension(cover.FileName);
+                string filePath = Path.Combine(uploadsFolder, addPhotoResponse.PhotoFileName);
 
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     await cover.CopyToAsync(fileStream);
+                }
+
+                addPhotoResponse.Success = true;
+                return addPhotoResponse;
+
+
+            }
+            catch (Exception ex)
+            {
+                addPhotoResponse.Success = false;
+                addPhotoResponse.ErrorMessage = ex.Message;
+                return addPhotoResponse;
+            }
+
+        }
+
+        public async Task<AddPhotoResponse> UploadPhotoAsync(IFormFile image, string path)
+        {
+            AddPhotoResponse addPhotoResponse = new();
+
+            try
+            {
+                var filenameClean = Path.GetFileNameWithoutExtension(image.FileName).CleanAndFormatPhotoName();//image.FileName.CleanAndFormatPhotoName();
+                var uploadsFolder = Path.Combine(HostEnvironment.WebRootPath, path);
+                addPhotoResponse.PhotoFileName = filenameClean + Path.GetExtension(image.FileName.ToLower());
+                string filePath = Path.Combine(uploadsFolder, addPhotoResponse.PhotoFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(fileStream);
                 }
 
                 addPhotoResponse.Success = true;
@@ -59,20 +89,20 @@ namespace BE.DataStore.EFCore.Repositories
             {
                 var hostPath = HostEnvironment.WebRootPath.ToString();
                 var coverPhotosFolder = Path.Combine(HostEnvironment.WebRootPath, path);
-                
+
                 var exist = File.Exists(coverPhotosFolder);
                 if (exist)
                 {
                     //System.IO.File.Delete(filePath);
                     await Task.Run(() =>
                     {
-                        File.Delete(coverPhotosFolder);
+                        System.IO.File.Delete(coverPhotosFolder);
                     });
                     deletePhotoResponse.Success = true;
                     return deletePhotoResponse;
                 }
                 deletePhotoResponse.Success = false;
-                deletePhotoResponse.ErrorMessage = $"PAth: {path} not found";
+                deletePhotoResponse.ErrorMessage = $"Path: {coverPhotosFolder} not found";
                 return deletePhotoResponse;
             }
             catch (Exception Ex)

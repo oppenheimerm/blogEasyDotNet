@@ -14,7 +14,7 @@ namespace BE.DataStore.EFCore.Repositories
 			Context = context;
 		}
 
-		public async Task<PostTagAddResponse> PostTagAdd(PostTag postTag)
+		/*public async Task<PostTagAddResponse> PostTagAdd(PostTag postTag)
 		{
 			PostTagAddResponse postTagAdd = new();
 
@@ -33,7 +33,7 @@ namespace BE.DataStore.EFCore.Repositories
 				postTagAdd.ErrorMessage = ex.Message;
 				return postTagAdd;
 			}
-		}
+		}*/
 
 		public async Task<PostTagsDeleteResponse> RemoveOldTagsAsync(List<PostTag> tags)
 		{
@@ -58,7 +58,7 @@ namespace BE.DataStore.EFCore.Repositories
 			}
 		}
 
-		public async Task<PostTagsAddResponse> AddNewTags(List<PostTag> tags)
+		/*public async Task<PostTagsAddResponse> AddNewTags(List<PostTag> tags)
 		{
 			PostTagsAddResponse postTagsAddResponsepostTagsAddResponse = new();
 
@@ -66,7 +66,7 @@ namespace BE.DataStore.EFCore.Repositories
 			{
 				_ = await Task.Run(() => Parallel.ForEach(tags, async t =>
 				{
-					await Context.PostTags.AddAsync(t);
+					await Context.PostTags.AddRangeAsync(tags);
 				}));
 
 				await Context.SaveChangesAsync();
@@ -81,9 +81,9 @@ namespace BE.DataStore.EFCore.Repositories
 				return postTagsAddResponsepostTagsAddResponse;
 			}
 
-		}
+		}*/
 
-		public async Task<PostTagUpdateResponse> UpdateTags(List<PostTag> newTags, List<PostTag> oldTags)
+		/*public async Task<PostTagUpdateResponse> UpdateTags(List<PostTag> newTags, List<PostTag> oldTags)
 		{
 			PostTagUpdateResponse postTagUpdateResponse = new();
 
@@ -113,6 +113,6 @@ namespace BE.DataStore.EFCore.Repositories
 				postTagUpdateResponse.ErrorMessage = ex.Message;
 				return postTagUpdateResponse;
 			}
-		}
+		}*/
 	}
 }

@@ -1,0 +1,22 @@
+﻿@page "{id}"
+@model BE.Web.Pages.Admin.DeleteCoverPhotoModel
+@{
+	ViewData["Title"] = $"Delete Cover Photo for Post: {Model.DeleteCoverPhotoVM.PostTitle}";
+}
+
+<section class="section">
+	<div class="container">
+		<h3 class="section__label">Are you sure you wish to delete this cover photo?</h3>
+		<img src="@Model.DeleteCoverPhotoVM.CoverPhotoUrl" class="add-box-shadow add-rounded-corners" />
+		<form method="post">
+			<input type="hidden" asp-for="@Model.DeleteCoverPhotoVM.PostId" />
+			<div class="form___actionbuttons-row flex">
+				<input type="submit" valuse="SUBMIT" class="btn btn__default form__button">
+				<a class="btn danger btn__default form__button" asp-page="/admin/editpost" asp-route-id="@Model.DeleteCoverPhotoVM.PostId">
+					CANCEL
+				</a>
+			</div>
+		</form>
+
+	</div>
+</section>

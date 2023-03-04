@@ -1,5 +1,6 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BE.Core
 {
@@ -11,10 +12,11 @@ namespace BE.Core
 		[Key]
 		public int Id { get; set; }
 		[Required]
-		public string? FileName { get; set; }
+		public string FileName { get; set; } = string.Empty;
 		public bool IsCoverPhoto { get; set; } = false;
 		public DateTime TimeStamp { get; set; } = DateTime.Now;
 		[Required]
+		[ForeignKey("ImageFolder")]
 		public int ImageFolderId { get; set; }
 		public ImageFolder? ImageFolder { get; set; }
 	}

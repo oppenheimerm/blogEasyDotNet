@@ -2,7 +2,7 @@
 using BE.Core;
 using BE.UseCases.Response.PhotoResponse;
 
-namespace BE.UseCases.Interfaces
+namespace BE.UseCases.Interfaces.DataStore
 {
 	public interface IFolderEntityRepository
 	{
@@ -18,5 +18,11 @@ namespace BE.UseCases.Interfaces
 		/// <param name="imageFolder"></param>
 		/// <returns></returns>
 		Task<FolderEntityRemoveResponse> FolderEntityDelete(ImageFolder imageFolder);
+		/// <summary>
+		/// Get a <see cref="ImageFolder"/> by Id.
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
+		Task<FolderEntityGetResponse> GetFolderById(int id);
 	}
 }

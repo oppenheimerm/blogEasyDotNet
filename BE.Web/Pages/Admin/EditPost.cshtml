@@ -17,6 +17,43 @@
 		</div>
 
 
+		@{
+			if (Model.HasImages)
+			{
+				<a class="btn btn__small" asp-page="/admin/addphoto" asp-route-id="@Model.Post.Id">Add Photo</a>
+
+				<div class="post__gallery-wrapper flex">
+					<div class="post__gallery">
+						<input type="hidden" id="baseFolderPath" name="baseFolderPath" value="@Model.FolderBasePath">
+						@foreach (var item in Model.PostImages)
+						{
+							var imageUrl = Model.FolderBasePath + item.FileName;
+							<figure class="post__gallery-item">
+								<img class="post__gallery-image" src="@imageUrl" onclick="getImageMarkdownText(this);" id="@item.FileName" data-image-name="@item.FileName" />
+							</figure>
+						}
+					</div>
+				</div>
+			}
+			else
+			{
+				<div class="post__gallery-wrapper">
+					<div class="no__image-wrap flex">
+						<a asp-page="/admin/addphoto" asp-route-id="@Model.Post.Id">
+							<span class="material-symbols-outlined img__uploand-link">
+								cloud_upload
+							</span>
+						</a>
+						<p class="post__gallery-instructions">To add photos for this post click the icon above.</p>
+					</div>
+				</div>
+			}
+		}
+
+
+
+
+
 
 		<form id="form_edit-create" method="post" action="">
 			<div asp-validation-summary="All" class="text-danger"></div>
@@ -25,7 +62,7 @@
 			<fieldset class="field__set">
 
 				<div id="toggle_details" class="form__hideable-section">
-					<legend class="form__legend">Edit / Create Post</legend>
+					<legend class="form__legend">Edit Post: @Model.Post.Title</legend>
 					<div class="form__margin">
 						<input asp-for="Post.Title" class="form__input" placeholder="Post title" aria-label="Post title" />
 						<span asp-validation-for="Post.Title" class="text-danger"></span>
@@ -44,7 +81,7 @@
 							<div class="flex frm__current-photo-wrap">
 								<img src="@ViewHelpers.GetPostCoverImage(Model.Post.PostFolderName, Model.Post.PostCover)" class="frm__photo-preview" />
 								<div class="photo__preview-actions">
-									<a asp-page="/admin/EditCoverPhoto" asp-route-id="@Model.Post.Id" class="btn btn__default form__button">Edit Photo</a>
+									<a asp-page="/admin/EditCoverPhoto" asp-route-id="@Model.Post.Id" class="btn btn__default form__button">Edit Cover Photo</a>
 								</div>
 							</div>
 						</div>
@@ -55,7 +92,7 @@
 							<div class="flex frm__current-photo-wrap">
 								<img src="~/img/assets/photo-icon-white.png" class="frm__photo-preview" />
 								<div class="photo__preview-actions">
-									<a href="#" class="btn btn__default form__button">Add Photo</a>
+									<a href="#" class="btn btn__default form__button">Add Cover Photo</a>
 								</div>
 							</div>
 						</div>
@@ -165,5 +202,30 @@
 
 	</script>
 
+	<script type="text/javascript">
+
+		// see if DOM is already available
+		/*if(document.readyState === "complete"){
+
+		}*/
+		function getImageMarkdownText(imageFileName) {
+			var baseFolderPath = document.getElementById("baseFolderPath").value;
+			//var image = document.querySelector("#electric-cars");
+			console.log("File name:" + imageFileName.src);
+			console.log("Id:" + imageFileName.id);
+			//	image markdown
+			//	![Drag Racing](Dragster.jpg)
+			var markdownImageText = "!" + "[alt text..]" + "(" + baseFolderPath + "/" + imageFileName.id + ")";
+			console.log("Markdown: " + markdownImageText);
+			console.log("Base folder path: " + baseFolderPath);
+			navigator.clipboard.writeText(markdownImageText);
+
+			// Alert the copied text
+			alert("Photo link was copied: " + markdownImageText);
+		}
+
+	</script>
+
 }
+
 

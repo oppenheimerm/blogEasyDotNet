@@ -8,11 +8,6 @@ namespace BE.Core.Utilities
 	{
 		private static readonly List<string> ReservedCharacters = new List<string>() { "\"!\", \"#\", \"$\", \"&\", \"'\", \"(\", \")\", \"*\", \",\", \"/\", \":\", \";\", \"=\", \"?\", \"@\", \"[\", \"]\", \"\\\"\", \"%\", \".\", \"<\", \">\", \"\\\\\", \"^\", \"_\", \"'\", \"{\", \"}\", \"|\", \"~\", \"`\", \"+\"" };
 
-		/// <summary>
-		/// Function to convert PosTagsAs string to <see cref="PostTag"/> Collection
-		/// </summary>
-		/// <param name="tagsAsString"></param>
-		/// <returns></returns>
 		public static Task<List<PostTag>> GetPostTagsAsync(string tagsAsString)
 		{
 			return Task.Run<List<PostTag>>(() =>
@@ -30,6 +25,12 @@ namespace BE.Core.Utilities
 
 		}
 
+		/// <summary>
+		/// Helper method for converting tags(as string) into a List<PostTag>
+		/// </summary>
+		/// <param name="tagsAsString"></param>
+		/// <param name="postId"></param>
+		/// <returns></returns>
 		public static Task<List<PostTag>> GetPostTagsAsync(string tagsAsString, int postId)
 		{
 			return Task.Run<List<PostTag>>(() =>
@@ -47,6 +48,7 @@ namespace BE.Core.Utilities
 			});
 
 		}
+
 
 		private static string RemoveReservedUrlCharacters(string text)
 		{

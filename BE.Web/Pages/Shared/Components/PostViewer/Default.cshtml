@@ -2,10 +2,6 @@
 
 @{
 	<article itemscope itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
-		<div id="blog__meta-block" class="display_none">
-			<p itemprop="name headline"><a href="@Helpers.ViewHelpers.GetPostLink( Model.Slug)" rel="canonical" itemprop="url">@Model.Title</a></p>
-			<time datetime="@Model.PubDate.ToString("s")" itemprop="datePublished">Published @Model.PubDate.ToString("MMM d, yyyy")</time>
-		</div>
 
 		<div class="post__content-wrapper">
 

@@ -9,15 +9,15 @@ namespace BE.UseCases.UseCase.Image
 {
     public class AddPostImageEntityUseCase : IAddPostImageEntityUseCase
 	{
-		private readonly IPostImageRepository PostImageRepository;
-		public AddPostImageEntityUseCase(IPostImageRepository postImageRepository)
+		private readonly IPostImageEntityRepository PostImageRepository;
+		public AddPostImageEntityUseCase(IPostImageEntityRepository postImageRepository)
 		{
 			PostImageRepository = postImageRepository;
 		}
 
-		public async Task<PostImageEntityAddResponse> ExecuteAsync(PostImage postImage)
+		public async Task<AddPhotoEntityResponse> ExecuteAsync(PostImage postImage)
 		{
-			var photo = await PostImageRepository.FolderEntityAdd(postImage);
+			var photo = await PostImageRepository.AddPhotoEntityAsync(postImage);
 			return photo;
 		}
 	}

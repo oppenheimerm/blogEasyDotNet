@@ -89,7 +89,7 @@ namespace BE.DataStore.EFCore.Repositories
             {
                 postEntryResponse.PostEntry = await context.Posts
                     .Include(t => t.Tags)
-                    .Include(t => t.ImageFolder)
+                    .Include(t => t.ImageFolder).ThenInclude(i => i.Images)
                     .AsNoTracking()
                     .FirstOrDefaultAsync(p => p.Id == id);
                 postEntryResponse.Success = true;

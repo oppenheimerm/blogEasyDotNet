@@ -8,13 +8,15 @@ namespace BE.Web.Pages.Blog
 {
     public class SlugModel : PageModel
     {
+        public string Host { get; private set; }
         private IViewBlogEntryBySlug? ViewBlogEntryBySlug { get; }
         public Post? Post { get; set; }
+        public string OGLogo { get; set; }
 
-        public SlugModel(IViewBlogEntryBySlug? viewBlogEntryBySlug)
+		public SlugModel(IViewBlogEntryBySlug? viewBlogEntryBySlug)
         {
             ViewBlogEntryBySlug = viewBlogEntryBySlug;
-        }
+		}
 
         public async Task<ActionResult> OnGetAsync(string? slug)
         {
@@ -24,7 +26,9 @@ namespace BE.Web.Pages.Blog
                 if (post != null && post.Success == true)
                 {
                     Post = post.PostEntry;
-                    return Page();
+					Host = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + post.PostEntry.GetLink();
+                    OGLogo = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/";
+					return Page();
                 }
                 else
                 {

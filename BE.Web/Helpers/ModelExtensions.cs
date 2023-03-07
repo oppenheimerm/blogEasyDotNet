@@ -76,5 +76,17 @@ namespace BE.Web.Helpers
 			PostTitle = post.Title,
 		};
 
+		/// <summary>
+		/// Return an instance of a <see cref="EditCoverPhotoVM"/> from <see cref="Post"/>
+		/// </summary>
+		/// <param name="post"></param>
+		/// <returns></returns>
+		public static EditCoverPhotoVM ToToEditCoverPhotoVM(this Post post) => new EditCoverPhotoVM
+		{
+			PostId = post.Id,
+			CoverPhoto = (!string.IsNullOrEmpty(post.PostCoverPhoto)) ? post.PostCoverPhoto : string.Empty,
+			PostTitle = post.Title,
+			PostFolderName = (post.ImageFolder != null) ? post.ImageFolder.Name : string.Empty,
+		};
 	}
 }

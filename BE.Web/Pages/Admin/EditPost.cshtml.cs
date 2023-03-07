@@ -83,6 +83,7 @@ namespace BE.Web.Pages.Admin
 			_postToEdit.PostEntry = Post.ToPost(_postToEdit.PostEntry);
 			_postToEdit.PostEntry.Title = ViewHelpers.ToTitleCase(_postToEdit.PostEntry.Title);
 			_postToEdit.PostEntry.Slug = EntityHelpers.CreateSlug(_postToEdit.PostEntry.Title);
+			_postToEdit.PostEntry.LastModified = DateTime.Now;
 
 			// update post
 			var postStatus = await EditPostUseCase.ExecuteAsync(_postToEdit.PostEntry);

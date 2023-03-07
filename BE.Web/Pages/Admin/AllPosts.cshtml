@@ -60,7 +60,9 @@
                                 <a class="btn btn__small" asp-page="/admin/editpost" asp-route-id="@item.Id">
                                     Edit
                                 </a>
-                                <button class="btn danger btn__small">Delete</button>
+                                <a class="btn danger btn__small" asp-page="/admin/deletepost" asp-route-id="@item.Id">
+                                    Delete
+                                </a>
                             </div>
                         </td>
                     </tr>

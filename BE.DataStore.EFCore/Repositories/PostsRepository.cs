@@ -144,5 +144,34 @@ namespace BE.DataStore.EFCore.Repositories
                 return postEdit;
             }
         }
-    }
+
+		public async Task<PostDeleteResponse> PostDelete(int? Id)
+		{
+			PostDeleteResponse postDeleteResponse = new();
+
+			if (Id.HasValue)
+			{
+				var post = await context.Posts.FindAsync(Id);
+				if (post != null)
+				{
+					context.Posts.Remove(post);
+					await context.SaveChangesAsync();
+					postDeleteResponse.Success = true;
+					return postDeleteResponse;
+				}
+				else
+				{
+					postDeleteResponse.Success = false;
+					postDeleteResponse.ErrorMessage = $"Could not find post with id: {Id.Value}";
+					return postDeleteResponse;
+				}
+			}
+			else
+			{
+				postDeleteResponse.Success = false;
+				postDeleteResponse.ErrorMessage = "Id missing";
+				return postDeleteResponse;
+			}
+		}
+	}
 }

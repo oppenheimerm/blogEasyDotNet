@@ -87,7 +87,7 @@ namespace BE.Web.Pages.Admin
 			{
 				// Do we already have photo folder for this post?
 				//	 If it has a PostCoverPhoto or 
-				if (!string.IsNullOrEmpty(post.PostEntry.PostCoverPhoto)  || !string.IsNullOrEmpty(post.PostEntry.ImageFolder.Name))
+				if (!string.IsNullOrEmpty(post.PostEntry.PostCoverPhoto)  || post.PostEntry.ImageFolder != null)
 				{
 					// Get this existing foler
 					var getFolderEntityResponseStatus = await GetFolderEntityUseCase.ExecuteAsync(post.PostEntry.ImageFolder.Id);

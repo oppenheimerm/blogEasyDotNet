@@ -1,0 +1,34 @@
+﻿@page "{id}"
+@model BE.Web.Pages.Admin.DeletePostModel
+@{
+	ViewData["Title"] = $"Delete: {Model.Post.Title}";
+}
+
+<section class="section">
+	<div class="container flex delete__post-wrap">
+		<img class="delete__post-icon" src="~/img/dist/assets/warning-icon-red.png" alt="warning icon" />
+		<span class="delete__post-warning">Are you sure you wish to delete, this post and all it's associated images?</span>
+		@{
+			if (!string.IsNullOrEmpty(Model.Post.PostCoverPhoto))
+			{
+				var hasCoverUrl = Model.ImageFolderBase + ViewHelpers.GetPostCoverImage(Model.Post.ImageFolder.Name, Model.Post.PostCoverPhoto);
+				<img class="delete__post-cover post__header-cover" src="@hasCoverUrl" alt="cover photo" />
+			}
+
+		}
+		<h2 class="delete__post-title">@Model.Post.Title</h2>
+		<div class="delete__post-commands-wrap flex">
+			<a class="btn btn__small" asp-page="/admin/allposts">
+				Cancel
+			</a>
+			<form method="post">
+				<input type="hidden" value="@Model.Post.Id" />
+				<input type="submit" valuse="DELETE" class="btn danger btn__small" />
+			</form>
+
+		</div>
+
+
+	</div>
+</section>
+

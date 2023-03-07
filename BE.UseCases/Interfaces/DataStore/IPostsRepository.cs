@@ -11,5 +11,7 @@ namespace BE.UseCases.Interfaces.DataStore
         PostQueryResponse GetPostsByTag(string tagNameEncoded);
         Task<PostAddResponse> PostAdd(Post post);
         Task<PostEditResponse> PostEdit(Post post);
-    }
+        Task<PostDeleteResponse> PostDelete(int? Id);
+
+	}
 }

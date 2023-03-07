@@ -21,8 +21,4 @@
     <ProjectReference Include="..\BE.UseCases\BE.UseCases.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\img\posts\" />
-  </ItemGroup>
-
 </Project>

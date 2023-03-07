@@ -11,7 +11,7 @@ namespace BE.Web.Pages.Blog
         public string Host { get; private set; }
         private IViewBlogEntryBySlug? ViewBlogEntryBySlug { get; }
         public Post? Post { get; set; }
-        public string OGLogo { get; set; }
+        public string ImageFolderBase { get; set; }
 
 		public SlugModel(IViewBlogEntryBySlug? viewBlogEntryBySlug)
         {
@@ -27,7 +27,7 @@ namespace BE.Web.Pages.Blog
                 {
                     Post = post.PostEntry;
 					Host = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + post.PostEntry.GetLink();
-                    OGLogo = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/";
+					ImageFolderBase = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/";
 					return Page();
                 }
                 else

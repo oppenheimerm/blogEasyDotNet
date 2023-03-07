@@ -486,6 +486,51 @@ img.frm__photo-preview {
     margin: 0 auto;
     margin-bottom: var(--mb-1-5);
 }
+
+/*=============== 
+    Admin/DeletePost
+===============*/
+.delete__post-wrap {
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    margin: var(--mb-1); /* 16px */
+}
+
+.delete__post-icon {
+    width: 200px;
+    height: 200px;
+    margin: var(--mb-1) auto; /* 16px */
+}
+
+.delete__post-warning,
+.delete__post-title {
+    text-align: center;
+    margin: var(--mb-1) auto; /* 16px */
+}
+
+.delete__post-cover {
+    width: 400px;
+    margin: var(--mb-1) auto; /* 16px */
+}
+
+.delete__post-warning {
+    font-weight: var(--font-bold-heavy);
+    font-size: var(--h1-font-size);
+}
+
+.delete__post-title {
+    font-size: var(--h2-font-size);
+}
+
+.delete__post-commands-wrap {
+    flex-direction: row;
+    margin: var(--mb-1) auto;
+    align-items: center;
+    justify-content: space-between;
+    width: 40%;
+}
+
 /*=============== 
     Post Gallery 
 ===============*/

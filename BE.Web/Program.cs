@@ -58,6 +58,8 @@ builder.Services.AddTransient<IAddPhotoUseCase, AddPhotoUseCase>();
 builder.Services.AddTransient<IGetFolderEntityUseCase, GetFolderEntityUseCase>();
 builder.Services.AddTransient<IDeleteCoverPhotoFileUseCase, DeleteCoverPhotoFileUseCase>();
 builder.Services.AddTransient<IAddCoverPhotoUseCase, AddCoverPhotoUseCase>();
+builder.Services.AddTransient<IPurgPostFilesUseCase, PurgPostFilesUseCase>();
+builder.Services.AddTransient<IDeletePostUseCase, DeletePostUseCase>();
 
 
 var app = builder.Build();

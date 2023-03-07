@@ -118,6 +118,11 @@ button[disabled] {
     FORMS
  ===============*/
 
+.form__info-text {
+    font-size: var(--h3-font-size);
+    margin-bottom: var(--mb-0-75);
+}
+
 .field__set {
     border: none;
     margin: 0;

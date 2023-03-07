@@ -49,10 +49,10 @@
 	<meta property="og:url" content="@Model.Host">
 	@{
 		if(!string.IsNullOrEmpty(Model.Post.PostCoverPhoto)){			
-			var hasCoverUrl = ViewHelpers.GetPostCoverImage(Model.Post.ImageFolder.Name, Model.Post.PostCoverPhoto);
+			var hasCoverUrl = Model.ImageFolderBase + ViewHelpers.GetPostCoverImage(Model.Post.ImageFolder.Name, Model.Post.PostCoverPhoto);
 			<meta property="og:image" content="@hasCoverUrl">
 		}else{
-			var noCoverUrl = Model.OGLogo +  "/img/assets/logo-white-svg.svg";
+			var noCoverUrl = Model.ImageFolderBase +  "/img/assets/logo-white-svg.svg";
 			<meta property="og:image" content="@noCoverUrl">
 		}
 		if(Model.Post.Tags.Any()){
@@ -68,12 +68,12 @@
 	@{
 		if (!string.IsNullOrEmpty(Model.Post.PostCoverPhoto))
 		{
-			var hasCoverUrl = ViewHelpers.GetPostCoverImage(Model.Post.ImageFolder.Name, Model.Post.PostCoverPhoto);
+			var hasCoverUrl = Model.ImageFolderBase + ViewHelpers.GetPostCoverImage(Model.Post.ImageFolder.Name, Model.Post.PostCoverPhoto);
 			<meta name="twitter:image" content="@hasCoverUrl">
 		}
 		else
 		{
-			var noCoverUrl = Model.OGLogo + "/img/assets/logo-white-svg.svg";
+			var noCoverUrl = Model.ImageFolderBase + "/img/assets/logo-white-svg.svg";
 			<meta name="twitter:image" content="@noCoverUrl">
 		}
 	}

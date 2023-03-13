@@ -8,11 +8,20 @@
                 </a>
             </div>
             <div class="nav__mobile-right">
-                <a href="#">
+                <div id="mobile__menu-toggle">
+                    <input type="checkbox" />
                     <span class="material-symbols-outlined mobile-menu">
                         menu
                     </span>
-                </a>
+                    <div id="mobile__header-menu">
+                        <ul class="mobile__items flex">
+                            <li><a asp-page="/Index" class="active">Home</a></li>
+                            <li><a asp-page="/Blog/Index">Blog</a></li>
+                            <li><a href="#">Projects</a></li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
         </nav>
     </div>

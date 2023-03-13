@@ -27,7 +27,6 @@
     --h2-font-size: 1.5rem; /* 24 px */
     --h3-font-size: 1.25rem; /* 20 px */
     --h4-font-size: 1rem; /* 16 px */
-    --normal-font-size: 1rem; /* 16 px */
     --small-font-size: .875rem; /* 14 px */
     --smaller-font-size: .775rem; /* 12.4 px */
     --letter-spacing-wide: 0.125rem; /* 2px */
@@ -147,8 +146,8 @@ input {
 }
 
 ::selection {
-    color: #fff;
-    background-color: var(--body-color);
+    color: var(--body-color);
+    background-color: #fff;
 }
 
 a {

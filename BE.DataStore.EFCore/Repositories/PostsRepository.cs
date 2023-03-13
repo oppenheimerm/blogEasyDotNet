@@ -70,8 +70,17 @@ namespace BE.DataStore.EFCore.Repositories
                     .Include(t => t.ImageFolder)
                     .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.Slug == slug);
-                postEntryResponse.Success = true;
-                return postEntryResponse;
+
+                if (postEntryResponse.PostEntry != null)
+                {
+                    postEntryResponse.Success = true;
+                    return postEntryResponse;
+                }
+                else
+                {
+                    postEntryResponse.Success = false;
+                    return postEntryResponse;
+                }
             }
             catch (Exception ex)
             {
@@ -92,9 +101,19 @@ namespace BE.DataStore.EFCore.Repositories
                     .Include(t => t.ImageFolder).ThenInclude(i => i.Images)
                     .AsNoTracking()
                     .FirstOrDefaultAsync(p => p.Id == id);
-                postEntryResponse.Success = true;
 
-                return postEntryResponse;
+
+                if (postEntryResponse.PostEntry != null)
+                {
+                    postEntryResponse.Success = true;
+                    return postEntryResponse;
+                }
+                else
+                {
+                    postEntryResponse.Success = false;
+                    return postEntryResponse;
+                }
+
             }
             catch (Exception ex)
             {

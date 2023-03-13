@@ -93,6 +93,10 @@ using (var scope = app.Services.CreateScope())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+//  make use of a pages that you create to generate error response,
+//  i.e 404, 500...
+app.UseStatusCodePagesWithRedirects("/errors/{0}");
+
 app.UseRouting();
 
 app.UseAuthorization();

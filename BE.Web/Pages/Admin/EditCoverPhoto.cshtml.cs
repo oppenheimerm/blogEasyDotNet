@@ -74,7 +74,7 @@ namespace BE.Web.Pages.Admin
 
 			//	verify correct file type
 			var newCover = Request.Form.Files[0];
-			if (ViewHelpers.ValidImageFileExtension(newCover) == false)
+			if (!FileHelpers.ValidImageFile(newCover))
 			{
 				EditCoverPhotoVM = _postToEdit.PostEntry.ToToEditCoverPhotoVM();
 				ModelState.AddModelError("", ".jpg, jpeg, .png files only");

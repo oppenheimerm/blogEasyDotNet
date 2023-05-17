@@ -44,122 +44,126 @@ namespace BE.Web.Pages.Admin
 
 		public async Task<IActionResult> OnPostAsync()
 		{
-
-			//Request.Form.Files[0]
-			if (Request.Form.Files.Count >= 1)
+			if(PostVM is not null)
 			{
-				PostVM.PostCover = Request.Form.Files[0];
+                //Request.Form.Files[0]
+                if (Request.Form.Files.Count >= 1)
+                {
+                    PostVM.PostCover = Request.Form.Files[0];
 
-				if (ViewHelpers.ValidImageFileExtension(PostVM.PostCover) == false)
-				{
-					ModelState.AddModelError("", ".jpg, jpeg, .png files only");
-					return Page();
-				}
-			}
+                    if (!FileHelpers.ValidImageFile(PostVM.PostCover))
+                    {
+                        ModelState.AddModelError("", ".jpg, jpeg, .png files only");
+                        return Page();
+                    }
+                }
 
-			if (!ModelState.IsValid)
-			{
-				return Page();
-			}
-
-
-			var post = PostVM.ToPost();
-			var hasTags = !PostVM.Tags.IsNullOrEmpty();
-			post.Title = ViewHelpers.ToTitleCase(post.Title);
-			post.Slug = EntityHelpers.CreateSlug(post.Title);
-
-			//	Has tags?(createPostVM)
-			if (hasTags)
-			{
-				post.Tags = await EntityHelpers.GetPostTagsAsync(PostVM.Tags);
-
-			}
+                if (!ModelState.IsValid)
+                {
+                    return Page();
+                }
 
 
-			//	Add new post
-			var postStatus = await CreatePostUseCase.ExecuteAsync(post);
-			if (postStatus.Success)
-			{
-				bool needsFolder = (Request.Form.Files.Count >= 1) ? true : false;
-				if (needsFolder)
-				{
-					//	Add new folder
-					var addFolderStatus = await AddFolderUseCase.ExecuteAsync(Helpers.Blog.PostsImageBaseDirectory);
-					if (addFolderStatus.Success == true)
-					{
-						//	Add new folder entity
-						ImageFolder imgFolder = new ImageFolder()
-						{
-							PostId = postStatus.PostEntry.Id,
-							LastUpdated = DateTime.Now,
-							TimeStamp = addFolderStatus.TimeStamp.Value,
-							Name = addFolderStatus.FolderName
-						};
-						var addFolderEntityStatus = await AddFolderEntityUseCase.ExecuteAsync(imgFolder);
+                var post = PostVM.ToPost();
+                post.Title = ViewHelpers.ToTitleCase(post.Title);
+                post.Slug = EntityHelpers.CreateSlug(post.Title);
 
-						//	Add the physical image
-						if (addFolderEntityStatus.Success == true)
-						{
+                if (PostVM?.Tags?.Any() is not null)
+                {
+                    post.Tags = await EntityHelpers.GetPostTagsAsync(PostVM.Tags);
+                }
 
-							//	img\\posts\\foldername
-							var coverPhotoPath = Helpers.Blog.PostsImageBaseDirectory + "\\" + addFolderStatus.FolderName;
-							var uploadStatus = await AddCoverPhotoUseCase.ExecuteAsync(PostVM.PostCover, coverPhotoPath);
-							if (uploadStatus.Success)
-							{
-								//	add PostImage entity
-								PostImage postImage = new PostImage()
-								{
-									FileName = uploadStatus.PhotoFileName,
-									IsCoverPhoto = true,
-									TimeStamp = addFolderStatus.TimeStamp.Value,
-									ImageFolderId = addFolderEntityStatus.Id,
-								};
 
-								var addPostImageEntityStatus = await AddPostImageEntityUseCase.ExecuteAsync(postImage);
+                //	Add new post
+                var postStatus = await CreatePostUseCase.ExecuteAsync(post);
+                if ( postStatus?.PostEntry is not null && postStatus.Success)
+                {
+                    bool needsFolder = (Request.Form.Files.Count >= 1) ? true : false;
+                    if (needsFolder)
+                    {
+                        //	Add new folder
+                        var addFolderStatus = await AddFolderUseCase.ExecuteAsync(Helpers.Blog.PostsImageBaseDirectory);
+                        if (addFolderStatus is not null && addFolderStatus.Success == true)
+                        {
+                            //	Add new folder entity
+                            ImageFolder imgFolder = new ImageFolder()
+                            {
+                                PostId = postStatus.PostEntry.Id,
+                                LastUpdated = DateTime.Now,
+                                TimeStamp = addFolderStatus.TimeStamp.Value,
+                                Name = addFolderStatus.FolderName
+                            };
+                            var addFolderEntityStatus = await AddFolderEntityUseCase.ExecuteAsync(imgFolder);
 
-								if (addPostImageEntityStatus.Success == true)
-								{
-									// Post.ImageFolderCreated has been created
-									postStatus.PostEntry.PostCoverPhoto = uploadStatus.PhotoFileName;
-									//	update post and redirect to preview
-									await EditPostUseCase.ExecuteAsync(postStatus.PostEntry);
-									return RedirectToPage("/Admin/PostPreview", new { id = postStatus.PostEntry.Id });
-								}
-								else
-								{
-									//	Could not add ImageEntity
-									return Page();
-								}
-							}
-							else
-							{
-								return Page();
-							}
-						}
-						else
-						{
-							//	Could not add the physical image, log and return
-							return Page();
-						}
+                            //	Add the physical image
+                            if (addFolderEntityStatus.Success == true)
+                            {
 
-					}
-					else
-					{
-						// Could not add folder, log and return form
-						return Page();
-					}
-				}
-				else
-				{
-					// we're done
-					return RedirectToPage("/Admin/PostPreview", new { id = postStatus.PostEntry.Id });
-				}
-			}
+                                //	img\\posts\\foldername
+                                var coverPhotoPath = Helpers.Blog.PostsImageBaseDirectory + "\\" + addFolderStatus.FolderName;
+                                var uploadStatus = await AddCoverPhotoUseCase.ExecuteAsync(PostVM.PostCover, coverPhotoPath);
+                                if (uploadStatus.Success)
+                                {
+                                    //	add PostImage entity
+                                    PostImage postImage = new PostImage()
+                                    {
+                                        FileName = uploadStatus.PhotoFileName,
+                                        IsCoverPhoto = true,
+                                        TimeStamp = addFolderStatus.TimeStamp.Value,
+                                        ImageFolderId = addFolderEntityStatus.Id,
+                                    };
+
+                                    var addPostImageEntityStatus = await AddPostImageEntityUseCase.ExecuteAsync(postImage);
+
+                                    if (addPostImageEntityStatus.Success == true)
+                                    {
+                                        // Post.ImageFolderCreated has been created
+                                        postStatus.PostEntry.PostCoverPhoto = uploadStatus.PhotoFileName;
+                                        //	update post and redirect to preview
+                                        await EditPostUseCase.ExecuteAsync(postStatus.PostEntry);
+                                        return RedirectToPage("/Admin/PostPreview", new { id = postStatus.PostEntry.Id });
+                                    }
+                                    else
+                                    {
+                                        //	Could not add ImageEntity
+                                        return Page();
+                                    }
+                                }
+                                else
+                                {
+                                    return Page();
+                                }
+                            }
+                            else
+                            {
+                                //	Could not add the physical image, log and return
+                                return Page();
+                            }
+
+                        }
+                        else
+                        {
+                            // Could not add folder, log and return form
+                            return Page();
+                        }
+                    }
+                    else
+                    {
+                        // we're done
+                        return RedirectToPage("/Admin/PostPreview", new { id = postStatus.PostEntry.Id });
+                    }
+                }
+                else
+                {
+                    //	Could not create post
+                    return Page();
+                }
+            }
 			else
 			{
-				//	Could not create post
-				return Page();
+				return NotFound();
 			}
+
 		}
 	}
 }

@@ -66,14 +66,13 @@ namespace BE.Web.Pages.Admin
 			{
 				AddPhotoVM.NewPhoto = Request.Form.Files[0];
 
-				if (ViewHelpers.ValidImageFileExtension(AddPhotoVM.NewPhoto) == false)
-				{
-					ModelState.AddModelError("", ".jpg, jpeg, and .png files only");
-					return Page();
-				}
+                if (!FileHelpers.ValidImageFile(AddPhotoVM.NewPhoto))
+                {
+                    ModelState.AddModelError("", ".jpg, .png  and .webp files only");
+                    return Page();
+                }
 
 			}
-
 
 			if (!ModelState.IsValid)
 			{
@@ -85,9 +84,8 @@ namespace BE.Web.Pages.Admin
 			var post = await ViewBlogEntryById.ExecuteAsync(AddPhotoVM.PostId);
 			if (post.Success)
 			{
-				// Do we already have photo folder for this post?
-				//	 If it has a PostCoverPhoto or 
-				if (!string.IsNullOrEmpty(post.PostEntry.PostCoverPhoto)  || post.PostEntry.ImageFolder != null)
+
+                if (!string.IsNullOrEmpty(post?.PostEntry?.PostCoverPhoto)  || post.PostEntry.ImageFolder != null)
 				{
 					// Get this existing foler
 					var getFolderEntityResponseStatus = await GetFolderEntityUseCase.ExecuteAsync(post.PostEntry.ImageFolder.Id);

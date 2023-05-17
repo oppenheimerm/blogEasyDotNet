@@ -30,7 +30,6 @@ mjx-container {
         Desktop / Mobile header
 ==========*/
 
-.header__desktop,
 .header__desktop {
     display: none;
 }

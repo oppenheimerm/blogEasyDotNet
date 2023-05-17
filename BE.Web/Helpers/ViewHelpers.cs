@@ -106,23 +106,6 @@ namespace BE.Web.Helpers
 			return _tagsAsString;
 		}
 
-		/// <summary>
-		/// Validates a uploaded image file extension
-		/// </summary>
-		/// <param name="file"></param>
-		/// <returns></returns>
-		public static bool ValidImageFileExtension(IFormFile file)
-		{
-			var ext = Path.GetExtension(file.FileName.ToLowerInvariant());
-			if (string.IsNullOrEmpty(ext) || !permittedExtensions.Contains(ext))
-			{
-				return false;
-			}
-			else
-			{
-				return true;
-			}
-		}
 	}
 
 	public static class UrlHelperExtensions

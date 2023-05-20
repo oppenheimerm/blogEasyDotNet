@@ -14,7 +14,7 @@ namespace BE.UseCases.UseCase.Image
             FolderEntityRepository = folderEntityRepository;
         }
 
-        public async Task<FolderEntityAddResponse> ExecuteAsync(ImageFolder imageFolder)
+        public async Task<(ImageFolder Folder, bool Success, string ErrorMessage)> ExecuteAsync(ImageFolder imageFolder)
         {
             var _post = await FolderEntityRepository.FolderEntityAdd(imageFolder);
             return _post;

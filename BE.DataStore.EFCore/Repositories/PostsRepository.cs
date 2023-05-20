@@ -2,16 +2,19 @@
 using BE.UseCases.Interfaces.DataStore;
 using BE.UseCases.Response.PostResponse;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace BE.DataStore.EFCore.Repositories
 {
     public class PostsRepository : IPostsRepository
 	{
         private readonly BEDbContext context;
+        private readonly ILogger<PostsRepository> Logger;
 
-        public PostsRepository(BEDbContext context)
+        public PostsRepository(BEDbContext context, ILogger<PostsRepository> logger)
         {
             this.context = context;
+            Logger = logger;
         }
 
         public PostQueryResponse GetAllPosts()
@@ -123,48 +126,41 @@ namespace BE.DataStore.EFCore.Repositories
             }
         }
 
-        public async Task<PostAddResponse> PostAdd(Post post)
+        public async Task<(Post? PostEntry, bool Success, string ErrorMessage)> PostAdd(Post post)
         {
-            PostAddResponse postAdd = new();
-
             try
             {
                 context.Posts.Add(post);
                 await context.SaveChangesAsync();
-                postAdd.PostEntry = post;
-                postAdd.Success = true;
-                return postAdd;
+                Logger.LogInformation($"Post with Id: {post.Id}, added to database at: {DateTime.UtcNow}");
+                return (post, true, string.Empty);
 
             }
             catch (Exception ex)
             {
-                postAdd.Success = false;
-                postAdd.ErrorMessage = ex.Message;
-                return postAdd;
+                Logger.LogError($"Failed to add post to database. Timestamp : {DateTime.UtcNow}");
+                return (post, false, ex.ToString());
             }
         }
 
-        public async Task<PostEditResponse> PostEdit(Post post)
+        public async Task<(Post, bool Success, string ErrorMessage)> PostEdit(Post post)
         {
-            PostEditResponse postEdit = new();
 
             try
             {
                 context.Update(post);
                 await context.SaveChangesAsync();
-                postEdit.PostEntry = post;
-                postEdit.Success = true;
-                return postEdit;
+                Logger.LogInformation($"Post with Id: {post.Id}, was edited successfully at: {DateTime.UtcNow}");
+                return (post, true, string.Empty);
             }
             catch (Exception ex)
             {
-                postEdit.Success = false;
-                postEdit.ErrorMessage = ex.Message;
-                return postEdit;
+                Logger.LogError($"Unable to edit post with Id: {post.Id}. Timestamp was at: {DateTime.UtcNow}");
+                return (new Post(), false, ex.ToString());
             }
         }
 
-		public async Task<PostDeleteResponse> PostDelete(int? Id)
+        public async Task<PostDeleteResponse> PostDelete(int? Id)
 		{
 			PostDeleteResponse postDeleteResponse = new();
 

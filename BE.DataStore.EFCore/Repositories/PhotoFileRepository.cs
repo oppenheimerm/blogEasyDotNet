@@ -17,76 +17,68 @@ namespace BE.UseCases.Interfaces.DataStore
 		}
 
 
-		/// <summary>
-		/// Upload a cover photo for an instance of <see cref="Post"/>.  Must specify full path.
-		/// </summary>
-		/// <param name="cover"></param>
-		/// <param name="path"></param>
-		/// <returns></returns>
-		public async Task<AddPhotoResponse> UploadCoverPhotoAsync(IFormFile cover, string path)
-		{
-			AddPhotoResponse addPhotoResponse = new();
+        /// <summary>
+        /// Upload a cover photo for an instance of <see cref="Post"/>.  Must specify full path.
+        /// </summary>
+        /// <param name="cover"></param>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        public async Task<(string FileName, bool Success, string ErrorMessage)> UploadCoverPhotoAsync(IFormFile cover, string path)
+        {
 
-			try
-			{
+            try
+            {
 
-				//var hostPath = HostEnvironment.WebRootPath.ToString();
-				var uploadsFolder = Path.Combine(HostEnvironment.WebRootPath, path);
-				addPhotoResponse.PhotoFileName = "cover_photo_" + Guid.NewGuid().ToString() + Path.GetExtension(cover.FileName);
-				string filePath = Path.Combine(uploadsFolder, addPhotoResponse.PhotoFileName);
+                //var hostPath = HostEnvironment.WebRootPath.ToString();
+                var uploadsFolder = Path.Combine(HostEnvironment.WebRootPath, path);
+                var photoFileName = "cover_photo_" + Guid.NewGuid().ToString() + Path.GetExtension(cover.FileName);
+                string filePath = Path.Combine(uploadsFolder, photoFileName);
 
-				using (var fileStream = new FileStream(filePath, FileMode.Create))
-				{
-					await cover.CopyToAsync(fileStream);
-				}
-
-				addPhotoResponse.Success = true;
-				Logger.LogInformation($"Photo {addPhotoResponse.PhotoFileName} uploaded at {DateTime.Now}");
-				return addPhotoResponse;
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await cover.CopyToAsync(fileStream);
+                }
+                Logger.LogInformation($"Photo {photoFileName} uploaded at {DateTime.Now}");
+                return (photoFileName, true, string.Empty);
 
 
-			}
-			catch (Exception ex)
-			{
-				addPhotoResponse.Success = false;
-				addPhotoResponse.ErrorMessage = ex.Message;
-				Logger.LogCritical(ex, $"Faild to upload photo at {DateTime.Now}");
-				return addPhotoResponse;
-			}
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, $"Faild to upload photo at {DateTime.Now}");
+                return (string.Empty, false, ex.ToString());
+            }
 
-		}
+        }
 
-		public async Task<AddPhotoResponse> UploadPhotoAsync(IFormFile image, string path)
-		{
-			AddPhotoResponse addPhotoResponse = new();
+        public async Task<(string FileName, bool Success, string ErrorMessage)> UploadPhotoAsync(IFormFile image, string path)
+        {
+            try
+            {
+                var filenameClean = Path.GetFileNameWithoutExtension(image.FileName).CleanAndFormatPhotoName();//image.FileName.CleanAndFormatPhotoName();
+                var uploadsFolder = Path.Combine(HostEnvironment.WebRootPath, path);
+                var photoFileName = filenameClean + Path.GetExtension(image.FileName.ToLower());
+                string filePath = Path.Combine(uploadsFolder, photoFileName);
 
-			try
-			{
-				var filenameClean = Path.GetFileNameWithoutExtension(image.FileName).CleanAndFormatPhotoName();//image.FileName.CleanAndFormatPhotoName();
-				var uploadsFolder = Path.Combine(HostEnvironment.WebRootPath, path);
-				addPhotoResponse.PhotoFileName = filenameClean + Path.GetExtension(image.FileName.ToLower());
-				string filePath = Path.Combine(uploadsFolder, addPhotoResponse.PhotoFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await image.CopyToAsync(fileStream);
+                }
 
-				using (var fileStream = new FileStream(filePath, FileMode.Create))
-				{
-					await image.CopyToAsync(fileStream);
-				}
-
-				addPhotoResponse.Success = true;
-				return addPhotoResponse;
+                Logger.LogInformation($"Photo {photoFileName} uploaded at {DateTime.Now} to {uploadsFolder} at: {DateTime.UtcNow}");
+                return (photoFileName, true, string.Empty);
 
 
-			}
-			catch (Exception ex)
-			{
-				addPhotoResponse.Success = false;
-				addPhotoResponse.ErrorMessage = ex.Message;
-				return addPhotoResponse;
-			}
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError($"Failed to upload photo at: {DateTime.UtcNow}");
+                return (string.Empty, false, ex.ToString());
+            }
 
-		}
+        }
 
-		public async Task<DeleteCoverPhotoResponse> DeleteCoverPostAsync(string path)
+        public async Task<DeleteCoverPhotoResponse> DeleteCoverPostAsync(string path)
 		{
 			DeleteCoverPhotoResponse deletePhotoResponse = new();
 
@@ -118,46 +110,39 @@ namespace BE.UseCases.Interfaces.DataStore
 			}
 		}
 
-		/// <summary>
-		/// Create a folder directory for <see cref="Core.Post"/>
-		/// </summary>
-		/// <param name="pathPrefix"></param>
-		/// <returns></returns>
-		public async Task<AddFolderResponse> CreatePostImageDirectoryAsync(string pathPrefix)
-		{
-			AddFolderResponse addFolderResponse = new();
-			try
-			{
-				var folderName = Guid.NewGuid().ToString("N");
-				// pathPrefix = img\\posts\\foldername
-				var path = pathPrefix + "\\" + folderName;
+        /// <summary>
+        /// Create a folder directory for <see cref="Core.Post"/>
+        /// </summary>
+        /// <param name="pathPrefix"></param>
+        /// <returns></returns>
+        public async Task<(string FolderName, DateTime Timestamp, bool Success, string ErrorMessage)> CreatePostImageDirectoryAsync(string pathPrefix)
+        {
+            try
+            {
+                var folderName = Guid.NewGuid().ToString("N");
+                // pathPrefix = img\\posts\\foldername
+                var path = pathPrefix + "\\" + folderName;
 
-				var folder = Path.Combine(HostEnvironment.WebRootPath, path);
-				if (!Directory.Exists(folder))
-				{
-					await Task.Run(() => {
-						Directory.CreateDirectory(folder);
-
-					});
-					addFolderResponse.TimeStamp = Directory.GetCreationTime(folder);
-					addFolderResponse.Success = true;
-					addFolderResponse.FolderName = folderName;
-					return addFolderResponse;
-				}
-				else
-				{
-					addFolderResponse.Success = false;
-					addFolderResponse.ErrorMessage = "Folder already exist";
-					return addFolderResponse;
-				}
-			}
-			catch (Exception Ex)
-			{
-				addFolderResponse.Success = false;
-				addFolderResponse.ErrorMessage = Ex.Message;
-				return addFolderResponse;
-			}
-		}
+                var folder = Path.Combine(HostEnvironment.WebRootPath, path);
+                if (!Directory.Exists(folder))
+                {
+                    await Task.Run(() => {
+                        Directory.CreateDirectory(folder);
+                    });
+                    Logger.LogInformation($"Folder: {folderName} created sucessfully at: {DateTime.UtcNow}");
+                    return (folderName, Directory.GetCreationTime(folder), true, string.Empty);
+                }
+                else
+                {
+                    return (string.Empty, DateTime.Now, false, "Folder already exist.");
+                }
+            }
+            catch (Exception Ex)
+            {
+                Logger.LogError($" Failed to create folder at: {DateTime.UtcNow}");
+                return (string.Empty, DateTime.Now, false, Ex.Message);
+            }
+        }
 
 		public async Task<PurgePostFilesResponse> PurgePostFiles(string path)
 		{

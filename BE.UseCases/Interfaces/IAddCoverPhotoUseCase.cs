@@ -13,7 +13,7 @@ namespace BE.UseCases.Interfaces
         /// <param name="CoverImage"></param>
         /// <param name="basePath"></param>
         /// <returns></returns>
-        Task<AddPhotoResponse> ExecuteAsync(IFormFile CoverImage, string basePath);
+        Task<(string FileName, bool Success, string ErrorMessage)> ExecuteAsync(IFormFile CoverImage, string basePath);
 
     }
 }

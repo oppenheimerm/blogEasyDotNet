@@ -18,7 +18,7 @@ namespace BE.UseCases.UseCase.Image
         /// </summary>
         /// <param name="folderPathPrefix"></param>
         /// <returns></returns>
-        public async Task<AddFolderResponse> ExecuteAsync(string folderPathPrefix)
+		public async Task<(string Foldername, DateTime TimeStamp, bool Success, string ErrorMessage)> ExecuteAsync(string folderPathPrefix)
         {
             var folder = await PhotoRepository.CreatePostImageDirectoryAsync(folderPathPrefix);
             return folder;

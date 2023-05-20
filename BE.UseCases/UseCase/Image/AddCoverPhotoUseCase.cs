@@ -1,6 +1,5 @@
 ﻿using BE.UseCases.Interfaces;
 using BE.UseCases.Interfaces.DataStore;
-using BE.UseCases.Response.PhotoResponse;
 using Microsoft.AspNetCore.Http;
 
 namespace BE.UseCases.UseCase.Image
@@ -20,7 +19,7 @@ namespace BE.UseCases.UseCase.Image
         /// <param name="CoverImage"></param>
         /// <param name="basePath"></param>
         /// <returns></returns>
-        public async Task<AddPhotoResponse> ExecuteAsync(IFormFile CoverImage, string basePath)
+		public async Task<(string FileName, bool Success, string ErrorMessage)> ExecuteAsync(IFormFile CoverImage, string basePath)
         {
             var fileName = await PhotoRepository.UploadCoverPhotoAsync(CoverImage, basePath);
             return fileName;

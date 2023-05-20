@@ -10,6 +10,6 @@ namespace BE.UseCases.Interfaces
         /// </summary>
         /// <param name="folderPathPrefix"></param>
         /// <returns></returns>
-        Task<AddFolderResponse> ExecuteAsync(string folderPathPrefix);
+        Task<(string Foldername, DateTime TimeStamp, bool Success, string ErrorMessage)> ExecuteAsync(string folderPathPrefix);
     }
 }

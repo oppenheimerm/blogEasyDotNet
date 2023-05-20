@@ -2,41 +2,39 @@
 using BE.Core;
 using BE.UseCases.Interfaces.DataStore;
 using BE.UseCases.Response.PhotoResponse;
+using Microsoft.Extensions.Logging;
 
 namespace BE.DataStore.EFCore.Repositories
 {
 	public class PostImageEntityRepository : IPostImageEntityRepository
 	{
 		private readonly BEDbContext Context;
+        private readonly ILogger<PostImageEntityRepository> Logger;
 
-		public PostImageEntityRepository(BEDbContext context)
-		{
-			Context = context;
-		}
+        public PostImageEntityRepository(BEDbContext context, ILogger<PostImageEntityRepository> logger)
+        {
+            Context = context;
+            Logger = logger;
+        }
 
-		public async Task<AddPhotoEntityResponse> AddPhotoEntityAsync(PostImage ImageEntity)
-		{
-			AddPhotoEntityResponse addPhotoEntityResponse = new();
+        public async Task<(PostImage PostImageEntity, bool Success, string ErrorMessage)> AddPhotoEntityAsync(PostImage ImageEntity)
+        {
+            try
+            {
+                Context.PostImages.Add(ImageEntity);
+                await Context.SaveChangesAsync();
+                Logger.LogInformation($"PostImageEntity with Id: {ImageEntity.Id}, added to database at: {DateTime.UtcNow}");
+                return (ImageEntity, true, string.Empty);
 
+            }
+            catch (Exception ex)
+            {
+                Logger.LogInformation($"Faild to add PostImageEntity to the database at: {DateTime.UtcNow}");
+                return (new PostImage(), false, ex.ToString());
+            }
+        }
 
-			try
-			{
-				Context.PostImages.Add(ImageEntity);
-				await Context.SaveChangesAsync();
-				addPhotoEntityResponse.PostImage = ImageEntity;
-				addPhotoEntityResponse.Success = true;
-				return addPhotoEntityResponse;
-
-			}
-			catch (Exception ex)
-			{
-				addPhotoEntityResponse.Success = false;
-				addPhotoEntityResponse.ErrorMessage = ex.Message;
-				return addPhotoEntityResponse;
-			}
-		}
-
-		public async Task<DeletePhotoEntityResponse> DeletePhotoEntityAsync(PostImage ImageEntity)
+        public async Task<DeletePhotoEntityResponse> DeletePhotoEntityAsync(PostImage ImageEntity)
 		{
 			DeletePhotoEntityResponse deletePhotoEntityResponse = new();
 

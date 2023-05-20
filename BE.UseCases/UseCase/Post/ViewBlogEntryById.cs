@@ -1,7 +1,7 @@
 ﻿
 using BE.UseCases.Interfaces;
 using BE.UseCases.Interfaces.DataStore;
-using BE.UseCases.Response.PostResponse;
+
 
 namespace BE.UseCases.UseCase.Post
 {
@@ -14,21 +14,10 @@ namespace BE.UseCases.UseCase.Post
 			this.postsRepository = postsRepository;
 		}
 
-		public async Task<PostEntryResponse> ExecuteAsync(int? id)
-		{
-			if (!id.HasValue)
-			{
-				PostEntryResponse postEntryReposnes = new();
-				postEntryReposnes.Success = false;
-				postEntryReposnes.ErrorMessage = "Id required";
-				return postEntryReposnes;
-
-			}
-			else
-			{
-				var postEntry = await postsRepository.GetPostById(id.Value);
-				return postEntry;
-			}
-		}
-	}
+        public async Task<(Core.Post, bool Success, string ErrorMessage)> ExecuteAsync(int id)
+        {
+            var postEntry = await postsRepository.GetPostById(id);
+            return postEntry;
+        }
+    }
 }

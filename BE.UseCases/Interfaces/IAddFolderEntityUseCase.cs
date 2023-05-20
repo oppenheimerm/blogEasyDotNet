@@ -11,6 +11,6 @@ namespace BE.UseCases.Interfaces
         /// </summary>
         /// <param name="imageFolder"></param>
         /// <returns></returns>
-        Task<FolderEntityAddResponse> ExecuteAsync(ImageFolder imageFolder);
+        Task<(ImageFolder Folder, bool Success, string ErrorMessage)> ExecuteAsync(ImageFolder imageFolder);
     }
 }

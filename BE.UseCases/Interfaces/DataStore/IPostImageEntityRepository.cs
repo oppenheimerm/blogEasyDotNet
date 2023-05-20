@@ -6,12 +6,12 @@ namespace BE.UseCases.Interfaces.DataStore
 {
 	public interface IPostImageEntityRepository
 	{
-		/// <summary>
-		/// Persistence of a <see cref="PostImage"/> Db entity of a image file for <see cref="Post"/>
-		/// </summary>
-		/// <param name="ImageEntity"></param>
-		/// <returns></returns>
-		Task<AddPhotoEntityResponse> AddPhotoEntityAsync(PostImage ImageEntity);
+        /// <summary>
+        /// Persistence of a <see cref="PostImage"/> Db entity of a image file for <see cref="Post"/>
+        /// </summary>
+        /// <param name="ImageEntity"></param>
+        /// <returns></returns>
+        Task<(PostImage PostImageEntity, bool Success, string ErrorMessage)> AddPhotoEntityAsync(PostImage ImageEntity);
 		/// <summary>
 		/// Remove a <see cref="PostImage"/> db entity
 		/// </summary>

@@ -1,6 +1,4 @@
 ﻿
-using BE.Core;
-using BE.UseCases.Interfaces;
 using BE.UseCases.Interfaces.DataStore;
 using BE.UseCases.Response.PhotoResponse;
 using Microsoft.EntityFrameworkCore;

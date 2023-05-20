@@ -12,7 +12,6 @@ namespace BE.UseCases.UseCase.Image
         {
             PhotoRepository = photoRepository;
         }
-
         /// <summary>
         /// </summary>
         /// <param name="folderPathPrefix"></param>

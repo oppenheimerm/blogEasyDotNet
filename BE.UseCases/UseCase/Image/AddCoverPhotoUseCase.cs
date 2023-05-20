@@ -1,6 +1,5 @@
 ﻿using BE.UseCases.Interfaces;
 using BE.UseCases.Interfaces.DataStore;
-using BE.UseCases.Response.PhotoResponse;
 using Microsoft.AspNetCore.Http;
 
 namespace BE.UseCases.UseCase.Image
@@ -13,6 +12,13 @@ namespace BE.UseCases.UseCase.Image
             PhotoRepository = photoRepository;
         }
 
+        /// <summary>
+        /// Saves an instance of <see cref="IFormFile"/> (imgage) to image folder
+        /// for <see cref="Post"/>
+        /// </summary>
+        /// <param name="CoverImage"></param>
+        /// <param name="basePath"></param>
+        /// <returns></returns>
         /// <summary>
         /// Saves an instance of <see cref="IFormFile"/> (imgage) to image folder
         /// for <see cref="Post"/>

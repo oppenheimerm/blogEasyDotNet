@@ -6,8 +6,8 @@ namespace BE.UseCases.Interfaces.DataStore
     public interface IPostsRepository
     {
         PostQueryResponse GetAllPosts();
-        Task<PostEntryResponse> GetPostById(int id);
-        Task<PostEntryResponse> GetPostBySlug(string slug);
+        Task<(Post Post, bool Success, string ErrorMessage)> GetPostById(int id);
+        Task<(Post Post, bool Success, string ErrorMessage)> GetPostBySlug(string slug);
         PostQueryResponse GetPostsByTag(string tagNameEncoded);
         Task<(Post? PostEntry, bool Success, string ErrorMessage)> PostAdd(Post post);
         Task<(Post, bool Success, string ErrorMessage)> PostEdit(Post post);

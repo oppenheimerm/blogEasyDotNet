@@ -62,67 +62,57 @@ namespace BE.DataStore.EFCore.Repositories
             }
         }
 
-        public async Task<PostEntryResponse> GetPostBySlug(string slug)
+        public async Task<(Post Post, bool Success, string ErrorMessage)> GetPostBySlug(string slug)
         {
-            PostEntryResponse postEntryResponse = new();
 
             try
             {
-                postEntryResponse.PostEntry = await context.Posts
+                var postEntryResponse = await context.Posts
                     .Include(t => t.Tags)
                     .Include(t => t.ImageFolder)
                     .AsNoTracking()
                     .FirstOrDefaultAsync(x => x.Slug == slug);
 
-                if (postEntryResponse.PostEntry != null)
+
+                if (postEntryResponse is not null)
                 {
-                    postEntryResponse.Success = true;
-                    return postEntryResponse;
+                    return (postEntryResponse, true, string.Empty);
                 }
                 else
                 {
-                    postEntryResponse.Success = false;
-                    return postEntryResponse;
+                    return (new Post(), false, $"No post foud for the slug of: {slug}");
                 }
+
             }
             catch (Exception ex)
             {
-                postEntryResponse.Success = false;
-                postEntryResponse.ErrorMessage = ex.Message;
-                return postEntryResponse;
+                return (new Post(), false, ex.ToString());
             }
         }
 
-        public async Task<PostEntryResponse> GetPostById(int id)
+        public async Task<(Post Post, bool Success, string ErrorMessage)> GetPostById(int id)
         {
-            PostEntryResponse postEntryResponse = new();
-
             try
             {
-                postEntryResponse.PostEntry = await context.Posts
+                var postEntryResponse = await context.Posts
                     .Include(t => t.Tags)
                     .Include(t => t.ImageFolder).ThenInclude(i => i.Images)
                     .AsNoTracking()
                     .FirstOrDefaultAsync(p => p.Id == id);
 
-
-                if (postEntryResponse.PostEntry != null)
+                if (postEntryResponse is not null)
                 {
-                    postEntryResponse.Success = true;
-                    return postEntryResponse;
+                    return (postEntryResponse, true, string.Empty);
                 }
                 else
                 {
-                    postEntryResponse.Success = false;
-                    return postEntryResponse;
+                    return (new Post(), false, $"No post found with the id of: {id}");
                 }
 
             }
             catch (Exception ex)
             {
-                postEntryResponse.Success = false;
-                postEntryResponse.ErrorMessage = ex.Message;
-                return postEntryResponse;
+                return (new Post(), false, ex.ToString());
             }
         }
 

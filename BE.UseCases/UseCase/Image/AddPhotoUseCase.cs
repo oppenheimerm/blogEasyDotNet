@@ -14,8 +14,8 @@ namespace BE.UseCases.UseCase.Image
 			PhotoRepository = photoRepository;
 		}
 
-		public async Task<AddPhotoResponse> ExecuteAsync(IFormFile image, string path)
-		{
+        public async Task<(string FileName, bool Success, string ErrorMessage)> ExecuteAsync(IFormFile image, string path)
+        {
 			var fileName = await PhotoRepository.UploadPhotoAsync(image, path);
 			return fileName;
 		}

@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using BE.UseCases.Response.PhotoResponse;
 using BE.DataStore.EFCore.Utilities;
@@ -25,6 +25,7 @@ namespace BE.UseCases.Interfaces.DataStore
         /// <returns></returns>
         public async Task<(string FileName, bool Success, string ErrorMessage)> UploadCoverPhotoAsync(IFormFile cover, string path)
         {
+
             try
             {
 
@@ -66,6 +67,7 @@ namespace BE.UseCases.Interfaces.DataStore
 
                 Logger.LogInformation($"Photo {photoFileName} uploaded at {DateTime.Now} to {uploadsFolder} at: {DateTime.UtcNow}");
                 return (photoFileName, true, string.Empty);
+
 
             }
             catch (Exception ex)
@@ -142,7 +144,7 @@ namespace BE.UseCases.Interfaces.DataStore
             }
         }
 
-        public async Task<PurgePostFilesResponse> PurgePostFiles(string path)
+		public async Task<PurgePostFilesResponse> PurgePostFiles(string path)
 		{
 			//	Path should be in the format: img\\posts\\foldername
 			PurgePostFilesResponse purgePostFilesResponse = new();

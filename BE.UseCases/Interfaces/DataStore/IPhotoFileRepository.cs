@@ -33,11 +33,11 @@ namespace BE.UseCases.Interfaces.DataStore
         /// <param name="path"></param>
         /// <returns></returns>
         Task<(string FileName, bool Success, string ErrorMessage)> UploadPhotoAsync(IFormFile image, string path);
-		/// <summary>
-		/// Deletes all files associated with a particular <see cref="MO.Core.Post"/>.
-		/// </summary>
-		/// <param name="path"></param>
-		/// <returns></returns>
-		Task<PurgePostFilesResponse> PurgePostFiles(string path);
+        /// <summary>
+        /// Deletes all files associated with a particular <see cref="MO.Core.Post"/>.
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        Task<PurgePostFilesResponse> PurgePostFiles(string path);
 	}
 }

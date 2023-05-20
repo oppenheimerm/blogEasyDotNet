@@ -6,6 +6,7 @@ namespace BE.UseCases.Interfaces
 {
 	public interface ICreatePostUseCase
 	{
-		Task<PostAddResponse> ExecuteAsync(Post post);
-	}	
+		Task<(Post? PostEntry, bool Success, string ErrorMessage)> ExecuteAsync(Post post);
+
+    }	
 }

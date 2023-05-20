@@ -1,6 +1,4 @@
 ﻿
-using BE.Core;
-using BE.UseCases.Interfaces;
 using BE.UseCases.Interfaces.DataStore;
 using BE.UseCases.Response.PhotoResponse;
 using Microsoft.EntityFrameworkCore;
@@ -12,11 +10,12 @@ namespace BE.DataStore.EFCore.Repositories
 	{
 		private readonly BEDbContext Context;
         private ILogger<FolderEntityRepository> Logger;
-        public FolderEntityRepository(BEDbContext context, ILogger<FolderEntityRepository> logger)
-        {
-            Context = context;
-            Logger = logger;
-        }
+        public FolderEntityRepository(BEDbContext context,
+            ILogger<FolderEntityRepository> logger)
+		{
+			Context = context;
+			Logger = logger;
+		}
 
         public async Task<(ImageFolder Folder, bool Success, string ErrorMessage)> FolderEntityAdd(ImageFolder imageFolder)
         {
@@ -35,7 +34,7 @@ namespace BE.DataStore.EFCore.Repositories
             }
         }
 
-        public async Task<FolderEntityRemoveResponse> FolderEntityDelete(ImageFolder imageFolder)
+		public async Task<FolderEntityRemoveResponse> FolderEntityDelete(ImageFolder imageFolder)
 		{
 			FolderEntityRemoveResponse folderEntityRemove = new();
 

@@ -9,8 +9,8 @@ namespace BE.UseCases.Interfaces.DataStore
         Task<PostEntryResponse> GetPostById(int id);
         Task<PostEntryResponse> GetPostBySlug(string slug);
         PostQueryResponse GetPostsByTag(string tagNameEncoded);
-        Task<PostAddResponse> PostAdd(Post post);
-        Task<PostEditResponse> PostEdit(Post post);
+        Task<(Post? PostEntry, bool Success, string ErrorMessage)> PostAdd(Post post);
+        Task<(Post, bool Success, string ErrorMessage)> PostEdit(Post post);
         Task<PostDeleteResponse> PostDelete(int? Id);
 
 	}

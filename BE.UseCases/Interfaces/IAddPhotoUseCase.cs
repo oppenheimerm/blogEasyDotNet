@@ -11,6 +11,6 @@ namespace BE.UseCases.Interfaces
         /// <param name="image"></param>
         /// <param name="path"></param>
         /// <returns></returns>
-        Task<AddPhotoResponse> ExecuteAsync(IFormFile image, string path);
+        Task<(string FileName, bool Success, string ErrorMessage)> ExecuteAsync(IFormFile image, string path);
     }
 }

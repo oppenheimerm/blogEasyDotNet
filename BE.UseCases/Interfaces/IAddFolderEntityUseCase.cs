@@ -7,10 +7,10 @@ namespace BE.UseCases.Interfaces
     public interface IAddFolderEntityUseCase
     {
         /// <summary>
-        /// Persistance of an instance of a <see cref="ImageFolder"/> 
+        /// Usecase to add image folder(physical).  Returns an instance of <see cref="AddFolderResponse"/>
         /// </summary>
-        /// <param name="imageFolder"></param>
+        /// <param name="folderPathPrefix"></param>
         /// <returns></returns>
-        Task<FolderEntityAddResponse> ExecuteAsync(ImageFolder imageFolder);
+        Task<(ImageFolder Folder, bool Success, string ErrorMessage)> ExecuteAsync(ImageFolder imageFolder);
     }
 }

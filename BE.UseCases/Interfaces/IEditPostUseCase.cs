@@ -1,12 +1,12 @@
 ﻿
 
 using BE.Core;
-using BE.UseCases.Response.PostResponse;
 
 namespace BE.UseCases.Interfaces
 {
 	public interface IEditPostUseCase
 	{
-		Task<PostEditResponse> ExecuteAsync(Post post);
-	}
+        Task<(Post Post, bool success, string ErrorMessage)> ExecuteAsync(Post post);
+
+    }
 }

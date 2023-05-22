@@ -18,11 +18,11 @@ namespace BE.UseCases.Interfaces.DataStore
         /// <param name="imageFolder"></param>
         /// <returns></returns>
         Task<FolderEntityRemoveResponse> FolderEntityDelete(ImageFolder imageFolder);
-		/// <summary>
-		/// Get a <see cref="ImageFolder"/> by Id.
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
-		Task<FolderEntityGetResponse> GetFolderById(int id);
+        /// <summary>
+        /// Get a <see cref="ImageFolder"/> by Id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        Task<(ImageFolder FolderEntity, bool Success, string ErrorMessage)> GetFolderById(int id);
 	}
 }

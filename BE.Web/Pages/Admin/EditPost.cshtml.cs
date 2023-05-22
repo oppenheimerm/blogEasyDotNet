@@ -5,6 +5,7 @@ using BE.Web.Helpers;
 using BE.Web.Models.VM;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Logging;
 
 namespace BE.Web.Pages.Admin
 {
@@ -26,105 +27,99 @@ namespace BE.Web.Pages.Admin
 			DeletePostTagsUseCase = deletePostTagsUseCase;
 		}
 
-		public async Task<IActionResult> OnGetAsync(int? id)
-		{
-			if (id == null)
-			{
-				return NotFound();
-			}
-
-			//  When you don't have to include related data, FindAsync is more efficient.
-			var response = await ViewBlogEntryById.ExecuteAsync(id);
-			Post = response.PostEntry.ToPostVM();
-			if (response.Success == true && response.PostEntry.ImageFolder != null)
-			{
-				HasImages = true;
-				PostImages = response.PostEntry.ImageFolder.Images.ToList();
-				FolderBasePath = ViewHelpers.GetPostImageBaseUrl(response.PostEntry.ImageFolder.Name);
-			}
+        public async Task<IActionResult> OnGetAsync(int id)
+        {
+            //  When you don't have to include related data, FindAsync is more efficient.
+            var response = await ViewBlogEntryById.ExecuteAsync(id);
+            Post = response.Item1.ToPostVM();
+            if (response.Success == true)
+            {
+                HasImages = true;
+                PostImages = response.Item1?.ImageFolder?.Images?.ToList();
+                FolderBasePath = ViewHelpers.GetPostImageBaseUrl(response.Item1?.ImageFolder?.Name ?? string.Empty);
+            }
 
 
-			if (response.Success)
-			{
-				return Page();
-			}
-			else
-			{
-				return NotFound();
-			}
+            if (response.Success)
+            {
+                return Page();
+            }
+            else
+            {
+                return NotFound();
+            }
 ;
-		}
+        }
 
-		public async Task<IActionResult> OnPostAsync(int? id)
-		{
-			if (id == null)
-			{
-				return NotFound();
-			}
+        public async Task<IActionResult> OnPostAsync(int id)
+        {
 
-			if (!ModelState.IsValid)
-			{
-				return Page();
-			}
+            // prevent overposting
+            var _postToEdit = await ViewBlogEntryById.ExecuteAsync(id);
+            if (_postToEdit.Item1 == null)
+            {
+                return NotFound();
+            }
 
-			// prevent overposting
-			var _postToEdit = await ViewBlogEntryById.ExecuteAsync(id.Value);
-			if (_postToEdit == null)
-			{
-				return NotFound();
-			}
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
 
-			//var oldPostTags = _postToEdit.PostEntry.Tags;
-			//  As this point new tags is an unparsed string
-			//var ediptPostHasTags = (string.IsNullOrEmpty(Post.Tags)) ? false : true;
+            if (Post is not null)
+            {
+                // Update only the alloewd properties on the Post entity
+                var postUpdate = Post.ToPost(_postToEdit.Item1);
+                postUpdate.Title = ViewHelpers.ToTitleCase(postUpdate.Title);
+                postUpdate.Slug = EntityHelpers.CreateSlug(postUpdate.Title);
+                postUpdate.LastModified = DateTime.Now;
 
+                // update post
+                var postStatus = await EditPostUseCase.ExecuteAsync(postUpdate);
+                if (postStatus.Success)
+                {
+                    ICollection<PostTag>? tagsToDelete = postUpdate.Tags;
+                    List<PostTag>? tagsToAdd = new List<PostTag>();
 
-			// Update only the alloed properties on the Post entity
-			_postToEdit.PostEntry = Post.ToPost(_postToEdit.PostEntry);
-			_postToEdit.PostEntry.Title = ViewHelpers.ToTitleCase(_postToEdit.PostEntry.Title);
-			_postToEdit.PostEntry.Slug = EntityHelpers.CreateSlug(_postToEdit.PostEntry.Title);
-			_postToEdit.PostEntry.LastModified = DateTime.Now;
+                    // New tags if any
+                    if (!string.IsNullOrEmpty(Post.Tags))
+                    {
+                        tagsToAdd = await EntityHelpers.GetPostTagsAsync(Post.Tags, postUpdate.Id);
+                        postUpdate.Tags = tagsToAdd;
 
-			// update post
-			var postStatus = await EditPostUseCase.ExecuteAsync(_postToEdit.PostEntry);
-			if (postStatus.Success)
-			{
-				ICollection<PostTag>? tagsToDelete = _postToEdit.PostEntry.Tags;
-				List<PostTag>? tagsToAdd = new List<PostTag>();
+                        var addNewTagsStatus = await EditPostUseCase.ExecuteAsync(postUpdate);
+                        if (addNewTagsStatus.Success)
+                        {
+                            // delete old tags and return post preview
+                            //var deleteOldTagsStatus = await DeletePostTagsUseCase.ExecuteAsync(tagsToDelete.ToList());
+                            return RedirectToPage("/Admin/PostPreview", new { id = postUpdate.Id });
+                        }
+                        else
+                        {
+                            // could not add new tags, log it, return page
+                            return Page();
+                        }
+                    }
+                    else
+                    {
+                        //  no tags associated with this post, so delete old ones
+                        // delete old tags and return post preview
+                        await DeletePostTagsUseCase.ExecuteAsync(tagsToDelete.ToList());
+                        return RedirectToPage("/Admin/PostPreview", new { id = postUpdate.Id });
+                    }
 
-				// New tags if any
-				if (!string.IsNullOrEmpty(Post.Tags) && postStatus.PostEntry != null)
-				{
-					tagsToAdd = await EntityHelpers.GetPostTagsAsync(Post.Tags, id.Value);
-					postStatus.PostEntry.Tags = tagsToAdd;
+                }
+                else
+                {
+                    return Page();
+                }
 
-					var addNewTagsStatus = await EditPostUseCase.ExecuteAsync(postStatus.PostEntry);
-					if (addNewTagsStatus.Success)
-					{
-						// delete old tags and return post preview
-						//var deleteOldTagsStatus = await DeletePostTagsUseCase.ExecuteAsync(tagsToDelete.ToList());
-						return RedirectToPage("/Admin/PostPreview", new { id = postStatus.PostEntry.Id });
-					}
-					else
-					{
-						// could not add new tags, log it, return page
-						return Page();
-					}
-				}
-				else
-				{
-					//  no tags associated with this post, so delete old ones
-					// delete old tags and return post preview
-					await DeletePostTagsUseCase.ExecuteAsync(tagsToDelete.ToList());
-					return RedirectToPage("/Admin/PostPreview", new { id = postStatus.PostEntry.Id });
-				}
-
-			}
-			else
-			{
-				return Page();
-			}
-
-		}
-	}
+            }
+            else
+            {
+                Logger.LogError($"Failed to edit post at: {DateTime.UtcNow}");
+                return StatusCode(500);
+            }
+        }
+    }
 }

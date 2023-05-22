@@ -1,7 +1,7 @@
 ﻿
+using BE.Core;
 using BE.UseCases.Interfaces;
 using BE.UseCases.Interfaces.DataStore;
-using BE.UseCases.Response.PhotoResponse;
 
 namespace BE.UseCases.UseCase.Image
 {
@@ -13,10 +13,10 @@ namespace BE.UseCases.UseCase.Image
 			FolderEntityRepository = folderEntityRepository;
 		}
 
-		public async Task<FolderEntityGetResponse> ExecuteAsync(int id)
-		{
-			var folder = await FolderEntityRepository.GetFolderById(id);
-			return folder;
-		}
-	}
+        public async Task<(ImageFolder FolderEntity, bool Success, string ErrorMessage)> ExecuteAsync(int id)
+        {
+            var folder = await FolderEntityRepository.GetFolderById(id);
+            return folder;
+        }
+    }
 }

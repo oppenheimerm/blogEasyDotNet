@@ -56,25 +56,29 @@ namespace BE.DataStore.EFCore.Repositories
 			}
 		}
 
-		public async Task<FolderEntityGetResponse> GetFolderById(int id)
-		{
-			FolderEntityGetResponse folderEntityGetResponse = new();
+        public async Task<(ImageFolder FolderEntity, bool Success, string ErrorMessage)> GetFolderById(int id)
+        {
 
-			try
-			{
-				folderEntityGetResponse.Folder = await Context.ImageFolders
-					.Include(i => i.Images)
-					.AsNoTracking()
-					.FirstOrDefaultAsync(f => f.Id == id);
-				folderEntityGetResponse.Success = true;
-				return folderEntityGetResponse;
+            try
+            {
+                var folder = await Context.ImageFolders
+                    .Include(i => i.Images)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(f => f.Id == id);
 
-			}
-			catch
-			{
-				folderEntityGetResponse.Success = false;
-				return folderEntityGetResponse;
-			}
-		}
-	}
+                if (folder is not null)
+                {
+                    return (folder, true, string.Empty);
+                }
+                else
+                {
+                    return (new ImageFolder(), false, $"Folder not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                return (new ImageFolder(), false, ex.ToString());
+            }
+        }
+    }
 }

@@ -16,8 +16,8 @@ namespace BE.Web.Pages.Admin
 		private IEditPostUseCase EditPostUseCase { get; }
 		private IDeleteCoverPhotoDbEntityUseCase DeleteCoverPhotoDbEntityUseCase { get; }
 		public IAddPostImageEntityUseCase AddPostImageEntityUseCase { get; }
-		private IAddFolderEntityUseCase AddFolderEntityUseCase { get; }
-		private IAddFolderUseCase AddFolderUseCase { get; }
+		private IAddFolderEntityUseCase? AddFolderEntityUseCase { get; }
+		private IAddFolderUseCase? AddFolderUseCase { get; }
 
 		public EditCoverPhotoModel(IViewBlogEntryById viewBlogEntryById, IDeleteCoverPhotoFileUseCase deletePhotoResponse,
 			IAddCoverPhotoUseCase addCoverPhotoUseCase, IEditPostUseCase editPostUseCase,

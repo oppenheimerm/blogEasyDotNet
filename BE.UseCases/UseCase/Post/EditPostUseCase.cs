@@ -16,7 +16,7 @@ namespace BE.UseCases.UseCase.Post
 			this.postsRepository = postsRepository;
 		}
 
-		public async Task<(_Post Post, bool success, string ErrorMessage)> ExecuteAsync(_Post post)
+		public async Task<(_Post Post, bool Success, string ErrorMessage)> ExecuteAsync(_Post post)
         {
 			var _post = await postsRepository.PostEdit(post);
 			return _post;

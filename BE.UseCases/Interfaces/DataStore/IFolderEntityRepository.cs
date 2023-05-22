@@ -1,4 +1,4 @@
-﻿
+
 using BE.Core;
 using BE.UseCases.Response.PhotoResponse;
 

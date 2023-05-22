@@ -5,6 +5,6 @@ namespace BE.UseCases.Interfaces
 {
 	public interface IViewBlogEntryBySlug
 	{
-		Task<PostEntryResponse> ExecuteAsync(string? slug);
+        Task<(Core.Post Post, bool Success, string ErrorMessage)> ExecuteAsync(string slug);
 	}
 }

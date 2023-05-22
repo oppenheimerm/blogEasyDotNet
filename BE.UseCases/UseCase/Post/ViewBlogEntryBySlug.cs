@@ -13,7 +13,7 @@ namespace BE.UseCases.UseCase.Post
             this.postsRepository = postsRepository;
         }
 
-        public async Task<PostEntryResponse> ExecuteAsync(string? slug)
+        public async Task<(Core.Post Post, bool Success, string ErrorMessage)> ExecuteAsync(string slug)
         {
             var postEntry = await postsRepository.GetPostBySlug(slug);
             return postEntry;

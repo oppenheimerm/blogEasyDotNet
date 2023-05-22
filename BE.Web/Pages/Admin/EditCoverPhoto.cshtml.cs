@@ -1,6 +1,5 @@
 using BE.Core;
 using BE.UseCases.Interfaces;
-using BE.UseCases.UseCase.Image;
 using BE.Web.Helpers;
 using BE.Web.Models.VM;
 using Microsoft.AspNetCore.Mvc;
@@ -22,8 +21,9 @@ namespace BE.Web.Pages.Admin
 
 		public EditCoverPhotoModel(IViewBlogEntryById viewBlogEntryById, IDeleteCoverPhotoFileUseCase deletePhotoResponse,
 			IAddCoverPhotoUseCase addCoverPhotoUseCase, IEditPostUseCase editPostUseCase,
-			IDeleteCoverPhotoDbEntityUseCase deleteCoverPhotoDbEntityUseCase, IAddPostImageEntityUseCase addPostImageEntityUseCase,
-			IAddFolderEntityUseCase addFolderEntityUseCase, IAddFolderUseCase addFolderUseCase)
+			IDeleteCoverPhotoDbEntityUseCase deleteCoverPhotoDbEntityUseCase, 
+			IAddPostImageEntityUseCase addPostImageEntityUseCase
+			)
 		{
 			ViewBlogEntryById = viewBlogEntryById;
 			DeletePhotoResponse = deletePhotoResponse;

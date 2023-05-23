@@ -23,69 +23,40 @@ namespace BE.Web.Pages.Admin
             PurgPostFilesUseCase = purgPostFilesUseCase;
         }
 
-        public async Task<IActionResult> OnGetAsync(int? Id)
+
+        public async Task<IActionResult> OnGetAsync(int Id)
         {
-            if (Id.HasValue)
+            var getBlogByIdStatus = await ViewBlogEntryById.ExecuteAsync(Id);
+            if (getBlogByIdStatus.Item1 is not null && getBlogByIdStatus.Success)
             {
-                var getBlogByIdStatus = await ViewBlogEntryById.ExecuteAsync(Id.Value);
-                if (getBlogByIdStatus != null && getBlogByIdStatus.Success)
-                {
-                    Post = getBlogByIdStatus.PostEntry;
-                    ImageFolderBase = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/";
-                    return Page();
-                }
-                {
-                    // unable to retreive blod by id passed in. return
-                    // not found
-                    return NotFound();
-                }
+                Post = getBlogByIdStatus.Item1;
+                ImageFolderBase = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/";
+                return Page();
             }
-            else
             {
-                // Id is missing
+                // unable to retreive blod by id passed in. return
+                // not found
                 return NotFound();
             }
         }
 
-        public async Task<IActionResult> OnPostAsync(int? Id)
+        public async Task<IActionResult> OnPostAsync(int Id)
         {
-            if (Id.HasValue)
+            // Get the post
+            var getPostStatus = await ViewBlogEntryById.ExecuteAsync(Id);
+            if (getPostStatus.Success)
             {
-                // Get the post
-                var getPostStatus = await ViewBlogEntryById.ExecuteAsync(Id);
-                if (getPostStatus.Success)
+                //	Does this post have an associated image folder? Delete it first
+                //  if (!string.IsNullOrEmpty(getPostByIdStatus.PostEntry.PostCoverPhoto) || (oldCoverPhotoEntity != null))
+                if (!string.IsNullOrEmpty(getPostStatus.Item1.PostCoverPhoto) || getPostStatus.Item1.ImageFolder != null)
                 {
-                    //	Does this post have an associated image folder?
-                    //  if (!string.IsNullOrEmpty(getPostByIdStatus.PostEntry.PostCoverPhoto) || (oldCoverPhotoEntity != null))
-                    if (!string.IsNullOrEmpty(getPostStatus.PostEntry.PostCoverPhoto) || getPostStatus.PostEntry.ImageFolder != null)
+                    //	purge files
+                    var folderPath = Helpers.Blog.PostsImageBaseDirectory + "\\" + getPostStatus.Item1.ImageFolder?.Name;
+                    var purgePostFilesResponse = await PurgPostFilesUseCase.ExecuteAsync(folderPath);
+                    if (purgePostFilesResponse.Success)
                     {
-                        //	purge files
-                        var folderPath = Helpers.Blog.PostsImageBaseDirectory + "\\" + getPostStatus.PostEntry.ImageFolder.Name;
-                        var purgePostFilesResponse = await PurgPostFilesUseCase.ExecuteAsync(folderPath);
-                        if (purgePostFilesResponse.Success)
-                        {
-                            //	Proceed to delete the post
-                            var deletePostStatus = await DeletePostUseCase.ExecuteAsync(getPostStatus.PostEntry.Id);
-                            if (deletePostStatus.Success)
-                            {
-                                return RedirectToPage("/Admin/AllPosts");
-                            }
-                            else
-                            {
-                                //	Could not delete post, log it
-                                return Page();
-                            }
-                        }
-                        else
-                        {
-                            //	Could not delete files for post, log it and return
-                            return Page();
-                        }
-                    }
-                    else
-                    {
-                        //	No associated imge files for this post, proceed with post deletion
-                        var deletePostStatus = await DeletePostUseCase.ExecuteAsync(getPostStatus.PostEntry.Id);
+                        //	Proceed to delete the post
+                        var deletePostStatus = await DeletePostUseCase.ExecuteAsync(getPostStatus.Item1.Id);
                         if (deletePostStatus.Success)
                         {
                             return RedirectToPage("/Admin/AllPosts");
@@ -96,17 +67,31 @@ namespace BE.Web.Pages.Admin
                             return Page();
                         }
                     }
-
+                    else
+                    {
+                        //	Could not delete files for post, log it and return
+                        return Page();
+                    }
                 }
                 else
                 {
-                    //	Could not get post entry
-                    return NotFound();
+                    //	No associated imge files for this post, proceed with post deletion
+                    var deletePostStatus = await DeletePostUseCase.ExecuteAsync(getPostStatus.Item1.Id);
+                    if (deletePostStatus.Success)
+                    {
+                        return RedirectToPage("/Admin/AllPosts");
+                    }
+                    else
+                    {
+                        //	Could not delete post, log it
+                        return Page();
+                    }
                 }
+
             }
             else
             {
-                //	No Id passed in
+                //	Could not get post entry
                 return NotFound();
             }
         }

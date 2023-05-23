@@ -1,5 +1,5 @@
 ﻿@page
-@model BE.Web.Pages.Account.LoginModel
+@model BE.Web.Pages.Account.Login
 @{
     ViewData["Title"] = "Login";
 }
@@ -12,12 +12,12 @@
                 <fieldset class="field__set">
                     <legend class="form__legend">Please Login</legend>
                     <div class="form__margin">
-                        <input asp-for="SignInModel.Email" class="form__input" placeholder="username" aria-label="username" />
-                        <span asp-validation-for="SignInModel.Email" class="text-danger"></span>
+                        <input asp-for="LoginModel.Email" class="form__input" placeholder="username" aria-label="username" />
+                        <span asp-validation-for="LoginModel.Email" class="text-danger"></span>
                     </div>
                     <div class="form__margin">
-                        <input asp-for="SignInModel.Password" class="form__input" placeholder="password" aria-label="password" />
-                        <span asp-validation-for="SignInModel.Password" class="text-danger"></span>
+                        <input asp-for="LoginModel.Password" class="form__input" placeholder="password" aria-label="password" />
+                        <span asp-validation-for="LoginModel.Password" class="text-danger"></span>
                     </div>
                     <div class="form__margin">
                         <button type="submit" class="btn btn__default form__button">Log in</button>

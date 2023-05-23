@@ -3,7 +3,6 @@
 using BE.Core;
 using BE.UseCases.Interfaces;
 using BE.UseCases.Interfaces.DataStore;
-using BE.UseCases.Response.PhotoResponse;
 
 namespace BE.UseCases.UseCase.Image
 {
@@ -15,10 +14,10 @@ namespace BE.UseCases.UseCase.Image
 			PostImageRepository = postImageRepository;
 		}
 
-		public async Task<AddPhotoEntityResponse> ExecuteAsync(PostImage postImage)
-		{
-			var photo = await PostImageRepository.AddPhotoEntityAsync(postImage);
-			return photo;
-		}
-	}
+        public async Task<(PostImage PostImageEntity, bool Success, string ErrorMessage)> ExecuteAsync(PostImage postImage)
+        {
+            var photo = await PostImageRepository.AddPhotoEntityAsync(postImage);
+            return photo;
+        }
+    }
 }

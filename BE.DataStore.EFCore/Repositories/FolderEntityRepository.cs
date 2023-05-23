@@ -1,4 +1,5 @@
 ﻿
+using BE.Core;
 using BE.UseCases.Interfaces.DataStore;
 using BE.UseCases.Response.PhotoResponse;
 using Microsoft.EntityFrameworkCore;
@@ -29,12 +30,12 @@ namespace BE.DataStore.EFCore.Repositories
             }
             catch (Exception ex)
             {
-                Logger.LogError($"Failed to add folder entitiy to database at: {DateTime.UtcNow}");
+                Logger.LogError($"Failed to add folder entitiy to database. {ex.ToString()}");
                 return (new ImageFolder(), false, ex.ToString());
             }
         }
 
-		public async Task<FolderEntityRemoveResponse> FolderEntityDelete(ImageFolder imageFolder)
+        public async Task<FolderEntityRemoveResponse> FolderEntityDelete(ImageFolder imageFolder)
 		{
 			FolderEntityRemoveResponse folderEntityRemove = new();
 

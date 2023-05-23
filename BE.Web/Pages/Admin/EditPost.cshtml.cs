@@ -19,12 +19,14 @@ namespace BE.Web.Pages.Admin
 		public bool HasImages { get; set; } = false;
 		public List<PostImage>? PostImages { get; set; }
 		public string? FolderBasePath { get; set; }
-		public EditPostModel(IEditPostUseCase editPostUseCase, IViewBlogEntryById viewBlogEntryById,
-			IDeletePostTagsUseCase deletePostTagsUseCase)
-		{
+        private readonly ILogger<EditPostModel> Logger;
+        public EditPostModel(IEditPostUseCase editPostUseCase, IViewBlogEntryById viewBlogEntryById,
+			IDeletePostTagsUseCase deletePostTagsUseCase, ILogger<EditPostModel> logger)
+        {
 			this.EditPostUseCase = editPostUseCase;
 			ViewBlogEntryById = viewBlogEntryById;
 			DeletePostTagsUseCase = deletePostTagsUseCase;
+            Logger = logger;
 		}
 
         public async Task<IActionResult> OnGetAsync(int id)

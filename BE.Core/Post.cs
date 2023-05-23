@@ -23,9 +23,9 @@ namespace BE.Core
 		public string Slug { get; set; } = string.Empty;
 		[MaxLength(256, ErrorMessage = "Maximum 256 character limit")]
 		public string PostCoverPhoto { get; set; } = String.Empty;
-		public ICollection<Comment> Comments { get; set; }
-		public ICollection<PostTag> Tags { get; set; }
-		public ICollection<PostImage> Images { get; set; }
+		public ICollection<Comment>? Comments { get; set; }
+		public ICollection<PostTag>? Tags { get; set; }
+		public ICollection<PostImage>? Images { get; set; }
 		public ImageFolder? ImageFolder { get; set; }
 
 		public bool PostHasCoverPhoto()

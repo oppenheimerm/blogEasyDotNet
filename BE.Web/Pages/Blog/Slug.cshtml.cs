@@ -2,7 +2,6 @@ using BE.Core;
 using BE.UseCases.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.IdentityModel.Tokens;
 
 namespace BE.Web.Pages.Blog
 {
@@ -18,22 +17,15 @@ namespace BE.Web.Pages.Blog
             ViewBlogEntryBySlug = viewBlogEntryBySlug;
 		}
 
-        public async Task<ActionResult> OnGetAsync(string? slug)
+        public async Task<ActionResult> OnGetAsync(string slug)
         {
-            if (!slug.IsNullOrEmpty())
+            var post = await ViewBlogEntryBySlug.ExecuteAsync(slug);
+            if (post.Post != null && post.Success == true)
             {
-                var post = await ViewBlogEntryBySlug.ExecuteAsync(slug);
-                if (post != null && post.Success == true)
-                {
-                    Post = post.PostEntry;
-					Host = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + post.PostEntry.GetLink();
-					ImageFolderBase = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/";
-					return Page();
-                }
-                else
-                {
-                    return NotFound();
-                }
+                Post = post.Post;
+                Host = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}" + post.Post.GetLink();
+                ImageFolderBase = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/";
+                return Page();
             }
             else
             {
